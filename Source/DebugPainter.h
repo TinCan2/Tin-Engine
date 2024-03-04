@@ -5,7 +5,7 @@ struct SDL_Renderer;
 
 struct Color;
 
-class Painter {
+class DebugPainter {
 	public:
 	static void PaintPoint(const Vector2D& A);
 	static void PaintLine(const Vector2D& A, const Vector2D& B);
@@ -16,8 +16,8 @@ class Painter {
 	static Color GetPaintColor();
 
 	private:
-	Painter() = delete;
-	~Painter() = delete;
+	DebugPainter() = delete;
+	~DebugPainter() = delete;
 
 	friend class GameManager;
 

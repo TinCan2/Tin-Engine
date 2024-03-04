@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Color.h"
+#include "DebugPainter.h"
 #include "GameManager.h"
 #include "Sprite.h"
 #include <SDL2/SDL.h>
@@ -27,6 +28,7 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
+	DebugPainter::boundedRenderer = this->mainRenderer;
 	Sprite::boundedRenderer = this->mainRenderer;
 }
 

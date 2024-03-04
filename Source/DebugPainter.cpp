@@ -7,7 +7,7 @@
 #include <cmath>
 
 //Renderer Access
-void Painter::PaintPoint(const Vector2D& A) {
+void DebugPainter::PaintPoint(const Vector2D& A) {
 	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
 	GameManager::GetCurrentInstance()->ScheduleColorReset();
 
@@ -20,7 +20,7 @@ void Painter::PaintPoint(const Vector2D& A) {
 	SDL_RenderDrawPoint(boundedRenderer, DA.x, -DA.y);
 }
 
-void Painter::PaintLine(const Vector2D& A, const Vector2D& B) {
+void DebugPainter::PaintLine(const Vector2D& A, const Vector2D& B) {
 	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
 	GameManager::GetCurrentInstance()->ScheduleColorReset();
 
@@ -35,7 +35,7 @@ void Painter::PaintLine(const Vector2D& A, const Vector2D& B) {
 	SDL_RenderDrawLine(boundedRenderer, DA.x, -DA.y, DB.x, -DB.y);
 }
 
-void Painter::PaintRect(const Vector2D& A, const Vector2D& B, bool filled) {
+void DebugPainter::PaintRect(const Vector2D& A, const Vector2D& B, bool filled) {
 	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
 	GameManager::GetCurrentInstance()->ScheduleColorReset();
 
@@ -56,7 +56,7 @@ void Painter::PaintRect(const Vector2D& A, const Vector2D& B, bool filled) {
 	filled ? SDL_RenderFillRect(boundedRenderer, &dest) : SDL_RenderDrawRect(boundedRenderer, &dest);
 }
 
-void Painter::PaintCircle(const Vector2D& O, float r){
+void DebugPainter::PaintCircle(const Vector2D& O, float r){
 	if(abs(r) <= 0.5/float(Vector2D::UnitPixelEquivalent)) return;
 
 	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
@@ -78,15 +78,15 @@ void Painter::PaintCircle(const Vector2D& O, float r){
 }
 
 //Color Access
-void Painter::SetPaintColor(const Color& newColor) {
+void DebugPainter::SetPaintColor(const Color& newColor) {
 	*paintColor = newColor;
 }
 
-Color Painter::GetPaintColor() {
+Color DebugPainter::GetPaintColor() {
 	return *paintColor;
 }
 
 
 //Statics
-Color* Painter::paintColor = new Color(1, 1, 1);
-SDL_Renderer* Painter::boundedRenderer;
+Color* DebugPainter::paintColor = new Color(255, 255, 255);
+SDL_Renderer* DebugPainter::boundedRenderer;
