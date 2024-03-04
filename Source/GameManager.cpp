@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Color.h"
 #include "GameManager.h"
 #include "Sprite.h"
 #include <SDL2/SDL.h>
@@ -30,6 +31,11 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 }
 
 void GameManager::Handle() {
+	if (this->resetColor) {
+		SDL_SetRenderColor(this->mainRenderer, this->renderColor->r, this->renderColor->g, this->renderColor->b, this->renderColor->a);
+		this-> resetColor = false;
+	}
+
 	SDL_RenderClear(this->mainRenderer);
 
 	SDL_Event currentEvent;
@@ -74,13 +80,26 @@ UInt64 GameManager::GetFrameCount() {
 }
 
 
+//Color Acces
+Color GameManager::GetRenderColor() {
+	return *this->renderColor;
+}
+
+void GameManager::ScheduleColorReset() {
+	this->resetColor = true;
+}
+
+
 //Construction and Destruction
 GameManager::GameManager() {
 	this->quitting = false;
 	this->frameCount = 0;
+	this->renderColor = new Color();
 }
 
-GameManager::~GameManager() {}
+GameManager::~GameManager() {
+	delete this->renderColor;
+}
 
 
 //Statics

@@ -2,6 +2,7 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct Color;
 
 typedef unsigned int UInt16;
 typedef unsigned long long UInt64;
@@ -25,6 +26,9 @@ class GameManager{
 
 	UInt64 GetFrameCount();
 
+	Color GetRenderColor();
+	void ScheduleColorReset();
+
 	private:
 	GameManager();
 	~GameManager();
@@ -33,6 +37,9 @@ class GameManager{
 	SDL_Renderer* mainRenderer;
 
 	bool quitting;
+
+	Color* renderColor;
+	bool resetColor;
 
 	UInt64 frameCount;
 

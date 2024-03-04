@@ -5,7 +5,7 @@ Color() {
 	this->r = 0;
 	this->g = 0;
 	this->b = 0;
-	this->a = 0;
+	this->a = 1;
 }
 
 Color(UInt8 r, UInt8 g, UInt8 b, UInt8 a) {
