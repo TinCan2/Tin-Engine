@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "GameManager.h"
+#include "Sprite.h"
 #include <SDL2/SDL.h>
 
 //Singleton Implementation
@@ -24,8 +25,8 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 	this->gameWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
-//	Sprite::SetBoundedRenderer(this->mainRenderer);
 	Camera::activeCamera = new Camera(w, h);
+	Sprite::boundedRenderer = this->mainRenderer;
 }
 
 void GameManager::Handle() {
