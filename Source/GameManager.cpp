@@ -32,7 +32,7 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 
 void GameManager::Handle() {
 	if (this->resetColor) {
-		SDL_SetRenderColor(this->mainRenderer, this->renderColor->r, this->renderColor->g, this->renderColor->b, this->renderColor->a);
+		SDL_SetRenderDrawColor(this->mainRenderer, this->renderColor->r, this->renderColor->g, this->renderColor->b, this->renderColor->a);
 		this-> resetColor = false;
 	}
 
