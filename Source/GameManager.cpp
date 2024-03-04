@@ -1,3 +1,4 @@
+#include "Camera.h"
 #include "GameManager.h"
 #include <SDL2/SDL.h>
 
@@ -24,7 +25,7 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 //	Sprite::SetBoundedRenderer(this->mainRenderer);
-//	Camera::Instantiate(w, h);
+	Camera::activeCamera = new Camera(w, h);
 }
 
 void GameManager::Handle() {
@@ -40,19 +41,15 @@ void GameManager::Handle() {
 	}
 }
 
-void GameManager::Update() {
-//	FunctionalObject::UpdateObjects();
-}
+void GameManager::Update() {}
 
 void GameManager::Render() {
-//	VisualObject::RenderObjects();
-
 	SDL_RenderPresent(this->mainRenderer);
 	this->frameCount++;
 }
 
 void GameManager::Terminate() {
-//	Camera::Destroy();
+	delete Camera::activeCamera;
 
 	SDL_DestroyRenderer(this->mainRenderer);
 	SDL_DestroyWindow(this->gameWindow);
