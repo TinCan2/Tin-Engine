@@ -1,18 +1,15 @@
 #pragma once
+#include "Vector2D.h"
 
-struct Vector2D;
-
-class LineColider {
-	public:
+struct LineColider {
 	enum class LineType;
 
-	LineColider(const Vector2D& base, const Vector2D& direction);
-	LineColider(const Vector2D& base, const Vector2D& direction, LineType type);
+	LineColider(const Vector2D& base, const Vector2D& tip);
+	LineColider(const Vector2D& base, const Vector2D& tip, LineType type);
 	~LineColider();
 
-	private:
-	Vector2D* base;
-	Vector2D* tip;
+	Vector2D base;
+	Vector2D tip;
 
 	LineType type;
 };

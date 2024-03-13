@@ -1,13 +1,10 @@
 #pragma once
+#include "Vector2D.h"
 
-struct Vector2D;
-
-class CircleColider {
-	public:
+struct CircleColider {
 	CircleColider(const Vector2D& origin, float radius);
 	~CircleColider();
 
-	private:
-	Vector2D* origin;
+	Vector2D origin;
 	float radius;
 };

@@ -10,19 +10,16 @@ enum class LineColider::LineType {
 
 
 //Construciton and Destruction
-LineColider::LineColider(const Vector2D& base, const Vector2D& direction) {
-	this->base = new Vector2D(base);
-	this->tip = new Vector2D();
+LineColider::LineColider(const Vector2D& base, const Vector2D& tip) {
+	this->base = base;
+	this->tip = tip;
 	this->type = LineType::Segment;
 }
 
-LineColider::LineColider(const Vector2D& base, const Vector2D& direction, LineType type) {
-	this->base = new Vector2D(base);
-	this->tip = new Vector2D();
+LineColider::LineColider(const Vector2D& base, const Vector2D& tip, LineType type) {
+	this->base = base;
+	this->tip = tip;
 	this->type = type;
 }
 
-LineColider::~LineColider() {
-	delete this->base;
-	delete this->tip;
-}
+LineColider::~LineColider() {}
