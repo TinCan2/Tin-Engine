@@ -11,6 +11,9 @@ struct Vector2D {
 
 	float GetMagnitude();
 
+	Vector2D FlipH();
+	Vector2D FlipV();
+
 	friend Vector2D operator+(const Vector2D& a, const Vector2D& b);
 
 	friend Vector2D operator+=(Vector2D& a, const Vector2D& b);

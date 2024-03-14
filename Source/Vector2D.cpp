@@ -24,6 +24,16 @@ float Vector2D::GetMagnitude() {
 }
 
 
+//Flipping
+Vector2D Vector2D::FlipH() {
+	return Vector2D(-this->x, this->y);
+}
+
+Vector2D Vector2D::FlipV() {
+	return Vector2D(this->x, -this->y);
+}
+
+
 //Operators
 Vector2D operator+(const Vector2D& a, const Vector2D& b) {
 	return Vector2D(a.x + b.x, a.y + b.y);
