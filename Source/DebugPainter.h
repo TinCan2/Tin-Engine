@@ -10,6 +10,7 @@ class DebugPainter {
 	static void PaintPoint(const Vector2D& A);
 	static void PaintLine(const Vector2D& A, const Vector2D& B);
 	static void PaintRect(const Vector2D& A, const Vector2D& B, bool filled = false);
+	static void PaintRect(const Vector2D& center, const Vector2D& extents, float rotation);
 	static void PaintCircle(const Vector2D& O, float r);
 
 	static void SetPaintColor(const Color& newColor);

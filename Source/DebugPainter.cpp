@@ -56,6 +56,35 @@ void DebugPainter::PaintRect(const Vector2D& A, const Vector2D& B, bool filled) 
 	filled ? SDL_RenderFillRect(boundedRenderer, &dest) : SDL_RenderDrawRect(boundedRenderer, &dest);
 }
 
+void DebugPainter::PaintRect(const Vector2D& center, const Vector2D& extents, float rotation) {
+	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
+	GameManager::GetCurrentInstance()->ScheduleColorReset();
+
+	Camera* camera = Camera::GetCurrentInstance();
+	Vector2D cornerPos(camera->GetPosition());
+	cornerPos += Vector2D(-camera->GetExtents().x, camera->GetExtents().y);
+
+	int UPE = Vector2D::UnitPixelEquivalent;
+	Vector2D rotatedExtentsA = extents.x*Vector2D(cos(rotation), sin(rotation)) + extents.y*Vector2D(-sin(rotation), cos(rotation));
+	Vector2D rotatedExtentsB = extents.x*Vector2D(cos(rotation), sin(rotation)) - extents.y*Vector2D(-sin(rotation), cos(rotation));
+
+	Vector2D DA = center + rotatedExtentsA - cornerPos;
+	Vector2D DB = center - rotatedExtentsB - cornerPos;
+	SDL_RenderDrawLine(boundedRenderer, DA.x*UPE, -DA.y*UPE, DB.x*UPE, -DB.y*UPE);
+
+	DA = center - rotatedExtentsB - cornerPos;
+	DB = center - rotatedExtentsA - cornerPos;
+	SDL_RenderDrawLine(boundedRenderer, DA.x*UPE, -DA.y*UPE, DB.x*UPE, -DB.y*UPE);
+
+	DA = center - rotatedExtentsA - cornerPos;
+	DB = center + rotatedExtentsB - cornerPos;
+	SDL_RenderDrawLine(boundedRenderer, DA.x*UPE, -DA.y*UPE, DB.x*UPE, -DB.y*UPE);
+
+	DA = center + rotatedExtentsB - cornerPos;
+	DB = center + rotatedExtentsA - cornerPos;
+	SDL_RenderDrawLine(boundedRenderer, DA.x*UPE, -DA.y*UPE, DB.x*UPE, -DB.y*UPE);
+}
+
 void DebugPainter::PaintCircle(const Vector2D& O, float r){
 	if(abs(r) <= 0.5/float(Vector2D::UnitPixelEquivalent)) return;
 
