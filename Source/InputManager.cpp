@@ -8,13 +8,6 @@ InputManager* InputManager::GetCurrentManager() {
 
 
 //Key Access
-enum class InputManager::Keys {
-	LeftArrow = SDLK_LEFT,
-	RightArrow = SDLK_RIGHT,
-	UpArrow = SDLK_UP,
-	DownArrow = SDLK_DOWN
-};
-
 bool InputManager::GetKeyState(Keys targetKey) {
 	return this->KeyStates[(int)targetKey];
 }

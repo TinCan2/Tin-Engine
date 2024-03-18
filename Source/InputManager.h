@@ -8,7 +8,12 @@ class InputManager {
 
 	InputManager(const InputManager&) = delete;
 
-	enum class Keys;
+	enum class Keys {
+		RightArrow = 1073741903,
+		LeftArrow = 1073741904,
+		DownArrow = 1073741905,
+		UpArrow = 1073741906
+	};
 
 	bool GetKeyState(Keys targetKey);
 
