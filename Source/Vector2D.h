@@ -1,5 +1,6 @@
 #pragma once
 
+struct Vector3D;
 
 struct Vector2D {
 	float x, y;
@@ -34,6 +35,10 @@ struct Vector2D {
 	friend Vector2D operator/=(Vector2D& a, const float& b);
 
 	friend bool operator==(const Vector2D& a, const Vector2D& b);
+
+	friend Vector3D operator^(const Vector2D& a, const Vector2D& b);
+
+	operator Vector3D();
 
 	constexpr static int UnitPixelEquivalent = 16;
 };

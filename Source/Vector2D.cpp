@@ -1,4 +1,5 @@
 #include "Vector2D.h"
+#include "Vector3D.h"
 #include <cmath>
 
 //Construction and Destruction
@@ -81,10 +82,6 @@ Vector2D operator/(const Vector2D& a, const float& b) {
 	return Vector2D(a.x / b, a.y / b);
 }
 
-Vector2D operator/(const float& a, const Vector2D& b) {
-	return Vector2D(b.x / a, b.y / a);
-}
-
 Vector2D operator/=(Vector2D& a, const float& b) {
 	a.x /= b;
 	a.y /= b;
@@ -92,5 +89,13 @@ Vector2D operator/=(Vector2D& a, const float& b) {
 }
 
 bool operator==(const Vector2D& a, const Vector2D& b) {
-	return (abs(a.x - b.x) < 0.0001f) && (abs(a.y - b.y) < 0.0001f);
+	return (abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 1) && (abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 1);
+}
+
+Vector3D operator^(const Vector2D& a, const Vector2D& b) {
+	return Vector3D(0, 0, a.x*b.y - b.x*a.y);
+}
+
+Vector2D::operator Vector3D() {
+	return Vector3D(this->x, this->y, 0);
 }
