@@ -13,11 +13,6 @@ Vector2D::Vector2D(float x, float y) {
 	this->y = y;
 }
 
-Vector2D::Vector2D(const Vector2D& coppiedVector) {
-	this->x = coppiedVector.x;
-	this->y = coppiedVector.y;
-}
-
 
 //Magnitude
 float Vector2D::GetMagnitude() {

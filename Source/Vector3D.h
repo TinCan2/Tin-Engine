@@ -8,8 +8,6 @@ struct Vector3D {
 	Vector3D();
 	Vector3D(float x, float y, float z);
 
-	Vector3D(const Vector3D& coppiedVector);
-
 	float GetMagnitude();
 	float GetMagnitude2();
 

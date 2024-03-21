@@ -15,12 +15,6 @@ Vector3D::Vector3D(float x, float y, float z) {
 	this->z = z;
 }
 
-Vector3D::Vector3D(const Vector3D& coppiedVector) {
-	this->x = coppiedVector.x;
-	this->y = coppiedVector.y;
-	this->z = coppiedVector.z;
-}
-
 
 //Magnitude
 float Vector3D::GetMagnitude() {
