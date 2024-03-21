@@ -8,9 +8,9 @@ Animation::Animation(const char** targetFiles, UInt16 frameCount, UInt16 frameLe
 	if (frameLength == 0) throw "Frame length cannot be zero.";
 
 	this->frameCount = frameCount;
-	this->frames = new Sprite*[frameCount];
+	this->frames = new std::shared_ptr<Sprite>[frameCount];
 	for (int i = 0; i < frameCount; i++) {
-		this->frames[i] = new Sprite(targetFiles[i]);
+		this->frames[i] = std::make_shared<Sprite>(targetFiles[i]);
 	}
 
 	this->frameLength = frameLength;
@@ -20,9 +20,9 @@ Animation::Animation(const char** targetFiles, UInt16 frameCount, UInt16 frameLe
 	if (frameLength == 0) throw "Frame length cannot be zero.";
 
 	this->frameCount = frameCount;
-	this->frames = new Sprite*[frameCount];
+	this->frames = new std::shared_ptr<Sprite>[frameCount];
 	for (int i = 0; i < frameCount; i++) {
-		this->frames[i] = new Sprite(targetFiles[i], origin);
+		this->frames[i] = std::make_shared<Sprite>(targetFiles[i], origin);
 	}
 
 	this->frameLength = frameLength;
@@ -37,9 +37,9 @@ Animation::Animation(const char* targetSheet, UInt16 w, UInt16 h, UInt16 frameLe
 	UInt16 rows = sheet.GetHeight()/h;
 
 	this->frameCount = columns*rows;
-	this->frames = new Sprite*[this->frameCount];
+	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
 	for (int i = 0; i < rows; i++){
-		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = new Sprite(targetSheet, j*w, (rows-i-1)*h, w, h, Vector2D(0,0));
+		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h);
 	}
 
 	this->frameLength = frameLength;
@@ -54,18 +54,25 @@ Animation::Animation(const char* targetSheet, UInt16 w, UInt16 h, UInt16 frameLe
 	UInt16 rows = sheet.GetHeight()/h;
 
 	this->frameCount = columns*rows;
-	this->frames = new Sprite*[this->frameCount];
+	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
 	for (int i = 0; i < rows; i++){
-		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = new Sprite(targetSheet, j*w, (rows-i-1)*h, w, h, Vector2D(origin));
+		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h, origin);
 	}
 
 	this->frameLength = frameLength;
 }
 
-Animation::~Animation() {
-	for (int i = 0; i < this->frameCount; i++) {
-		delete this->frames[i];
+Animation::Animation(const Animation& coppiedAnimation) {
+	this->frameCount = coppiedAnimation.frameCount;
+	this->frames = new std::shared_ptr<Sprite>[frameCount];
+	for (int i = 0; i < frameCount; i++) {
+		this->frames[i] = coppiedAnimation.frames[i];
 	}
+
+	this->frameLength = coppiedAnimation.frameLength;
+}
+
+Animation::~Animation() {
 	delete[] this->frames;
 }
 
