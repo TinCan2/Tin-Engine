@@ -40,8 +40,8 @@ void DebugPainter::PaintRect(const Vector2D& A, const Vector2D& B, bool filled) 
 	GameManager::GetCurrentInstance()->ScheduleColorReset();
 
 	SDL_Rect dest;
-	dest.w = abs(A.x-B.x)*Vector2D::UnitPixelEquivalent;
-	dest.h = abs(A.y-B.y)*Vector2D::UnitPixelEquivalent;
+	dest.w = fabs(A.x-B.x)*Vector2D::UnitPixelEquivalent;
+	dest.h = fabs(A.y-B.y)*Vector2D::UnitPixelEquivalent;
 
 	Camera* camera = Camera::GetCurrentInstance();
 	Vector2D cornerPos(camera->GetPosition());
@@ -86,12 +86,12 @@ void DebugPainter::PaintRect(const Vector2D& center, const Vector2D& extents, fl
 }
 
 void DebugPainter::PaintCircle(const Vector2D& O, float r){
-	if(abs(r) <= 0.5/float(Vector2D::UnitPixelEquivalent)) return;
+	if(fabs(r)*Vector2D::UnitPixelEquivalent <= 0.5) return;
 
 	SDL_SetRenderDrawColor(boundedRenderer, paintColor->r, paintColor->g, paintColor->b, paintColor->a);
 	GameManager::GetCurrentInstance()->ScheduleColorReset();
 
-	int n = ceil(M_PI/acos(1-0.5/(abs(r)*Vector2D::UnitPixelEquivalent)));
+	int n = ceil(M_PI/acos(1-0.5/(fabs(r)*Vector2D::UnitPixelEquivalent)));
 
 	Camera* camera = Camera::GetCurrentInstance();
 	Vector2D cornerPos(camera->GetPosition());

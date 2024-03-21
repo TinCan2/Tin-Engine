@@ -1,6 +1,7 @@
 #pragma once
 
 struct Vector3D;
+typedef unsigned int UInt16;
 
 struct Vector2D {
 	float x, y;
@@ -11,6 +12,7 @@ struct Vector2D {
 	Vector2D(const Vector2D& coppiedVector);
 
 	float GetMagnitude();
+	float GetMagnitude2();
 
 	Vector2D FlipH();
 	Vector2D FlipV();
@@ -40,5 +42,5 @@ struct Vector2D {
 
 	operator Vector3D();
 
-	constexpr static int UnitPixelEquivalent = 16;
+	constexpr static UInt16 UnitPixelEquivalent = 16;
 };

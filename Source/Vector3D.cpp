@@ -27,6 +27,10 @@ float Vector3D::GetMagnitude() {
 	return pow(this->x*this->x + this->y*this->y + this->z*this->z , 0.5);
 }
 
+float Vector3D::GetMagnitude2() {
+	return this->x*this->x + this->y*this->y + this->z*this->z;
+}
+
 
 //Operators
 Vector3D operator+(const Vector3D& a, const Vector3D& b) {
@@ -86,9 +90,9 @@ Vector3D operator/=(Vector3D& a, const float& b) {
 }
 
 bool operator==(const Vector3D& a, const Vector3D& b) {
-	bool output = abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 1;
-	output &= abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 1;
-	output &= abs(a.z - b.z)*Vector2D::UnitPixelEquivalent < 1;
+	bool output = std::abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 0.5f;
+	output &= std::abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 0.5f;
+	output &= std::abs(a.z - b.z)*Vector2D::UnitPixelEquivalent < 0.5f;
 	return output;
 }
 

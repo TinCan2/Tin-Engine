@@ -24,6 +24,10 @@ float Vector2D::GetMagnitude() {
 	return pow(this->x * this->x + this->y * this->y, 0.5);
 }
 
+float Vector2D::GetMagnitude2() {
+	return this->x * this->x + this->y * this->y;
+}
+
 
 //Flipping
 Vector2D Vector2D::FlipH() {
@@ -89,7 +93,7 @@ Vector2D operator/=(Vector2D& a, const float& b) {
 }
 
 bool operator==(const Vector2D& a, const Vector2D& b) {
-	return (abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 1) && (abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 1);
+	return (std::abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 0.5f) && (std::abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 0.5f);
 }
 
 Vector3D operator^(const Vector2D& a, const Vector2D& b) {

@@ -11,6 +11,7 @@ struct Vector3D {
 	Vector3D(const Vector3D& coppiedVector);
 
 	float GetMagnitude();
+	float GetMagnitude2();
 
 	friend Vector3D operator+(const Vector3D& a, const Vector3D& b);
 
