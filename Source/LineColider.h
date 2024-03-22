@@ -14,6 +14,8 @@ class LineColider {
 	LineColider(const Vector2D& base, const Vector2D& tip, LineType type);
 	~LineColider();
 
+	LineColider(const LineColider& coppiedColider);
+
 	Vector2D GetBase();
 	Vector2D GetTip();
 	LineType GetType();

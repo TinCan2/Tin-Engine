@@ -22,6 +22,12 @@ LineColider::LineColider(const Vector2D& base, const Vector2D& tip, LineType typ
 	this->type = type;
 }
 
+LineColider::LineColider(const LineColider& coppiedColider) {
+	this->base = new Vector2D(*coppiedColider.base);
+	this->tip = new Vector2D(*coppiedColider.tip);
+	this->type = coppiedColider.type;
+}
+
 LineColider::~LineColider() {
 	delete this->base;
 	delete this->tip;
@@ -53,8 +59,6 @@ bool LineColider::Coliding(const LineColider& coliderA, const LineColider& colid
 	Vector2D interBasePath = *coliderB.base - *coliderA.base;
 
 	if (mA == mB || fabs(mA - mB)*Vector2D::UnitPixelEquivalent < 0.5) {
-//		std::cout << "Parallel Lines" << std::endl;
-
 		if (fabs((interBasePath.y/interBasePath.x) - mA)*Vector2D::UnitPixelEquivalent >= 0.5) return false;
 
 		std::pair<float, float> tIntA;
@@ -75,8 +79,6 @@ bool LineColider::Coliding(const LineColider& coliderA, const LineColider& colid
 		return !(tIntA.second < tIntB.first || tIntA.first > tIntB.second);
 	}
 	else {
-//		std::cout << "Intersecting Lines" << std::endl;
-
 		std::pair<float, float> tIntA;
 		tIntA.first = (coliderA.type == LineType::Line) ? -HUGE_VALF : 0;
 		tIntA.second = (coliderA.type == LineType::Segment) ? 1 : HUGE_VALF;
@@ -86,14 +88,6 @@ bool LineColider::Coliding(const LineColider& coliderA, const LineColider& colid
 		tIntB.second = (coliderB.type == LineType::Segment) ? 1 : HUGE_VALF;
 
 		float systemMatrix[2][3] = {{dirA.x, -dirB.x, interBasePath.x}, {dirA.y, -dirB.y, interBasePath.y}};
-
-//		std::cout << "Printing the system matrix." << std::endl;
-//		for (int i = 0; i < 2; i++) {
-//			for (int j = 0; j < 3; j++) std::cout << systemMatrix[i][j] << " ";
-//			std::cout << std::endl;
-//		}
-
-
 		float tA, tB;
 		if (systemMatrix[0][0] != 0) {
 			float leadingCoefficient = systemMatrix[1][0];
@@ -109,16 +103,6 @@ bool LineColider::Coliding(const LineColider& coliderA, const LineColider& colid
 			 tB = systemMatrix[0][2]/systemMatrix[0][1];
 			 tA = (systemMatrix[1][2]-tB*systemMatrix[1][1])/systemMatrix[1][0];
 		}
-
-//		std::cout << "Printing the stair-form matrix." << std::endl;
-//		for (int i = 0; i < 2; i++) {
-//			for (int j = 0; j < 3; j++) std::cout << systemMatrix[i][j] << " ";
-//			std::cout << std::endl;
-//		}
-//
-//		std::cout << "tA:" << tA << std::endl;
-//		std::cout << "tB:" << tB << std::endl;
-
 		return (tIntA.first <= tA && tA <= tIntA.second) && (tIntB.first <= tB && tB <= tIntB.second);
 	}
 }
