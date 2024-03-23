@@ -26,7 +26,7 @@ class GameManager{
 
 	UInt64 GetFrameCount();
 
-	Color GetRenderColor();
+	Color GetRenderColor() const;
 	void ScheduleColorReset();
 
 	private:

@@ -10,8 +10,8 @@ class Camera {
 
 	Camera(const Camera&) = delete;
 
-	Vector2D GetPosition();
-	Vector2D GetExtents();
+	Vector2D GetPosition() const;
+	Vector2D GetExtents() const;
 
 	private:
 	Camera(UInt16 w, UInt16 h);

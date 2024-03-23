@@ -90,7 +90,7 @@ UInt64 GameManager::GetFrameCount() {
 
 
 //Color Acces
-Color GameManager::GetRenderColor() {
+Color GameManager::GetRenderColor() const {
 	return *this->renderColor;
 }
 

@@ -8,11 +8,11 @@ Camera* Camera::GetCurrentInstance() {
 
 
 //Position Access
-Vector2D Camera::GetPosition() {
+Vector2D Camera::GetPosition() const {
 	return *this->position;
 }
 
-Vector2D Camera::GetExtents() {
+Vector2D Camera::GetExtents() const {
 	return *this->extents;
 }
 
