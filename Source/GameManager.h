@@ -18,15 +18,17 @@ namespace Tin {
 		GameManager(const GameManager&) = delete;
 
 		void Initialize(const char* title, UInt16 w, UInt16 h);
+
 		void Handle();
 		void Update();
 		void Render();
+
 		void Terminate();
 
-		bool IsQuitting();
+		bool IsQuitting() const;
 		void QuitGame();
 
-		UInt64 GetFrameCount();
+		UInt64 GetFrameCount() const;
 
 		Color GetRenderColor() const;
 		void ScheduleColorReset();
