@@ -3,7 +3,7 @@
 //#include "DebugPainter.h"
 #include "InputManager.h"
 #include "GameManager.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 #include <SDL2/SDL.h>
 
 using namespace Tin;
@@ -33,7 +33,7 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 	Camera::activeCamera = new Camera(w, h);
 //	DebugPainter::boundedRenderer = this->mainRenderer;
 	InputManager::currentManager = new InputManager();
-//	Sprite::boundedRenderer = this->mainRenderer;
+	Sprite::boundedRenderer = this->mainRenderer;
 }
 
 void GameManager::Handle() {
