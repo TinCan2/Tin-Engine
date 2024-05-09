@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Color.h"
 //#include "DebugPainter.h"
-//#include "InputManager.h"
+#include "InputManager.h"
 #include "GameManager.h"
 //#include "Sprite.h"
 #include <SDL2/SDL.h>
@@ -32,7 +32,7 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 
 	Camera::activeCamera = new Camera(w, h);
 //	DebugPainter::boundedRenderer = this->mainRenderer;
-//	InputManager::currentManager = new InputManager();
+	InputManager::currentManager = new InputManager();
 //	Sprite::boundedRenderer = this->mainRenderer;
 }
 
@@ -50,10 +50,6 @@ void GameManager::Handle() {
 			case SDL_QUIT:
 				this->QuitGame(); //This is temporary
 				break;
-//			case SDL_KEYDOWN:
-//			case SDL_KEYUP:
-//				if (!currentEvent.key.repeat) InputManager::GetCurrentManager()->UpdateKeyStates();
-//				break;
 		}
 	}
 }
@@ -66,7 +62,7 @@ void GameManager::Render() {
 }
 
 void GameManager::Terminate() {
-//	delete InputManager::currentManager;
+	delete InputManager::currentManager;
 //	delete Camera::activeCamera;
 
 	SDL_DestroyRenderer(this->mainRenderer);
