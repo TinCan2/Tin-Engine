@@ -1,0 +1,31 @@
+#include "RectColider.h"
+#include "Vector2D.h"
+#include <cmath>
+
+using namespace Tin;
+
+//Construction and Destruction
+RectColider::RectColider(const Vector2D& center, const Vector2D& extents, float orientation) {
+	this->center = new Vector2D(center);
+	this->extents = new Vector2D(fabs(extents.x), fabs(extents.y));
+	this->orientation = 0;
+}
+
+RectColider::~RectColider() {
+	delete this->center;
+	delete this->extents;
+}
+
+
+//Component Access
+Vector2D RectColider::GetCenter() const {
+	return *this->center;
+}
+
+Vector2D RectColider::GetExtents() const {
+	return *this->extents;
+}
+
+float RectColider::GetOrientation() const {
+	return this->orientation;
+}
