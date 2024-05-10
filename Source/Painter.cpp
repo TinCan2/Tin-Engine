@@ -81,7 +81,7 @@ void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) c
 	delete[] corners;
 }
 
-void Painter::PaintRectangle(const Vector2D& center, const Vector2D& extents, bool filled, float rotation) const {
+void Painter::PaintRect(const Vector2D& center, const Vector2D& extents, bool filled, float rotation) const {
 	if (fabs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || fabs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
 
 	Vector2D tExt = extents.x*Vector2D(cos(rotation),sin(rotation)) + extents.y*Vector2D(-sin(rotation),cos(rotation));
