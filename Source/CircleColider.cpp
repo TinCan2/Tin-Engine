@@ -10,6 +10,11 @@ CircleColider::CircleColider(const Vector2D& center, const float r) {
 	this->r = fabs(r);
 }
 
+CircleColider::CircleColider(const CircleColider& copiedColider) {
+	this->center = new Vector2D(*copiedColider.center);
+	this->r = copiedColider.r;
+}
+
 CircleColider::~CircleColider() {
 	delete this->center;
 }

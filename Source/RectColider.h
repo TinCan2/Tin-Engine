@@ -9,6 +9,7 @@ namespace Tin {
 	class RectColider {
 		public:
 		RectColider(const Vector2D& center, const Vector2D& extents, float orientation=0);
+		RectColider(const RectColider& copiedColider);
 		~RectColider();
 
 		Vector2D GetCenter() const;

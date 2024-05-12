@@ -9,6 +9,7 @@ namespace Tin {
 	class LineColider {
 		public:
 		LineColider(const Vector2D& base, const Vector2D& tip);
+		LineColider(const LineColider& copiedColider);
 		~LineColider();
 
 		Vector2D GetBase() const;

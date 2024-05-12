@@ -11,6 +11,11 @@ LineColider::LineColider(const Vector2D& base, const Vector2D& tip) {
 	this->tip = new Vector2D(tip);
 }
 
+LineColider::LineColider(const LineColider& copiedColider) {
+	this->base = new Vector2D(*copiedColider.base);
+	this->tip = new Vector2D(*copiedColider.tip);
+}
+
 LineColider::~LineColider() {
 	delete this->base;
 	delete this->tip;

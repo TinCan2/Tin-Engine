@@ -9,6 +9,7 @@ namespace Tin {
 	class CircleColider {
 		public:
 		CircleColider(const Vector2D& center, const float r);
+		CircleColider(const CircleColider& copiedColider);
 		~CircleColider();
 
 		Vector2D GetCenter() const;

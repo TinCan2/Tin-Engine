@@ -11,6 +11,12 @@ RectColider::RectColider(const Vector2D& center, const Vector2D& extents, float 
 	this->orientation = orientation;
 }
 
+RectColider::RectColider(const RectColider& copiedColider) {
+	this->center = new Vector2D(*copiedColider.center);
+	this->extents = new Vector2D(*copiedColider.extents);
+	this->orientation = orientation;
+}
+
 RectColider::~RectColider() {
 	delete this->center;
 	delete this->extents;
