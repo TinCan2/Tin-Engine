@@ -8,7 +8,7 @@ using namespace Tin;
 RectColider::RectColider(const Vector2D& center, const Vector2D& extents, float orientation) {
 	this->center = new Vector2D(center);
 	this->extents = new Vector2D(fabs(extents.x), fabs(extents.y));
-	this->orientation = 0;
+	this->orientation = orientation;
 }
 
 RectColider::~RectColider() {
