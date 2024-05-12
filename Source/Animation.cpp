@@ -65,14 +65,14 @@ Animation::Animation(const char* targetSheet, UInt16 w, UInt16 h, UInt16 frameLe
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const Animation& coppiedAnimation) {
-	this->frameCount = coppiedAnimation.frameCount;
+Animation::Animation(const Animation& copiedAnimation) {
+	this->frameCount = copiedAnimation.frameCount;
 	this->frames = new std::shared_ptr<Sprite>[frameCount];
 	for (int i = 0; i < frameCount; i++) {
-		this->frames[i] = coppiedAnimation.frames[i];
+		this->frames[i] = copiedAnimation.frames[i];
 	}
 
-	this->frameLength = coppiedAnimation.frameLength;
+	this->frameLength = copiedAnimation.frameLength;
 }
 
 Animation::~Animation() {

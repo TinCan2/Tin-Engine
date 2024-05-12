@@ -87,16 +87,16 @@ Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h, c
 	this->y = textureHeight-h-y;
 }
 
-Sprite::Sprite(const Sprite& coppiedSprite) {
-	this->boundTexture = coppiedSprite.boundTexture;
+Sprite::Sprite(const Sprite& copiedSprite) {
+	this->boundTexture = copiedSprite.boundTexture;
 	textureMap[this->boundTexture]->second++;
 
-	this->origin = new Vector2D(*coppiedSprite.origin);
+	this->origin = new Vector2D(*copiedSprite.origin);
 
-	this->x = coppiedSprite.x;
-	this->y = coppiedSprite.y;
-	this->w = coppiedSprite.w;
-	this->h = coppiedSprite.h;
+	this->x = copiedSprite.x;
+	this->y = copiedSprite.y;
+	this->w = copiedSprite.w;
+	this->h = copiedSprite.h;
 }
 
 Sprite::~Sprite() {

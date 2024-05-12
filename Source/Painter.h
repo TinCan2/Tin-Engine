@@ -10,6 +10,7 @@ namespace Tin {
 		public:
 		Painter();
 		Painter(const Color& paintColor);
+		Painter(const Painter& copiedPainter);
 		~Painter();
 
 		void PaintLine(const Vector2D& A, const Vector2D& B) const;
