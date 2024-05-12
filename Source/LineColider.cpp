@@ -1,10 +1,12 @@
 #include "LineColider.h"
 #include "Vector2D.h"
+#include <stdexcept>
 
 using namespace Tin;
 
 //Construction and Destruction
 LineColider::LineColider(const Vector2D& base, const Vector2D& tip) {
+	if (base == tip) throw std::runtime_error("Invalid line colider.");
 	this->base = new Vector2D(base);
 	this->tip = new Vector2D(tip);
 }

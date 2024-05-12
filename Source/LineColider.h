@@ -4,6 +4,7 @@ namespace Tin {
 	struct Vector2D;
 
 	class LineColider {
+		public:
 		LineColider(const Vector2D& base, const Vector2D& tip);
 		~LineColider();
 
