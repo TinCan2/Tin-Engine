@@ -15,6 +15,9 @@ namespace Tin {
 		Vector2D GetBase() const;
 		Vector2D GetTip() const;
 
+		void SetBase(const Vector2D& base);
+		void SetTip(const Vector2D& tip);
+
 		bool ColidesWith(const CircleColider& otherColider);
 		bool ColidesWith(const LineColider& otherColider);
 		bool ColidesWith(const RectColider& otherColider);

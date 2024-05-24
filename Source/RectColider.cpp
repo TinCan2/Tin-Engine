@@ -35,3 +35,16 @@ Vector2D RectColider::GetExtents() const {
 float RectColider::GetOrientation() const {
 	return this->orientation;
 }
+
+void RectColider::SetCenter(const Vector2D& center) {
+	*this->center = center;
+}
+
+void RectColider::SetExtents(const Vector2D& extents) {
+	this->extents->x = fabs(extents.x);
+	this->extents->y = fabs(extents.y);
+}
+
+void RectColider::SetOrientation(const float& orientation) {
+	this->orientation = orientation;
+}

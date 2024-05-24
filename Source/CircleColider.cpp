@@ -5,7 +5,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-CircleColider::CircleColider(const Vector2D& center, const float r) {
+CircleColider::CircleColider(const Vector2D& center, const float& r) {
 	this->center = new Vector2D(center);
 	this->r = fabs(r);
 }
@@ -27,4 +27,12 @@ Vector2D CircleColider::GetCenter() const {
 
 float CircleColider::GetRadius() const {
 	return this->r;
+}
+
+void CircleColider::SetCenter(const Vector2D& center) {
+	*this->center = center;
+}
+
+void CircleColider::SetRadius(const float& r) {
+	this->r = fabs(r);
 }
