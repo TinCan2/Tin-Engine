@@ -6,8 +6,6 @@
 #include <cmath>
 #include <SDL2/SDL.h>
 
-#include <iostream>
-
 using namespace Tin;
 
 //Construction and Destruction
@@ -48,9 +46,9 @@ void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) c
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 
-	Vector2D* corners = new Vector2D[n](origin);
+	Vector2D* corners = new Vector2D[n]();
 	for (int i=0; i<n; i++) {
-		corners[i] += Vector2D(r*cos(2*i*M_PI/n), r*sin(2*i*M_PI/n));
+		corners[i] = origin + Vector2D(r*cos(2*i*M_PI/n), r*sin(2*i*M_PI/n));
 		corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 	}
 
@@ -85,7 +83,7 @@ void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) c
 	delete[] corners;
 }
 
-void Painter::PaintRect(const Vector2D& center, const Vector2D& extents, bool filled, float rotation) const {
+void Painter::PaintRect(const Vector2D& center, const Vector2D& extents, float rotation, bool filled) const {
 	if (fabs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || fabs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
 
 	Vector2D tExt = extents.x*Vector2D(cos(rotation),sin(rotation)) + extents.y*Vector2D(-sin(rotation),cos(rotation));
