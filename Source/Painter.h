@@ -10,11 +10,12 @@ namespace Tin {
 		public:
 		Painter();
 		Painter(const Color& paintColor);
+		Painter(const Painter& copiedPainter);
 		~Painter();
 
 		void PaintLine(const Vector2D& A, const Vector2D& B) const;
 		void PaintCircle(const Vector2D& origin, const float& r, bool filled=false) const;
-		void PaintRectangle(const Vector2D& center, const Vector2D& extents, bool filled=false, float rotation=0) const;
+		void PaintRect(const Vector2D& center, const Vector2D& extents, float rotation=0, bool filled=false) const;
 
 		Color GetPaintColor() const;
 		void SetPaintColor(const Color& color);
