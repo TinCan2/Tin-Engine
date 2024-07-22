@@ -17,7 +17,7 @@ namespace Tin {
 
 		GameManager(const GameManager&) = delete;
 
-		void Initialize(const char* title, UInt16 w, UInt16 h);
+		void Initialize(const char* title, const UInt16& w, const UInt16& h);
 
 		void Handle();
 		void Update();

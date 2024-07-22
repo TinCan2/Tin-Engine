@@ -5,7 +5,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-Rectangle::Rectangle(const Vector2D& center, const Vector2D& extents, float orientation) {
+Rectangle::Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation) {
 	this->center = new Vector2D(center);
 	this->extents = new Vector2D(fabs(extents.x), fabs(extents.y));
 	this->orientation = orientation;

@@ -25,7 +25,7 @@ void GameManager::Destroy(){
 
 
 //Game Events
-void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
+void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	this->gameWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);

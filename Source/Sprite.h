@@ -13,14 +13,14 @@ namespace Tin {
 		public:
 		Sprite(const char* targetFile);
 		Sprite(const char* targetFile, const Vector2D& origin);
-		Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h);
-		Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h, const Vector2D& origin);
+		Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h);
+		Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h, const Vector2D& origin);
 
 		Sprite(const Sprite& coppiedSprite);
 
 		~Sprite();
 
-		void Draw(const Vector2D& position, bool flipH=false, bool flipV=false, float rotation = 0) const;
+		void Draw(const Vector2D& position, const bool& flipH=false, const bool& flipV=false, const float& rotation = 0) const;
 
 		UInt16 GetWidth() const;
 		UInt16 GetHeight() const;

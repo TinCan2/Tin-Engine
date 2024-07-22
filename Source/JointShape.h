@@ -10,7 +10,7 @@ namespace Tin {
 
 	class JointShape {
 		public:
-		JointShape(Circle* cSubs, UInt16 cCount, Rectangle* rSubs, UInt16 rCount, const Vector2D& center);
+		JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center);
 		JointShape(const JointShape& coppiedObject);
 		~JointShape();
 
@@ -21,9 +21,9 @@ namespace Tin {
 		float GetOrientation() const;
 
 		UInt16 GetCircleCount() const;
-		Circle GetCircle(UInt16 index) const;
+		Circle GetCircle(const UInt16& index) const;
 		UInt16 GetRectangleCount() const;
-		Rectangle GetRectangle(UInt16 index) const;
+		Rectangle GetRectangle(const UInt16& index) const;
 
 		Circle GetEnclosure() const;
 

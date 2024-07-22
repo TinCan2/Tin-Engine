@@ -10,14 +10,14 @@ Color::Color() {
 	this->a = 255;
 }
 
-Color::Color(UInt8 r, UInt8 g, UInt8 b) {
+Color::Color(const UInt8& r, const UInt8& g, const UInt8& b) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
 	this->a = 255;
 }
 
-Color::Color(UInt8 r, UInt8 g, UInt8 b, UInt8 a) {
+Color::Color(const UInt8& r, const UInt8& g, const UInt8& b, const UInt8& a) {
 	this->r = r;
 	this->g = g;
 	this->b = b;

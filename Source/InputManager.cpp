@@ -10,7 +10,7 @@ InputManager* InputManager::GetCurrentManager() {
 
 
 //Keyboard Access
-bool InputManager::GetKeyState(Keys targetKey) {
+bool InputManager::GetKeyState(const Keys& targetKey) {
 	return this->keyStates[(int)targetKey];
 }
 

@@ -50,7 +50,7 @@ Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& c
     return Circle(center, r);
 }
 
-Circle Welzl(Circle** P, UInt16 pCount, Circle** R, UInt16 rCount) {
+Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
     if (pCount == 0 || rCount == 3) {
         switch (rCount) {
             case 2:
@@ -77,7 +77,7 @@ Circle Welzl(Circle** P, UInt16 pCount, Circle** R, UInt16 rCount) {
 }
 
 //Construction and Destruction
-JointShape::JointShape(Circle* cSubs, UInt16 cCount, Rectangle* rSubs, UInt16 rCount, const Vector2D& center) {
+JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center) {
 	this->circleCount = cCount;
 	if (cCount != 0) {
 		this->circleSubs = new Circle*[cCount];
@@ -183,7 +183,7 @@ UInt16 JointShape::GetCircleCount() const {
 	return this->circleCount;
 }
 
-Circle JointShape::GetCircle(UInt16 index) const {
+Circle JointShape::GetCircle(const UInt16& index) const {
 	return *this->circleSubs[index];
 }
 
@@ -191,7 +191,7 @@ UInt16 JointShape::GetRectangleCount() const {
 	return this->rectangleCount;
 }
 
-Rectangle JointShape::GetRectangle(UInt16 index) const {
+Rectangle JointShape::GetRectangle(const UInt16& index) const {
 	return *this->rectangleSubs[index];
 }
 

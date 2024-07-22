@@ -20,7 +20,7 @@ Vector2D Camera::GetExtents() const {
 
 
 //Construction and Destruction
-Camera::Camera(UInt16 w, UInt16 h) {
+Camera::Camera(const UInt16& w, const UInt16& h) {
 	UInt16 UPE = Vector2D::UnitPixelEquivalent;
 	this->position = new Vector2D(0, 0);
 	this->extents = new Vector2D(w/(2*UPE),h/(2*UPE));

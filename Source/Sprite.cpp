@@ -51,7 +51,7 @@ Sprite::Sprite(const char* targetFile, const Vector2D& origin) {
 	this->x = this->y = 0;
 }
 
-Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h) {
+Sprite::Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
@@ -69,7 +69,7 @@ Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h) {
 	this->y = textureHeight-h-y;
 }
 
-Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h, const Vector2D& origin) {
+Sprite::Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h, const Vector2D& origin) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
@@ -112,7 +112,7 @@ Sprite::~Sprite() {
 
 
 //Renderer Access
-void Sprite::Draw(const Vector2D& position, bool flipH, bool flipV, float rotation) const {
+void Sprite::Draw(const Vector2D& position, const bool& flipH, const bool& flipV, const float& rotation) const {
 	SDL_Rect sourceRect, destRect;
 	sourceRect.x = this->x;
 	sourceRect.y = this->y;

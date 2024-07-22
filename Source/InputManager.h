@@ -58,7 +58,7 @@ namespace Tin {
 			UpArrow = 82,
 		};
 
-		bool GetKeyState(Keys targetKey);
+		bool GetKeyState(const Keys& targetKey);
 
 		private:
 		InputManager();

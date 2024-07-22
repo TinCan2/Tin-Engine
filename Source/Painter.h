@@ -18,9 +18,9 @@ namespace Tin {
 		~Painter();
 
 		void PaintLine(const Vector2D& A, const Vector2D& B) const;
-		void PaintCircle(const Circle& circle, bool filled=false) const;
-		void PaintRectangle(const Rectangle& rectangle, bool filled=false) const;
-		void PaintJointShape(const JointShape& jointShape, bool filled=false) const;
+		void PaintCircle(const Circle& circle, const bool& filled=false) const;
+		void PaintRectangle(const Rectangle& rectangle, const bool& filled=false) const;
+		void PaintJointShape(const JointShape& jointShape, const bool& filled=false) const;
 
 		Color GetPaintColor() const;
 		void SetPaintColor(const Color& color);

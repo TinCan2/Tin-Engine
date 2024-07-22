@@ -5,7 +5,7 @@ namespace Tin {
 
 	class Rectangle {
 		public:
-		Rectangle(const Vector2D& center, const Vector2D& extents, float orientation=0);
+		Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation=0);
 		Rectangle(const Rectangle& copied);
 		~Rectangle();
 

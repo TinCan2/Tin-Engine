@@ -7,7 +7,7 @@ namespace Tin {
 		float x, y;
 
 		Vector2D();
-		Vector2D(float x, float y);
+		Vector2D(const float& x, const float& y);
 
 		float GetMagnitude();
 		float GetMagnitude2();

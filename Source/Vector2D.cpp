@@ -9,7 +9,7 @@ Vector2D::Vector2D() {
 	this->y = 0;
 }
 
-Vector2D::Vector2D(float x, float y) {
+Vector2D::Vector2D(const float& x, const float& y) {
 	this->x = x;
 	this->y = y;
 }

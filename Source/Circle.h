@@ -5,7 +5,7 @@ namespace Tin {
 
 	class Circle {
 		public:
-		Circle(const Vector2D& center, float radius);
+		Circle(const Vector2D& center, const float& radius);
 		Circle(const Circle& coppiedCircle);
 		~Circle();
 
@@ -13,7 +13,7 @@ namespace Tin {
 		float GetRadius() const;
 
 		void SetCenter(const Vector2D& center);
-		void SetRadius(float radius);
+		void SetRadius(const float& radius);
 
 		private:
 		Vector2D* center;

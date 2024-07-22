@@ -5,7 +5,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-Circle::Circle(const Vector2D& center, float radius) {
+Circle::Circle(const Vector2D& center, const float& radius) {
 	this->center = new Vector2D(center);
 	this->radius = fabs(radius);
 }
@@ -33,6 +33,6 @@ void Circle::SetCenter(const Vector2D& center) {
 	*this->center = center;
 }
 
-void Circle::SetRadius(float radius) {
+void Circle::SetRadius(const float& radius) {
 	this->radius = fabs(radius);
 }

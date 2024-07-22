@@ -15,7 +15,7 @@ namespace Tin {
 		Vector2D GetExtents() const;
 
 		private:
-		Camera(UInt16 w, UInt16 h);
+		Camera(const UInt16& w, const UInt16& h);
 		~Camera();
 
 		friend class GameManager;

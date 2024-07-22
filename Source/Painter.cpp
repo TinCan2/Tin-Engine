@@ -41,7 +41,7 @@ void Painter::PaintLine(const Vector2D& A, const Vector2D& B) const {
 	SDL_RenderDrawLine(boundedRenderer, AtP.x, AtP.y, BtP.x, BtP.y);
 }
 
-void Painter::PaintCircle(const Circle& circle, bool filled) const {
+void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 	float rA = fabs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
@@ -86,7 +86,7 @@ void Painter::PaintCircle(const Circle& circle, bool filled) const {
 	delete[] corners;
 }
 
-void Painter::PaintRectangle(const Rectangle& rectangle, bool filled) const {
+void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) const {
 	Vector2D extents = rectangle.GetExtents();
 	Vector2D center = rectangle.GetCenter();
 	float theta = rectangle.GetOrientation();
@@ -128,7 +128,7 @@ void Painter::PaintRectangle(const Rectangle& rectangle, bool filled) const {
 	}
 }
 
-void Painter::PaintJointShape(const JointShape& jointShape, bool filled) const {
+void Painter::PaintJointShape(const JointShape& jointShape, const bool& filled) const {
 	for (int i = 0; i < jointShape.GetCircleCount(); i++) this->PaintCircle(jointShape.GetCircle(i));
 	for (int i = 0; i < jointShape.GetRectangleCount(); i++) this->PaintRectangle(jointShape.GetRectangle(i));
 }

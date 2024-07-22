@@ -7,7 +7,7 @@ namespace Tin {
 		UInt8 r, g, b, a;
 
 		Color();
-		Color(UInt8 r, UInt8 g, UInt8 b);
-		Color(UInt8 r, UInt8 g, UInt8 b, UInt8 a);
+		Color(const UInt8& r, const UInt8& g, const UInt8& b);
+		Color(const UInt8& r, const UInt8& g, const UInt8& b, const UInt8& a);
 	};
 }
