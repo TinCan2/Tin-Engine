@@ -1,12 +1,13 @@
 #include "Camera.h"
+#include "Circle.h"
 #include "Color.h"
 #include "GameManager.h"
+#include "JointShape.h"
 #include "Painter.h"
+#include "Rectangle.h"
 #include "Vector2D.h"
 #include <cmath>
 #include <SDL2/SDL.h>
-
-#include <iostream>
 
 using namespace Tin;
 
@@ -40,8 +41,8 @@ void Painter::PaintLine(const Vector2D& A, const Vector2D& B) const {
 	SDL_RenderDrawLine(boundedRenderer, AtP.x, AtP.y, BtP.x, BtP.y);
 }
 
-void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) const {
-	float rA = fabs(r);
+void Painter::PaintCircle(const Circle& circle, bool filled) const {
+	float rA = fabs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
 	int n = ceil(M_PI/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
@@ -50,7 +51,7 @@ void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) c
 
 	Vector2D* corners = new Vector2D[n];
 	for (int i=0; i<n; i++) {
-		corners[i] = origin + Vector2D(r*cos(2*i*M_PI/n), r*sin(2*i*M_PI/n));
+		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*M_PI/n), rA*sin(2*i*M_PI/n));
 		corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 	}
 
@@ -85,11 +86,15 @@ void Painter::PaintCircle(const Vector2D& origin, const float& r, bool filled) c
 	delete[] corners;
 }
 
-void Painter::PaintRect(const Vector2D& center, const Vector2D& extents, float rotation, bool filled) const {
+void Painter::PaintRectangle(const Rectangle& rectangle, bool filled) const {
+	Vector2D extents = rectangle.GetExtents();
+	Vector2D center = rectangle.GetCenter();
+	float theta = rectangle.GetOrientation();
+
 	if (fabs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || fabs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
 
-	Vector2D tExt = extents.x*Vector2D(cos(rotation),sin(rotation)) + extents.y*Vector2D(-sin(rotation),cos(rotation));
-	Vector2D tExtF = -extents.x*Vector2D(cos(rotation),sin(rotation)) + extents.y*Vector2D(-sin(rotation),cos(rotation));
+	Vector2D tExt = extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));
+	Vector2D tExtF = -extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 	Vector2D corners[] = {center+tExt, center+tExtF, center-tExt, center-tExtF};
@@ -121,6 +126,11 @@ void Painter::PaintRect(const Vector2D& center, const Vector2D& extents, float r
 			SDL_RenderDrawLine(boundedRenderer, corners[i].x, corners[i].y, corners[(i+1)%4].x, corners[(i+1)%4].y);
 		}
 	}
+}
+
+void Painter::PaintJointShape(const JointShape& jointShape, bool filled) const {
+	for (int i = 0; i < jointShape.GetCircleCount(); i++) this->PaintCircle(jointShape.GetCircle(i));
+	for (int i = 0; i < jointShape.GetRectangleCount(); i++) this->PaintRectangle(jointShape.GetRectangle(i));
 }
 
 

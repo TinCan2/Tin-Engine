@@ -6,6 +6,10 @@ namespace Tin {
 	struct Color;
 	struct Vector2D;
 
+	class Circle;
+	class JointShape;
+	class Rectangle;
+
 	class Painter {
 		public:
 		Painter();
@@ -14,8 +18,9 @@ namespace Tin {
 		~Painter();
 
 		void PaintLine(const Vector2D& A, const Vector2D& B) const;
-		void PaintCircle(const Vector2D& origin, const float& r, bool filled=false) const;
-		void PaintRect(const Vector2D& center, const Vector2D& extents, float rotation=0, bool filled=false) const;
+		void PaintCircle(const Circle& circle, bool filled=false) const;
+		void PaintRectangle(const Rectangle& rectangle, bool filled=false) const;
+		void PaintJointShape(const JointShape& jointShape, bool filled=false) const;
 
 		Color GetPaintColor() const;
 		void SetPaintColor(const Color& color);
