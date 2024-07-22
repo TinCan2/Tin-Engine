@@ -167,7 +167,7 @@ void JointShape::SetOrientation(const float& orientation) {
 	}
 
 	Vector2D dir = this->enclosure->GetCenter() - *this->center;
-	Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.x*Vector2D(-sin(theta), cos(theta));
+	Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.y*Vector2D(-sin(theta), cos(theta));
 	this->enclosure->SetCenter(*this->center + tDir);
 
 	this->orientation = orientation;
