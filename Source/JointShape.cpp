@@ -10,7 +10,9 @@ using namespace Tin;
 Circle CircleFrom2(const Circle& circleA, const Circle& circleB) {
 	Vector2D dir = circleB.GetCenter() - circleA.GetCenter();
 	float r = (circleA.GetRadius() + circleB.GetRadius() + dir.GetMagnitude())/2;
-	float t = (r - circleA.GetRadius())/dir.GetMagnitude();
+
+	float d = dir.GetMagnitude();
+	float t = (d != 0) ? (r - circleA.GetRadius())/d : 0;
 	Vector2D center = circleA.GetCenter() + t*dir;
 	return Circle(center, r);
 }
@@ -53,12 +55,18 @@ Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& c
 Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
     if (pCount == 0 || rCount == 3) {
         switch (rCount) {
+        	case 1:
+        		return *R[0];
+        		break;
             case 2:
                 return CircleFrom2(*R[0], *R[1]);
+                break;
             case 3:
                 return CircleFrom3(*R[0], *R[1], *R[2]);
+                break;
             default:
                 return Circle(Vector2D(0, 0), 0);
+                break;
         }
     }
 
@@ -75,6 +83,7 @@ Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount)
     delete[] Rnew;
     return result;
 }
+
 
 //Construction and Destruction
 JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center) {
@@ -96,7 +105,8 @@ JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, co
 	Circle** subEnclosures = new Circle*[rCount + cCount];
 	for (int i = 0; i < cCount; i++) subEnclosures[i] = &cSubs[i];
 	for (int i = 0; i < rCount; i++) subEnclosures[cCount+i] = new Circle(rSubs[i].GetCenter(), rSubs[i].GetExtents().GetMagnitude());
-	this-> enclosure = new Circle(Welzl(subEnclosures, rCount + cCount, nullptr, 0));
+	Circle a(Welzl(subEnclosures, rCount + cCount, nullptr, 0));
+	this-> enclosure = new Circle(a);
 	for (int i = 0; i < rCount; i++) delete subEnclosures[cCount+i];
 	delete[] subEnclosures;
 }
