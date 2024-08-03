@@ -7,7 +7,7 @@
 using namespace Tin;
 
 //Enclosure Functions
-Circle CircleFrom2(const Circle& circleA, const Circle& circleB) {
+Circle JointShape::CircleFrom2(const Circle& circleA, const Circle& circleB) {
 	Vector2D dir = circleB.GetCenter() - circleA.GetCenter();
 	float r = (circleA.GetRadius() + circleB.GetRadius() + dir.GetMagnitude())/2;
 
@@ -17,7 +17,7 @@ Circle CircleFrom2(const Circle& circleA, const Circle& circleB) {
 	return Circle(center, r);
 }
 
-Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& circleC) {
+Circle JointShape::CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& circleC) {
     Vector2D centerA = circleA.GetCenter();
     Vector2D centerB = circleB.GetCenter();
     Vector2D centerC = circleC.GetCenter();
@@ -52,7 +52,7 @@ Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& c
     return Circle(center, r);
 }
 
-Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
+Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
     if (pCount == 0 || rCount == 3) {
         switch (rCount) {
         	case 1:

@@ -28,6 +28,10 @@ namespace Tin {
 		Circle GetEnclosure() const;
 
 		private:
+		static Circle CircleFrom2(const Circle& circleA, const Circle& circleB);
+		static Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& circleC);
+		static Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount);
+
 		Circle** circleSubs;
 		Rectangle** rectangleSubs;
 
