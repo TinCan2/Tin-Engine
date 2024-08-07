@@ -99,6 +99,27 @@ Sprite::Sprite(const Sprite& coppiedSprite) {
 	this->h = coppiedSprite.h;
 }
 
+Sprite& Sprite::operator=(const Sprite& coppiedSprite) {
+	textureMap[this->boundTexture]->second--;
+	if (textureMap[this->boundTexture]->second == 0) {
+		SDL_DestroyTexture(textureMap[this->boundTexture]->first);
+		delete textureMap[this->boundTexture];
+		textureMap.erase(this->boundTexture);
+	}
+
+	this->boundTexture = coppiedSprite.boundTexture;
+	textureMap[this->boundTexture]->second++;
+
+	*this->origin = *coppiedSprite.origin;
+
+	this->x = coppiedSprite.x;
+	this->y = coppiedSprite.y;
+	this->w = coppiedSprite.w;
+	this->h = coppiedSprite.h;
+
+	return *this;
+}
+
 Sprite::~Sprite() {
 	delete this->origin;
 
