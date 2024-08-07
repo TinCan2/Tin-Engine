@@ -10,7 +10,7 @@ namespace Tin {
 
 	class JointShape {
 		public:
-		JointShape(Circle* cSubs, UInt16 cCount, Rectangle* rSubs, UInt16 rCount, const Vector2D& center);
+		JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center);
 
 		JointShape(const JointShape& copiedObject);
 		JointShape& operator=(const JointShape& copiedObject);
