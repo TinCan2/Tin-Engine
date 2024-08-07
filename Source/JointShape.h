@@ -11,7 +11,10 @@ namespace Tin {
 	class JointShape {
 		public:
 		JointShape(Circle* cSubs, UInt16 cCount, Rectangle* rSubs, UInt16 rCount, const Vector2D& center);
-		JointShape(const JointShape& coppiedObject);
+
+		JointShape(const JointShape& copiedObject);
+		JointShape& operator=(const JointShape& copiedObject);
+
 		~JointShape();
 
 		void SetCenter(const Vector2D& center);
