@@ -5,8 +5,11 @@ namespace Tin {
 
 	class Circle {
 		public:
-		Circle(const Vector2D& center, const float& radius);
-		Circle(const Circle& coppiedCircle);
+		Circle(const Vector2D& center, float radius);
+
+		Circle(const Circle& copiedCircle);
+		Circle& operator=(const Circle& copiedCircle);
+
 		~Circle();
 
 		Vector2D GetCenter() const;

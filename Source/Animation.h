@@ -16,6 +16,7 @@ namespace Tin {
 		Animation(const char* targetSheet, const UInt16& w, const UInt16& h, const UInt16& frameLength, const Vector2D& origin);
 
 		Animation(const Animation& coppiedAnimation);
+		Animation& operator=(const Animation& coppiedAnimation);
 
 		~Animation();
 

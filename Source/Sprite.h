@@ -17,6 +17,7 @@ namespace Tin {
 		Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h, const Vector2D& origin);
 
 		Sprite(const Sprite& coppiedSprite);
+		Sprite& operator=(const Sprite& coppiedSprite);
 
 		~Sprite();
 

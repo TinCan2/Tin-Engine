@@ -24,6 +24,12 @@ Painter::Painter(const Painter& copiedPainter) {
 	this->paintColor = new Color(*copiedPainter.paintColor);
 }
 
+Painter& Painter::operator=(const Painter& copiedPainter) {
+	*this->paintColor = *copiedPainter.paintColor;
+
+	return *this;
+}
+
 Painter::~Painter() {
 	delete this->paintColor;
 }

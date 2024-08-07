@@ -75,6 +75,20 @@ Animation::Animation(const Animation& coppiedAnimation) {
 	this->frameLength = coppiedAnimation.frameLength;
 }
 
+Animation& Animation::operator=(const Animation& coppiedAnimation) {
+	delete[] this->frames;
+
+	this->frameCount = coppiedAnimation.frameCount;
+	this->frames = new std::shared_ptr<Sprite>[frameCount];
+	for (int i = 0; i < frameCount; i++) {
+		this->frames[i] = coppiedAnimation.frames[i];
+	}
+
+	this->frameLength = coppiedAnimation.frameLength;
+
+	return *this;
+}
+
 Animation::~Animation() {
 	delete[] this->frames;
 }

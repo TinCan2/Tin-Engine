@@ -111,23 +111,54 @@ JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, co
 	delete[] subEnclosures;
 }
 
-JointShape::JointShape(const JointShape& coppiedObject) {
-	this->circleCount = coppiedObject.circleCount;
+JointShape::JointShape(const JointShape& copiedObject) {
+	this->circleCount = copiedObject.circleCount;
 	if (this->circleCount != 0) {
 		this->circleSubs = new Circle*[this->circleCount];
-		for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*coppiedObject.circleSubs[i]);
+		for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
 	}
 
-	this->rectangleCount = coppiedObject.rectangleCount;
+	this->rectangleCount = copiedObject.rectangleCount;
 	if (this->rectangleCount != 0) {
 		this->rectangleSubs = new Rectangle*[this->rectangleCount];
-		for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*coppiedObject.rectangleSubs[i]);
+		for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
 	}
 
-	this->center = new Vector2D(*coppiedObject.center);
-	this->orientation = coppiedObject.orientation;
+	this->center = new Vector2D(*copiedObject.center);
+	this->orientation = copiedObject.orientation;
 
-	this->enclosure = new Circle(*coppiedObject.enclosure);
+	this->enclosure = new Circle(*copiedObject.enclosure);
+}
+
+JointShape& JointShape::operator=(const JointShape& copiedObject) {
+	if (this->circleCount != 0) {
+		for (UInt16 i = 0; i < this->circleCount; i++) delete this->circleSubs[i];
+		delete[] this-> circleSubs;
+	}
+
+	if (this->rectangleCount != 0) {
+		for (UInt16 i = 0; i < this->rectangleCount; i++) delete this->rectangleSubs[i];
+		delete[] this-> rectangleSubs;
+	}
+
+	this->circleCount = copiedObject.circleCount;
+	if (this->circleCount != 0) {
+		this->circleSubs = new Circle*[this->circleCount];
+		for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
+	}
+
+	this->rectangleCount = copiedObject.rectangleCount;
+	if (this->rectangleCount != 0) {
+		this->rectangleSubs = new Rectangle*[this->rectangleCount];
+		for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
+	}
+
+	*this->center = *copiedObject.center;
+	this->orientation = copiedObject.orientation;
+
+	*this->enclosure = *copiedObject.enclosure;
+
+	return *this;
 }
 
 JointShape::~JointShape() {

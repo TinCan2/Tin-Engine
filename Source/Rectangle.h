@@ -5,8 +5,11 @@ namespace Tin {
 
 	class Rectangle {
 		public:
-		Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation=0);
-		Rectangle(const Rectangle& copied);
+		Rectangle(const Vector2D& center, const Vector2D& extents, float orientation=0);
+
+		Rectangle(const Rectangle& copiedRectangle);
+		Rectangle& operator=(const Rectangle& copiedRectangle);
+
 		~Rectangle();
 
 		Vector2D GetCenter() const;
