@@ -11,10 +11,18 @@ Rectangle::Rectangle(const Vector2D& center, const Vector2D& extents, float orie
 	this->orientation = orientation;
 }
 
-Rectangle::Rectangle(const Rectangle& copiedColider) {
-	this->center = new Vector2D(*copiedColider.center);
-	this->extents = new Vector2D(*copiedColider.extents);
-	this->orientation = copiedColider.orientation;
+Rectangle::Rectangle(const Rectangle& copiedRectangle) {
+	this->center = new Vector2D(*copiedRectangle.center);
+	this->extents = new Vector2D(*copiedRectangle.extents);
+	this->orientation = copiedRectangle.orientation;
+}
+
+Rectangle& Rectangle::operator=(const Rectangle& copiedRectangle) {
+	*this->center = *copiedRectangle.center;
+	*this->extents = *copiedRectangle.extents;
+	this->orientation = copiedRectangle.orientation;
+
+	return *this;
 }
 
 Rectangle::~Rectangle() {

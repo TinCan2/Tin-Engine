@@ -10,9 +10,16 @@ Circle::Circle(const Vector2D& center, float radius) {
 	this->radius = fabs(radius);
 }
 
-Circle::Circle(const Circle& coppiedCircle) {
-	this->center = new Vector2D(*coppiedCircle.center);
-	this->radius = coppiedCircle.radius;
+Circle::Circle(const Circle& copiedCircle) {
+	this->center = new Vector2D(*copiedCircle.center);
+	this->radius = copiedCircle.radius;
+}
+
+Circle& Circle::operator=(const Circle& copiedCircle) {
+	*this->center = *copiedCircle.center;
+	this->radius = copiedCircle.radius;
+
+	return *this;
 }
 
 Circle::~Circle() {
