@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Color.h"
-//#include "DebugPainter.h"
+#include "Painter.h"
 #include "InputManager.h"
 #include "GameManager.h"
 #include "Sprite.h"
@@ -31,16 +31,16 @@ void GameManager::Initialize(const char* title, UInt16 w, UInt16 h) {
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
-//	DebugPainter::boundedRenderer = this->mainRenderer;
+	Painter::boundedRenderer = this->mainRenderer;
 	InputManager::currentManager = new InputManager();
 	Sprite::boundedRenderer = this->mainRenderer;
 }
 
 void GameManager::Handle() {
-//	if (this->resetColor) {
-//		SDL_SetRenderDrawColor(this->mainRenderer, this->renderColor->r, this->renderColor->g, this->renderColor->b, this->renderColor->a);
-//		this-> resetColor = false;
-//	}
+	if (this->resetColor) {
+		SDL_SetRenderDrawColor(this->mainRenderer, this->backgroundColor->r, this->backgroundColor->g, this->backgroundColor->b, this->backgroundColor->a);
+		this-> resetColor = false;
+	}
 
 	SDL_RenderClear(this->mainRenderer);
 
@@ -63,7 +63,7 @@ void GameManager::Render() {
 
 void GameManager::Terminate() {
 	delete InputManager::currentManager;
-//	delete Camera::activeCamera;
+	delete Camera::activeCamera;
 
 	SDL_DestroyRenderer(this->mainRenderer);
 	SDL_DestroyWindow(this->gameWindow);
@@ -88,8 +88,8 @@ UInt64 GameManager::GetFrameCount() const{
 
 
 //Color Access
-Color GameManager::GetRenderColor() const {
-	return *this->renderColor;
+Color GameManager::GetBackgroundColor() const {
+	return *this->backgroundColor;
 }
 
 void GameManager::ScheduleColorReset() {
@@ -101,11 +101,11 @@ void GameManager::ScheduleColorReset() {
 GameManager::GameManager() {
 	this->quitting = false;
 	this->frameCount = 0;
-	this->renderColor = new Color();
+	this->backgroundColor = new Color();
 }
 
 GameManager::~GameManager() {
-	delete this->renderColor;
+	delete this->backgroundColor;
 }
 
 

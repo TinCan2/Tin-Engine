@@ -30,7 +30,7 @@ namespace Tin {
 
 		UInt64 GetFrameCount() const;
 
-		Color GetRenderColor() const;
+		Color GetBackgroundColor() const;
 		void ScheduleColorReset();
 
 		private:
@@ -42,7 +42,7 @@ namespace Tin {
 
 		bool quitting;
 
-		Color* renderColor;
+		Color* backgroundColor;
 		bool resetColor;
 
 		UInt64 frameCount;
