@@ -3,6 +3,7 @@
 namespace Tin {
 	struct Vector2D;
 
+	class CollisionInfo;
 	class Circle;
 	class Rectangle;
 
@@ -29,6 +30,10 @@ namespace Tin {
 		Rectangle GetRectangle(const UInt16& index) const;
 
 		Circle GetEnclosure() const;
+
+		bool CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const;
+		bool CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
+		bool CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const;
 
 		private:
 		static Circle CircleFrom2(const Circle& circleA, const Circle& circleB);

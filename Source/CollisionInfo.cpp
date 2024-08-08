@@ -14,6 +14,17 @@ CollisionInfo::~CollisionInfo() {
 	delete this->normal;
 }
 
+CollisionInfo::CollisionInfo(const CollisionInfo& coppiedObject) {
+	this->contact = new Vector2D(*coppiedObject.contact);
+	this->normal = new Vector2D(*coppiedObject.normal);
+}
+
+CollisionInfo& CollisionInfo::operator=(const CollisionInfo& coppiedObject) {
+	*this->contact = *coppiedObject.contact;
+	*this->normal = *coppiedObject.normal;
+	return *this;
+}
+
 
 //Component Access
 Vector2D CollisionInfo::GetNormal() const {
