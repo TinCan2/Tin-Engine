@@ -261,7 +261,7 @@ bool JointShape::CollidesWith(const Circle& otherShape, CollisionInfo* const& co
 	}
 	else {
 		CollisionInfo deepestCollision;
-		bool overlapping;
+		bool overlapping = false;
 		for (UInt16 i = 0; i < this->circleCount; i++) {
 			CollisionInfo currentCollision;
 			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
@@ -298,7 +298,7 @@ bool JointShape::CollidesWith(const Rectangle& otherShape, CollisionInfo* const&
 	}
 	else {
 		CollisionInfo deepestCollision;
-		bool overlapping;
+		bool overlapping = false;
 		for (UInt16 i = 0; i < this->circleCount; i++) {
 			CollisionInfo currentCollision;
 			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
@@ -334,7 +334,7 @@ bool JointShape::CollidesWith(const JointShape& otherShape, CollisionInfo* const
 	}
 	else {
 		CollisionInfo deepestCollision;
-		bool overlapping;
+		bool overlapping = false;
 		for (UInt16 i = 0; i < this->circleCount; i++) {
 			CollisionInfo currentCollision;
 			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
