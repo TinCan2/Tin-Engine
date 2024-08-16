@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Color.h"
 #include "Painter.h"
+#include "PhysicalObject.h"
 #include "InputManager.h"
 #include "GameManager.h"
 #include "Sprite.h"
@@ -54,7 +55,9 @@ void GameManager::Handle() {
 	}
 }
 
-void GameManager::Update() {}
+void GameManager::Update() {
+	PhysicalObject::UpdateBodies();
+}
 
 void GameManager::Render() {
 	SDL_RenderPresent(this->mainRenderer);
