@@ -1,11 +1,11 @@
-#include "Camera.h"
-#include "Circle.h"
-#include "Color.h"
-#include "GameManager.h"
-#include "JointShape.h"
-#include "Painter.h"
-#include "Rectangle.h"
-#include "Vector2D.h"
+#include "Camera.hpp"
+#include "Circle.hpp"
+#include "Color.hpp"
+#include "GameManager.hpp"
+#include "JointShape.hpp"
+#include "Painter.hpp"
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 #include <SDL2/SDL.h>
 

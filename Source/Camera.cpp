@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Vector2D.h"
+#include "Camera.hpp"
+#include "Vector2D.hpp"
 
 using namespace Tin;
 

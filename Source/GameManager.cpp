@@ -1,10 +1,10 @@
-#include "Camera.h"
-#include "Color.h"
-#include "Painter.h"
-#include "PhysicalObject.h"
-#include "InputManager.h"
-#include "GameManager.h"
-#include "Sprite.h"
+#include "Camera.hpp"
+#include "Color.hpp"
+#include "Painter.hpp"
+#include "PhysicalObject.hpp"
+#include "InputManager.hpp"
+#include "GameManager.hpp"
+#include "Sprite.hpp"
 #include <SDL2/SDL.h>
 
 using namespace Tin;

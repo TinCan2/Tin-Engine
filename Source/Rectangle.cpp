@@ -1,8 +1,8 @@
-#include "Circle.h"
-#include "CollisionInfo.h"
-#include "JointShape.h"
-#include "Rectangle.h"
-#include "Vector2D.h"
+#include "Circle.hpp"
+#include "CollisionInfo.hpp"
+#include "JointShape.hpp"
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 #include <algorithm>
 

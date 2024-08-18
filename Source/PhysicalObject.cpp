@@ -1,20 +1,15 @@
-#include "Circle.h"
-#include "CollisionInfo.h"
-#include "JointShape.h"
-#include "PhysicalObject.h"
-#include "Rectangle.h"
-#include "Vector2D.h"
+#include "Circle.hpp"
+#include "CollisionInfo.hpp"
+#include "JointShape.hpp"
+#include "PhysicalObject.hpp"
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
 #include <algorithm>
 #include <cmath>
 #include <SDL2/SDL.h>
 #include <stdexcept>
 
-#include <iostream>
-#include "Painter.h"
-#include "Color.h"
-
 using namespace Tin;
-
 
 //Construction and Destruction
 PhysicalObject::PhysicalObject(const Circle& collider, const float& mass) {
@@ -253,11 +248,6 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 	unitNorm /= unitNorm.GetMagnitude();
 
 	Vector2D contact = collision.GetContact();
-
-//	Painter p;
-//	p.SetPaintColor(Color(255,0,0));
-//	p.PaintCircle(Circle(contact,0.25f));
-//	p.PaintLine(contact, contact+unitNorm);
 
 	Vector2D dirI = contact - *bodyI->centerOfMass;
 	Vector2D dirJ = contact - *bodyJ->centerOfMass;
