@@ -17,7 +17,7 @@ Vector2D::Vector2D(const float& x, const float& y) {
 
 //Magnitude
 float Vector2D::GetMagnitude() {
-	return pow(this->x * this->x + this->y * this->y, 0.5);
+	return std::sqrt(this->x * this->x + this->y * this->y);
 }
 
 float Vector2D::GetMagnitude2() {
