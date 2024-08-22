@@ -1,9 +1,12 @@
 #include "Circle.hpp"
-#include "CollisionInfo.hpp"
-#include "Rectangle.hpp"
-#include "JointShape.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "CollisionInfo.hpp"
+	#include "Rectangle.hpp"
+	#include "JointShape.hpp"
+#endif
 
 using namespace Tin;
 
@@ -48,38 +51,40 @@ void Circle::SetRadius(const float& radius) {
 }
 
 
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
 //Collision Detection
-bool Circle::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const{
-	Vector2D dir = otherShape.GetCenter() - this->GetCenter();
-	float rS = this->GetRadius();
-	float rO = otherShape.GetRadius();
+	bool Circle::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const{
+		Vector2D dir = otherShape.GetCenter() - this->GetCenter();
+		float rS = this->GetRadius();
+		float rO = otherShape.GetRadius();
 
-	float rT = rS+rO;
-	bool overlapping = dir.GetMagnitude2() < rT*rT;
+		float rT = rS+rO;
+		bool overlapping = dir.GetMagnitude2() < rT*rT;
 
-	if (overlapping && collisionInfo != nullptr) {
-		float d = dir.GetMagnitude();
-		float depth = (rS+rO)-d;
+		if (overlapping && collisionInfo != nullptr) {
+			float d = dir.GetMagnitude();
+			float depth = (rS+rO)-d;
 
-		*collisionInfo->normal = depth*dir/(d+0.1/Vector2D::UnitPixelEquivalent);
+			*collisionInfo->normal = depth*dir/(d+0.1/Vector2D::UnitPixelEquivalent);
 
-		if (d <= fabs(rS-rO)) *collisionInfo->contact = (rS < rO) ? this->GetCenter() : otherShape.GetCenter();
-		else {
-			float l = (rS*rS - rO*rO)/(2*d*d) + 0.5;
-			*collisionInfo->contact = this->GetCenter() + l*dir;
+			if (d <= fabs(rS-rO)) *collisionInfo->contact = (rS < rO) ? this->GetCenter() : otherShape.GetCenter();
+			else {
+				float l = (rS*rS - rO*rO)/(2*d*d) + 0.5;
+				*collisionInfo->contact = this->GetCenter() + l*dir;
+			}
 		}
+		return overlapping;
 	}
-	return overlapping;
-}
 
-bool Circle::CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const {
-	bool overlapping = otherShape.CollidesWith(*this, collisionInfo);
-	if (overlapping && collisionInfo != nullptr) *collisionInfo->normal *= -1;
-	return overlapping;
-}
+	bool Circle::CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const {
+		bool overlapping = otherShape.CollidesWith(*this, collisionInfo);
+		if (overlapping && collisionInfo != nullptr) *collisionInfo->normal *= -1;
+		return overlapping;
+	}
 
-bool Circle::CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const {
-	bool overlapping = otherShape.CollidesWith(*this, collisionInfo);
-	if (overlapping && collisionInfo != nullptr) *collisionInfo->normal *= -1;
-	return overlapping;
-}
+	bool Circle::CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const {
+		bool overlapping = otherShape.CollidesWith(*this, collisionInfo);
+		if (overlapping && collisionInfo != nullptr) *collisionInfo->normal *= -1;
+		return overlapping;
+	}
+#endif

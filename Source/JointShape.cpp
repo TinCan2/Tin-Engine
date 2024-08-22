@@ -1,9 +1,12 @@
 #include "Circle.hpp"
-#include "CollisionInfo.hpp"
 #include "JointShape.hpp"
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "CollisionInfo.hpp"
+#endif
 
 using namespace Tin;
 
@@ -245,111 +248,113 @@ Circle JointShape::GetEnclosure() const {
 
 
 //Collision Detection
-bool JointShape::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const {
-	if (!this->enclosure->CollidesWith(otherShape, nullptr)) return false;
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	bool JointShape::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const {
+		if (!this->enclosure->CollidesWith(otherShape, nullptr)) return false;
 
-	if (collisionInfo == nullptr) {
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+		if (collisionInfo == nullptr) {
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			return false;
 		}
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+		else {
+			CollisionInfo deepestCollision;
+			bool overlapping = false;
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
+
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
+
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
+
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
+
+			if (overlapping) *collisionInfo = deepestCollision;
+			return overlapping;
 		}
-		return false;
 	}
-	else {
-		CollisionInfo deepestCollision;
-		bool overlapping = false;
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
+	bool JointShape::CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const {
+		Circle rectEnclosure(otherShape.GetCenter(), otherShape.GetExtents().GetMagnitude());
+		if (!this->enclosure->CollidesWith(rectEnclosure, nullptr)) return false;
+
+		if (collisionInfo == nullptr) {
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			return false;
 		}
+		else {
+			CollisionInfo deepestCollision;
+			bool overlapping = false;
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
 
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
+
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
+
+			if (overlapping) *collisionInfo = deepestCollision;
+			return overlapping;
 		}
-
-		if (overlapping) *collisionInfo = deepestCollision;
-		return overlapping;
 	}
-}
 
-bool JointShape::CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const {
-	Circle rectEnclosure(otherShape.GetCenter(), otherShape.GetExtents().GetMagnitude());
-	if (!this->enclosure->CollidesWith(rectEnclosure, nullptr)) return false;
+	bool JointShape::CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const {
+		if (!this->enclosure->CollidesWith(otherShape.GetEnclosure(), nullptr)) return false;
 
-	if (collisionInfo == nullptr) {
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+		if (collisionInfo == nullptr) {
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+			}
+			return false;
 		}
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
+		else {
+			CollisionInfo deepestCollision;
+			bool overlapping = false;
+			for (UInt16 i = 0; i < this->circleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
+
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
+
+			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+				CollisionInfo currentCollision;
+				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
+
+				bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
+				if (deeper) deepestCollision = currentCollision;
+			}
+
+			if (overlapping) *collisionInfo = deepestCollision;
+			return overlapping;
 		}
-		return false;
 	}
-	else {
-		CollisionInfo deepestCollision;
-		bool overlapping = false;
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
-
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
-		}
-
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
-
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
-		}
-
-		if (overlapping) *collisionInfo = deepestCollision;
-		return overlapping;
-	}
-}
-
-bool JointShape::CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const {
-	if (!this->enclosure->CollidesWith(otherShape.GetEnclosure(), nullptr)) return false;
-
-	if (collisionInfo == nullptr) {
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
-		}
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
-		}
-		return false;
-	}
-	else {
-		CollisionInfo deepestCollision;
-		bool overlapping = false;
-		for (UInt16 i = 0; i < this->circleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
-
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
-		}
-
-		for (UInt16 i = 0; i < this->rectangleCount; i++) {
-			CollisionInfo currentCollision;
-			overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
-
-			bool deeper = currentCollision.normal->GetMagnitude2() > deepestCollision.normal->GetMagnitude2();
-			if (deeper) deepestCollision = currentCollision;
-		}
-
-		if (overlapping) *collisionInfo = deepestCollision;
-		return overlapping;
-	}
-}
+#endif

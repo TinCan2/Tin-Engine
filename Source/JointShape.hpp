@@ -3,7 +3,9 @@
 namespace Tin {
 	struct Vector2D;
 
-	class CollisionInfo;
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		class CollisionInfo;
+	#endif
 	class Circle;
 	class Rectangle;
 
@@ -31,9 +33,11 @@ namespace Tin {
 
 		Circle GetEnclosure() const;
 
-		bool CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const;
-		bool CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
-		bool CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const;
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			bool CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const;
+			bool CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
+			bool CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const;
+		#endif
 
 		private:
 		static Circle CircleFrom2(const Circle& circleA, const Circle& circleB);
