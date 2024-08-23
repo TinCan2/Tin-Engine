@@ -3,6 +3,7 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <algorithm>
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	#include "CollisionInfo.hpp"
