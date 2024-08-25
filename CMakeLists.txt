@@ -102,14 +102,16 @@ FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL
 set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
 FetchContent_MakeAvailable(SDL2 SDL2_image)
 
-set(TIN_LINKED_LIBRARIES SDL2main SDL2_image)
+set(TIN_LINKED_LIBRARIES SDL2_image)
 if(${TIN_LINK_SDL_DYNAMIC})
+	set(SDL_SHARED ON)
 	list(APPEND TIN_LINKED_LIBRARIES SDL2)
 else()
+	set(SDL_STATIC ON)
 	list(APPEND TIN_LINKED_LIBRARIES SDL2-static)
 endif()
 
-target_link_libraries(tinEngine ${TIN_LINKED_LIBRARIES})
+target_link_libraries(tinEngine PUBLIC ${TIN_LINKED_LIBRARIES})
 
 
 #==Include&Deps Copying==#
@@ -117,14 +119,17 @@ set(TIN_INCLUDE_DIR "${CMAKE_BINARY_DIR}/Tin Engine/include")
 file(MAKE_DIRECTORY ${TIN_INCLUDE_DIR})
 add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_INCLUDE_DIR})
 
+set(TIN_DEPS_DIR "${CMAKE_BINARY_DIR}/Tin Engine/deps")
+file(MAKE_DIRECTORY ${TIN_DEPS_DIR})
 if (${TIN_LINK_SDL_DYNAMIC})
-	set(TIN_DEPS_DIR "${CMAKE_BINARY_DIR}/Tin Engine/deps")
-	file(MAKE_DIRECTORY ${TIN_DEPS_DIR})
 	add_custom_command(TARGET tinEngine POST_BUILD COMMAND
 					   ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SDL2> ${TIN_DEPS_DIR})
+else()
 	add_custom_command(TARGET tinEngine POST_BUILD COMMAND
-					   ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SDL2_image> ${TIN_DEPS_DIR})
+					   ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SDL2-static> ${TIN_DEPS_DIR})
 endif()
+add_custom_command(TARGET tinEngine POST_BUILD COMMAND
+				   ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SDL2_image> ${TIN_DEPS_DIR})
 
 
 #==Exporting==#
