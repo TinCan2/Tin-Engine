@@ -1,6 +1,6 @@
-#include "Camera.h"
-#include "Sprite.h"
-#include "Vector2D.h"
+#include "Camera.hpp"
+#include "Sprite.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

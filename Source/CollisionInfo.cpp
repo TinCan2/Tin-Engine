@@ -1,5 +1,5 @@
-#include "CollisionInfo.h"
-#include "Vector2D.h"
+#include "CollisionInfo.hpp"
+#include "Vector2D.hpp"
 
 using namespace Tin;
 

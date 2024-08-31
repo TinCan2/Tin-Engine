@@ -1,17 +1,17 @@
-#include "Circle.h"
-#include "CollisionInfo.h"
-#include "JointShape.h"
-#include "PhysicalObject.h"
-#include "Rectangle.h"
-#include "Vector2D.h"
+#include "Circle.hpp"
+#include "CollisionInfo.hpp"
+#include "JointShape.hpp"
+#include "PhysicalObject.hpp"
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
 #include <algorithm>
 #include <cmath>
 #include <SDL2/SDL.h>
 #include <stdexcept>
 
 #include <iostream>
-#include "Painter.h"
-#include "Color.h"
+#include "Painter.hpp"
+#include "Color.hpp"
 
 using namespace Tin;
 

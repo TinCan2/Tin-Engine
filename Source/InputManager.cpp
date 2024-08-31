@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "InputManager.hpp"
 #include <SDL2/SDL.h>
 
 using namespace Tin;

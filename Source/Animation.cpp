@@ -1,7 +1,7 @@
-#include "Animation.h"
-#include "GameManager.h"
-#include "Sprite.h"
-#include "Vector2D.h"
+#include "Animation.hpp"
+#include "GameManager.hpp"
+#include "Sprite.hpp"
+#include "Vector2D.hpp"
 #include <stdexcept>
 
 using namespace Tin;
