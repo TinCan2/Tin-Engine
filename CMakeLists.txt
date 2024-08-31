@@ -88,3 +88,17 @@ endif()
 
 set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
 FetchContent_MakeAvailable(SDL2 SDL2_image)
+
+set(TIN_LINK_LIST "SDL2_image")
+if (${TIN_LINK_SDL_DYNAMIC})
+	list(APPEND TIN_LINK_LIST SDL2)
+else()
+	list(APPEND TIN_LINK_LIST SDL2-static)
+endif()
+
+target_link_libraries(tinEngine PRIVATE ${TIN_LINK_LIST})
+
+
+#==Output Config==#
+set_target_properties(tinEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build/lib")
+set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build/lib")
