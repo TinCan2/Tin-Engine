@@ -5,7 +5,7 @@
 #include "InputManager.hpp"
 #include "GameManager.hpp"
 #include "Sprite.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 using namespace Tin;
 

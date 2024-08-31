@@ -6,7 +6,7 @@
 #include "Vector2D.hpp"
 #include <algorithm>
 #include <cmath>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdexcept>
 
 #include <iostream>
