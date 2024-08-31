@@ -29,3 +29,62 @@ set(TIN_MODULES_DEPS_SPRITE "CORE")
 set(TIN_MODULES_DEPS_PAINTER "SHAPES")
 set(TIN_MODULES_DEPS_PHYSICS "CollisionInfo" "PhysicalObject")
 set(TIN_MODULES_DEPS_ANIMATION "Sprite")
+
+
+#==Module Activation==#
+set(TIN_SOURCE)
+set(TIN_HEADER)
+set(TIN_DEFINITIONS)
+
+set(TIN_ACTIVATION_QUEUE)
+foreach(module ${TIN_MODULES})
+	if (${TIN_MODULES_INCLUDE_${module}})
+		list(APPEND TIN_ACTIVATION_QUEUE ${module})
+	endif()
+endforeach()
+
+while(TIN_ACTIVATION_QUEUE)
+	list(GET TIN_ACTIVATION_QUEUE 0 module)
+
+	foreach(file ${TIN_MODULES_FILES_${module}})
+		list(APPEND TIN_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Source/${file}.cpp")
+		list(APPEND TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/${file}.hpp")
+	endforeach()
+	list(APPEND TIN_DEFINITIONS "TIN_MODULES_INCLUDE_${module}")
+
+	foreach(dep ${TIN_MODULES_DEPS_${module}})
+		if (NOT ${TIN_MODULES_INCLUDE_${module}})
+			list(APPEND TIN_ACTIVATION_QUEUE ${dep})
+		endif()
+	endforeach()
+
+	list(REMOVE_ITEM TIN_ACTIVATION_QUEUE ${module})
+endwhile()
+
+
+#==Library Generation==#
+option(TIN_BUILD_SHARED "Build the engine to be linked dynamically." ON)
+option(TIN_LINK_SDL_DYNAMIC "Link the SDL libraries dynamically to the engine." ON)
+
+set(BUILD_SHARED_LIBS ${TIN_BUILD_SHARED})
+add_library(tinEngine ${TIN_SOURCE})
+
+target_compile_features(tinEngine PUBLIC cxx_std_20)
+target_compile_definitions(tinEngine PRIVATE ${TIN_DEFINITIONS})
+
+
+#==Dependency Management==#
+include(FetchContent)
+set(FETCHCONTENT_QUIET OFF)
+FetchContent_Declare(SDL2 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.30.6 GIT_PROGRESS ON)
+FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git GIT_TAG release-2.8.2 GIT_PROGRESS ON)
+
+set(SDL_SHARED ${TIN_LINK_SDL_DYNAMIC})
+if (${TIN_LINK_SDL_DYNAMIC})
+	set(SDL_STATIC OFF)
+else()
+	set(SDL_STATIC ON)
+endif()
+
+set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
+FetchContent_MakeAvailable(SDL2 SDL2_image)
