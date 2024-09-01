@@ -1,6 +1,6 @@
 #==Project Definitions==#
 cmake_minimum_required(VERSION 3.11...3.30)
-project("Tin Engine" VERSION 1.0.0 LANGUAGES CXX)
+project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
@@ -100,5 +100,34 @@ target_link_libraries(tinEngine PRIVATE ${TIN_LINK_LIST})
 
 
 #==Output Config==#
-set_target_properties(tinEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build/lib")
-set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build/lib")
+set(TIN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build")
+
+set_target_properties(tinEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/lib")
+set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/lib")
+
+file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
+add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+					${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
+
+file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						$<TARGET_FILE:SDL2_image> ${TIN_OUTPUT_DIR}/deps)
+
+if (${TIN_LINK_SDL_DYNAMIC})
+	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						$<TARGET_FILE:SDL2> ${TIN_OUTPUT_DIR}/deps)
+	add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink
+						${TIN_OUTPUT_DIR}/deps/libSDL2-2.0.so.0.3000.6 ${TIN_OUTPUT_DIR}/deps/libSDL2-2.0.so)
+	add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink
+						${TIN_OUTPUT_DIR}/deps/libSDL2-2.0.so.0.3000.6 ${TIN_OUTPUT_DIR}/deps/libSDL2-2.0.so.0)
+
+	add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink
+						${TIN_OUTPUT_DIR}/deps/libSDL2_image-2.0.so.0.800.2 ${TIN_OUTPUT_DIR}/deps/libSDL2_image.so)
+	add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink
+						${TIN_OUTPUT_DIR}/deps/libSDL2_image-2.0.so.0.800.2 ${TIN_OUTPUT_DIR}/deps/libSDL2_image-2.0.so)
+	add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink
+						${TIN_OUTPUT_DIR}/deps/libSDL2_image-2.0.so.0.800.2 ${TIN_OUTPUT_DIR}/deps/libSDL2_image-2.0.so.0)
+else()
+	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						$<TARGET_FILE:SDL2-static> ${TIN_OUTPUT_DIR}/deps)
+endif()
