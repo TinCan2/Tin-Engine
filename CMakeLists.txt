@@ -100,7 +100,7 @@ target_link_libraries(tinEngine PRIVATE ${TIN_LINK_LIST})
 
 
 #==Output Config==#
-set(TIN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/Tin-Build")
+set(TIN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/Tin-Build")
 
 set_target_properties(tinEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/lib")
 set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/lib")
