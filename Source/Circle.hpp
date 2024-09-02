@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	struct Vector2D;
@@ -9,7 +10,7 @@ namespace Tin {
 		class JointShape;
 	#endif
 
-	class Circle {
+	class TIN_API Circle {
 		public:
 		Circle(const Vector2D& center, const float& radius);
 

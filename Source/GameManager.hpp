@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -9,7 +10,7 @@ namespace Tin {
 	typedef unsigned int UInt16;
 	typedef unsigned long long UInt64;
 
-	class GameManager{
+	class TIN_API GameManager{
 		public:
 		static GameManager* Instantiate();
 		static GameManager* GetCurrentInstance();

@@ -33,7 +33,7 @@ set(TIN_MODULES_DEPS_ANIMATION "Sprite")
 
 #==Module Activation==#
 set(TIN_SOURCE)
-set(TIN_HEADER)
+set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp")
 set(TIN_DEFINITIONS)
 
 set(TIN_ACTIVATION_QUEUE)
@@ -68,6 +68,10 @@ option(TIN_LINK_SDL_DYNAMIC "Link the SDL libraries dynamically to the engine." 
 
 set(BUILD_SHARED_LIBS ${TIN_BUILD_SHARED})
 add_library(tinEngine ${TIN_SOURCE})
+
+if (WIN32)
+	list(APPEND TIN_DEFINITIONS TIN_EXPORTS)
+endif()
 
 target_compile_features(tinEngine PUBLIC cxx_std_20)
 target_compile_definitions(tinEngine PRIVATE ${TIN_DEFINITIONS})

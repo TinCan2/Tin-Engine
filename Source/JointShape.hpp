@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	struct Vector2D;
@@ -12,7 +13,7 @@ namespace Tin {
 
 	typedef unsigned int UInt16;
 
-	class JointShape {
+	class TIN_API JointShape {
 		public:
 		JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center);
 

@@ -1,9 +1,10 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	typedef unsigned int UInt16;
 
-	struct Vector2D {
+	struct TIN_API Vector2D {
 		float x, y;
 
 		Vector2D();
@@ -18,26 +19,26 @@ namespace Tin {
 		constexpr static UInt16 UnitPixelEquivalent = 16;
 	};
 
-	Vector2D operator+(const Vector2D& a, const Vector2D& b);
+	TIN_API Vector2D operator+(const Vector2D& a, const Vector2D& b);
 
-	Vector2D operator+=(Vector2D& a, const Vector2D& b);
+	TIN_API Vector2D operator+=(Vector2D& a, const Vector2D& b);
 
-	Vector2D operator-(const Vector2D& a);
-	Vector2D operator-(const Vector2D& a, const Vector2D& b);
+	TIN_API Vector2D operator-(const Vector2D& a);
+	TIN_API Vector2D operator-(const Vector2D& a, const Vector2D& b);
 
-	Vector2D operator-=(Vector2D& a, const Vector2D& b);
+	TIN_API Vector2D operator-=(Vector2D& a, const Vector2D& b);
 
-	Vector2D operator*(const Vector2D& a, const float& b);
-	Vector2D operator*(const float& a, const Vector2D& b);
-	float operator*(const Vector2D& a, const Vector2D& b);
+	TIN_API Vector2D operator*(const Vector2D& a, const float& b);
+	TIN_API Vector2D operator*(const float& a, const Vector2D& b);
+	TIN_API float operator*(const Vector2D& a, const Vector2D& b);
 
-	float operator^(const Vector2D& a, const Vector2D& b);
+	TIN_API float operator^(const Vector2D& a, const Vector2D& b);
 
-	Vector2D operator*=(Vector2D& a, const float& b);
+	TIN_API Vector2D operator*=(Vector2D& a, const float& b);
 
-	Vector2D operator/(const Vector2D& a, const float& b);
+	TIN_API Vector2D operator/(const Vector2D& a, const float& b);
 
-	Vector2D operator/=(Vector2D& a, const float& b);
+	TIN_API Vector2D operator/=(Vector2D& a, const float& b);
 
-	bool operator==(const Vector2D& a, const Vector2D& b);
+	TIN_API bool operator==(const Vector2D& a, const Vector2D& b);
 }

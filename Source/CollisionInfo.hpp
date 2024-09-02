@@ -1,9 +1,10 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	struct Vector2D;
 
-	class CollisionInfo {
+	class TIN_API CollisionInfo {
 		public:
 		CollisionInfo();
 
