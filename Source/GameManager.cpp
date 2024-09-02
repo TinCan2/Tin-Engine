@@ -1,11 +1,23 @@
 #include "Camera.hpp"
 #include "Color.hpp"
-#include "Painter.hpp"
-#include "PhysicalObject.hpp"
-#include "InputManager.hpp"
 #include "GameManager.hpp"
-#include "Sprite.hpp"
 #include <SDL.h>
+
+#ifdef TIN_MODULES_INCLUDE_INPUT
+	#include "InputManager.hpp"
+#endif
+
+#ifdef TIN_MODULES_INCLUDE_PAINTER
+	#include "Painter.hpp"
+#endif
+
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "PhysicalObject.hpp"
+#endif
+
+#ifdef TIN_MODULES_INCLUDE_SPRITE
+	#include "Sprite.hpp"
+#endif
 
 using namespace Tin;
 
@@ -32,9 +44,15 @@ void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
-	Painter::boundedRenderer = this->mainRenderer;
-	InputManager::currentManager = new InputManager();
-	Sprite::boundedRenderer = this->mainRenderer;
+	#ifdef TIN_MODULES_INCLUDE_INPUT
+		InputManager::currentManager = new InputManager();
+	#endif
+	#ifdef TIN_MODULES_INCLUDE_PAINTER
+		Painter::boundedRenderer = this->mainRenderer;
+	#endif
+	#ifdef TIN_MODULES_INCLUDE_SPRITE
+		Sprite::boundedRenderer = this->mainRenderer;
+	#endif
 }
 
 void GameManager::Handle() {
@@ -65,7 +83,9 @@ void GameManager::Render() {
 }
 
 void GameManager::Terminate() {
-	delete InputManager::currentManager;
+	#ifdef TIN_MODULES_INCLUDE_INPUT
+		delete InputManager::currentManager;
+	#endif
 	delete Camera::activeCamera;
 
 	SDL_DestroyRenderer(this->mainRenderer);

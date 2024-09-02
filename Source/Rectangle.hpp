@@ -3,9 +3,11 @@
 namespace Tin {
 	struct Vector2D;
 
-	class CollisionInfo;
-	class Circle;
-	class JointShape;
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		class CollisionInfo;
+		class Circle;
+		class JointShape;
+	#endif
 
 	class Rectangle {
 		public:
@@ -24,12 +26,16 @@ namespace Tin {
 		void SetExtents(const Vector2D& extents);
 		void SetOrientation(const float& orientation);
 
-		bool CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const;
-		bool CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
-		bool CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const;
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			bool CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const;
+			bool CollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
+			bool CollidesWith(const JointShape& otherShape, CollisionInfo* const& collisionInfo) const;
+		#endif
 
 		private:
-		static void LiangBarsky(Vector2D* p1, Vector2D* p2, const Vector2D& extents);
+		#ifdef
+			static void LiangBarsky(Vector2D* p1, Vector2D* p2, const Vector2D& extents);
+		#endif
 
 		Vector2D* center;
 		Vector2D* extents;
