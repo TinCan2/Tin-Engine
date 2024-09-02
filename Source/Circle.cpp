@@ -52,7 +52,7 @@ void Circle::SetRadius(const float& radius) {
 
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
-//Collision Detection
+	//Collision Detection
 	bool Circle::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const{
 		Vector2D dir = otherShape.GetCenter() - this->GetCenter();
 		float rS = this->GetRadius();

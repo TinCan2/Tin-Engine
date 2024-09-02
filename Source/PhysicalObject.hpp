@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <vector>
 
 namespace Tin {
@@ -13,7 +14,7 @@ namespace Tin {
 	typedef unsigned char UInt8;
 	typedef unsigned long long UInt64;
 
-	class PhysicalObject {
+	class TIN_API PhysicalObject {
 		public:
 		PhysicalObject(const Circle& collider, const float& mass);
 		PhysicalObject(const Rectangle& collider, const float& mass);
@@ -68,6 +69,7 @@ namespace Tin {
 
 		static std::vector<PhysicalObject*> bodyList;
 
-		static UInt64 lastFrame, currentFrame;
+		static UInt64 lastFrame;
+		static UInt64 currentFrame;
 	};
 }

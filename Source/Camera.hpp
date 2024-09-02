@@ -1,11 +1,12 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	struct Vector2D;
 
 	typedef unsigned int UInt16;
 
-	class Camera {
+	class TIN_API Camera {
 		public:
 		static Camera* GetCurrentInstance();
 

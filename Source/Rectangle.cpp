@@ -64,6 +64,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 	this->orientation = orientation;
 }
 
+
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	//Collision Helpers
 	void Rectangle::LiangBarsky(Vector2D* p1, Vector2D* p2, const Vector2D& extents) {

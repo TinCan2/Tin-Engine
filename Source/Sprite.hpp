@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <map>
 
 struct SDL_Renderer;
@@ -9,7 +10,7 @@ namespace Tin {
 
 	struct Vector2D;
 
-	class Sprite {
+	class TIN_API Sprite {
 		public:
 		Sprite(const char* targetFile);
 		Sprite(const char* targetFile, const Vector2D& origin);

@@ -2,8 +2,8 @@
 #include "Sprite.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <stdexcept>
 
 using namespace Tin;

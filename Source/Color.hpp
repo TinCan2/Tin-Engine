@@ -1,9 +1,10 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
 	typedef unsigned char UInt8;
 
-	struct Color {
+	struct TIN_API Color {
 		UInt8 r, g, b, a;
 
 		Color();

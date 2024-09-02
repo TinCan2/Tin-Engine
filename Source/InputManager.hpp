@@ -1,7 +1,8 @@
 #pragma once
+#include "DllMacro.hpp"
 
 namespace Tin {
-	class InputManager {
+	class TIN_API InputManager {
 		public:
 		static InputManager* GetCurrentManager();
 

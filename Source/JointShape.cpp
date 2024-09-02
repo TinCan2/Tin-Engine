@@ -9,6 +9,7 @@
 	#include "CollisionInfo.hpp"
 #endif
 
+
 using namespace Tin;
 
 //Enclosure Functions
@@ -248,8 +249,8 @@ Circle JointShape::GetEnclosure() const {
 }
 
 
-//Collision Detection
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
+	//Collision Detection
 	bool JointShape::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const {
 		if (!this->enclosure->CollidesWith(otherShape, nullptr)) return false;
 

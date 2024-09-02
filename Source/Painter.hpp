@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 
 struct SDL_Renderer;
 
@@ -10,7 +11,7 @@ namespace Tin {
 	class JointShape;
 	class Rectangle;
 
-	class Painter {
+	class TIN_API Painter {
 		public:
 		Painter();
 		Painter(const Color& paintColor);

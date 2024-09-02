@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <memory>
 
 namespace Tin {
@@ -7,7 +8,7 @@ namespace Tin {
 	class Sprite;
 	struct Vector2D;
 
-	class Animation {
+	class TIN_API Animation {
 		public:
 		Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength);
 		Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength, const Vector2D& origin);
