@@ -33,7 +33,7 @@ namespace Tin {
 		#endif
 
 		private:
-		#ifdef
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
 			static void LiangBarsky(Vector2D* p1, Vector2D* p2, const Vector2D& extents);
 		#endif
 

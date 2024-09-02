@@ -4,6 +4,7 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <algorithm>
 
 #include "Painter.hpp"
 
