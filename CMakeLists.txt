@@ -31,6 +31,17 @@ set(TIN_MODULES_DEPS_PHYSICS "CollisionInfo" "PhysicalObject")
 set(TIN_MODULES_DEPS_ANIMATION "Sprite")
 
 
+#==Demo Definitions==#
+option(TIN_BUILD_DEMOS "Build the demo executables." OFF)
+set(TIN_DEMO_LIST "Core")
+
+if (${TIN_BUILD_DEMOS})
+	foreach(module ${TIN_MODULES})
+		set(TIN_MODULES_INCLUDE_${module} ON)
+	endforeach()
+endif()
+
+
 #==Module Activation==#
 set(TIN_SOURCE)
 set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp")
@@ -103,7 +114,7 @@ endif()
 target_link_libraries(tinEngine PRIVATE ${TIN_LINK_LIST})
 
 
-#==Output Config==#
+#==Library Output Config==#
 set(TIN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/Tin-Engine Build")
 
 set_target_properties(tinEngine PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/lib")
@@ -126,3 +137,15 @@ endif()
 
 file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
 add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
+
+
+#==Demo Generation==#
+if (${TIN_BUILD_DEMOS})
+	foreach(demo ${TIN_DEMO_LIST})
+		add_executable("${demo}Demo" "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}Demo.cpp")
+
+		target_link_libraries("${demo}Demo" PRIVATE tinEngine)
+		target_include_directories("${demo}Demo" PRIVATE "${TIN_OUTPUT_DIR}/include")
+		set_target_properties("${demo}Demo" PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/demos")
+	endforeach()
+endif()
