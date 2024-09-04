@@ -5,6 +5,7 @@
 
 #ifdef TIN_MODULES_INCLUDE_INPUT
 	#include "InputManager.hpp"
+	#include "KeyboardManager.hpp"
 #endif
 
 #ifdef TIN_MODULES_INCLUDE_PAINTER
@@ -18,6 +19,8 @@
 #ifdef TIN_MODULES_INCLUDE_SPRITE
 	#include "Sprite.hpp"
 #endif
+
+#include <iostream>
 
 using namespace Tin;
 
@@ -46,6 +49,7 @@ void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h
 	Camera::activeCamera = new Camera(w, h);
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		InputManager::currentManager = new InputManager();
+		KeyboardManager::currentManager = new KeyboardManager();
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;
@@ -62,6 +66,8 @@ void GameManager::Handle() {
 	}
 
 	SDL_RenderClear(this->mainRenderer);
+
+	KeyboardManager::GetCurrentManager()->PushBuffer();
 
 	SDL_Event currentEvent;
 	while (SDL_PollEvent(&currentEvent)) {
@@ -87,6 +93,7 @@ void GameManager::Render() {
 void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		delete InputManager::currentManager;
+		delete KeyboardManager::currentManager;
 	#endif
 	delete Camera::activeCamera;
 
