@@ -6,6 +6,7 @@
 #ifdef TIN_MODULES_INCLUDE_INPUT
 	#include "InputManager.hpp"
 	#include "KeyboardManager.hpp"
+	#include "MouseManager.hpp"
 #endif
 
 #ifdef TIN_MODULES_INCLUDE_PAINTER
@@ -50,6 +51,7 @@ void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		InputManager::currentManager = new InputManager();
 		KeyboardManager::currentManager = new KeyboardManager();
+		MouseManager::currentManager = new MouseManager();
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;
@@ -94,6 +96,7 @@ void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		delete InputManager::currentManager;
 		delete KeyboardManager::currentManager;
+		delete MouseManager::currentManager;
 	#endif
 	delete Camera::activeCamera;
 

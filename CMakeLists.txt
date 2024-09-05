@@ -15,7 +15,7 @@ option(TIN_MODULES_INCLUDE_PHYSICS "Include the physics module." ON)
 option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
 
 set(TIN_MODULES_FILES_CORE "GameManager" "Vector2D" "Camera" "Color")
-set(TIN_MODULES_FILES_INPUT "InputManager" "KeyboardManager")
+set(TIN_MODULES_FILES_INPUT "InputManager" "KeyboardManager" "MouseManager")
 set(TIN_MODULES_FILES_SHAPES "Circle" "Rectangle" "JointShape")
 set(TIN_MODULES_FILES_SPRITE "Sprite")
 set(TIN_MODULES_FILES_PAINTER "Painter")
@@ -33,7 +33,7 @@ set(TIN_MODULES_DEPS_ANIMATION "Sprite")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables." OFF)
-set(TIN_DEMO_LIST "Core" "Input" "LastKey")
+set(TIN_DEMO_LIST "Core" "Input" "LastKey" "Mouse")
 
 if (${TIN_BUILD_DEMOS})
 	foreach(module ${TIN_MODULES})
