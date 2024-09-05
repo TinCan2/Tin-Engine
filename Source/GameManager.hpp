@@ -1,5 +1,6 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 
 struct SDL_Window;
 struct SDL_Renderer;

@@ -1,6 +1,7 @@
 #pragma once
 #include "DllMacro.hpp"
 #include <memory>
+#include <cstdint>
 
 namespace Tin {
 	typedef unsigned int uint16_t;

@@ -1,5 +1,6 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 
 namespace Tin {
 	struct Vector2D;
