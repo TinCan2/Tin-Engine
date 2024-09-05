@@ -33,7 +33,7 @@ set(TIN_MODULES_DEPS_ANIMATION "Sprite")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables." OFF)
-set(TIN_DEMO_LIST "Core" "Input")
+set(TIN_DEMO_LIST "Core" "Input" "LastKey")
 
 if (${TIN_BUILD_DEMOS})
 	foreach(module ${TIN_MODULES})

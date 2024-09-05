@@ -37,6 +37,12 @@ bool KeyboardManager::KeyReleased(const char* keyName) {
 	return (!this->keyStates[scancode] && this->keyBuffer[scancode]);
 }
 
+const char* KeyboardManager::GetLastKey() {
+	for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
+		if (this->keyStates[i]) return SDL_GetKeyName(SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i)));
+	}
+	return "";
+}
 
 //Buffer Acces
 void KeyboardManager::PushBuffer() {
