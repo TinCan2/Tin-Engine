@@ -7,7 +7,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-Animation::Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength) {
+Animation::Animation(const char** targetFiles, const uint16_t& frameCount, const uint16_t& frameLength) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	this->frameCount = frameCount;
@@ -19,7 +19,7 @@ Animation::Animation(const char** targetFiles, const UInt16& frameCount, const U
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength, const Vector2D& origin) {
+Animation::Animation(const char** targetFiles, const uint16_t& frameCount, const uint16_t& frameLength, const Vector2D& origin) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	this->frameCount = frameCount;
@@ -31,13 +31,13 @@ Animation::Animation(const char** targetFiles, const UInt16& frameCount, const U
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, const UInt16& frameLength) {
+Animation::Animation(const char* targetSheet, const uint16_t& w, const uint16_t& h, const uint16_t& frameLength) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);
 
-	UInt16 columns = sheet.GetWidth()/w;
-	UInt16 rows = sheet.GetHeight()/h;
+	uint16_t columns = sheet.GetWidth()/w;
+	uint16_t rows = sheet.GetHeight()/h;
 
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
@@ -48,13 +48,13 @@ Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, 
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, const UInt16& frameLength, const Vector2D& origin) {
+Animation::Animation(const char* targetSheet, const uint16_t& w, const uint16_t& h, const uint16_t& frameLength, const Vector2D& origin) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);
 
-	UInt16 columns = sheet.GetWidth()/w;
-	UInt16 rows = sheet.GetHeight()/h;
+	uint16_t columns = sheet.GetWidth()/w;
+	uint16_t rows = sheet.GetHeight()/h;
 
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
@@ -96,6 +96,6 @@ Animation::~Animation() {
 
 //Renderer Access
 void Animation::DrawFrame(const Vector2D& position, const bool& flipH, const bool& flipV, const float& rotation) const {
-	UInt16 currentFrame = (GameManager::GetCurrentInstance()->GetFrameCount() / this->frameLength) % this->frameCount;
+	uint16_t currentFrame = (GameManager::GetCurrentInstance()->GetFrameCount() / this->frameLength) % this->frameCount;
 	this->frames[currentFrame]->Draw(position, flipH, flipV, rotation);
 }
