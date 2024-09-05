@@ -67,7 +67,7 @@ namespace Tin {
 
 		friend class GameManager;
 
-		const unsigned char* keyStates;
+		const uint8_t* keyStates;
 
 		static InputManager* currentManager;
 	};
