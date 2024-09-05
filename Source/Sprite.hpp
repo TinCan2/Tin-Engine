@@ -6,16 +6,15 @@ struct SDL_Renderer;
 struct SDL_Texture;
 
 namespace Tin {
-	typedef unsigned int UInt16;
 
 	struct Vector2D;
 
 	class TIN_API Sprite {
 		public:
-		Sprite(const char* targetFile);
-		Sprite(const char* targetFile, const Vector2D& origin);
-		Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h);
-		Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h, const Vector2D& origin);
+		Sprite(const char* file);
+		Sprite(const char* file, const Vector2D& origin);
+		Sprite(const char* file, const uint16_t& x, const uint16_t& y, const uint16_t& w, const uint16_t& h);
+		Sprite(const char* file, const uint16_t& x, const uint16_t& y, const uint16_t& w, const uint16_t& h, const Vector2D& origin);
 
 		Sprite(const Sprite& coppiedSprite);
 		Sprite& operator=(const Sprite& coppiedSprite);
@@ -24,21 +23,21 @@ namespace Tin {
 
 		void Draw(const Vector2D& position, const bool& flipH=false, const bool& flipV=false, const float& rotation = 0) const;
 
-		UInt16 GetWidth() const;
-		UInt16 GetHeight() const;
+		uint16_t GetWidth() const;
+		uint16_t GetHeight() const;
 
 		private:
 		const char* boundTexture;
 
-		UInt16 x, y, w ,h;
+		uint16_t x, y, w ,h;
 
 		Vector2D* origin;
 
-		static void GenerateTexture(const char* targetFile);
+		static void GenerateTexture(const char* file);
 
 		friend class GameManager;
 
 		static SDL_Renderer* boundedRenderer;
-		static std::map<const char*, std::pair<SDL_Texture*, UInt16>*> textureMap;
+		static std::map<const char*, std::pair<SDL_Texture*, uint16_t>*> textureMap;
 	};
 }
