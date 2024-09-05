@@ -31,6 +31,28 @@ int main(int argc, char* argv[]) {
 
 		Vector2D mousePos = mouseManager->GetMousePosition();
 		std::cout << "Mouse position: " << mousePos.x << ";" << mousePos.y << std::endl;
+
+		std::cout << "Current button: ";
+		switch (mouseManager->GetLastButton()) {
+			case MouseManager::Buttons::Left:
+				std::cout << "Left" << std::endl;
+				break;
+			case MouseManager::Buttons::Middle:
+				std::cout << "Middle" << std::endl;
+				break;
+			case MouseManager::Buttons::Right:
+				std::cout << "Right" << std::endl;
+				break;
+			case MouseManager::Buttons::SideBack:
+				std::cout << "SideBack" << std::endl;
+				break;
+			case MouseManager::Buttons::SideFront:
+				std::cout << "SideFront" << std::endl;
+				break;
+			case MouseManager::Buttons::None:
+				std::cout << "None" << std::endl;
+				break;
+		}
 		gameManager->Update();
 		gameManager->Render();
 	}
