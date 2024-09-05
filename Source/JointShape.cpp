@@ -58,7 +58,7 @@ Circle JointShape::CircleFrom3(const Circle& circleA, const Circle& circleB, con
     return Circle(center, r);
 }
 
-Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
+Circle JointShape::Welzl(Circle** P, const uint16_t& pCount, Circle** R, const uint16_t& rCount) {
     if (pCount == 0 || rCount == 3) {
         switch (rCount) {
         	case 1:
@@ -83,7 +83,7 @@ Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UIn
     if ((D.GetCenter() - p->GetCenter()).GetMagnitude2() < r * r) return D;
 
     Circle** Rnew = new Circle*[rCount + 1];
-    for (UInt16 i = 0; i < rCount; i++) Rnew[i] = R[i];
+    for (uint16_t i = 0; i < rCount; i++) Rnew[i] = R[i];
     Rnew[rCount] = p;
     Circle result = Welzl(P, pCount - 1, Rnew, rCount + 1);
     delete[] Rnew;
@@ -92,17 +92,17 @@ Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UIn
 
 
 //Construction and Destruction
-JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center) {
+JointShape::JointShape(Circle* cSubs, const uint16_t& cCount, Rectangle* rSubs, const uint16_t& rCount, const Vector2D& center) {
 	this->circleCount = cCount;
 	if (cCount != 0) {
 		this->circleSubs = new Circle*[cCount];
-		for (UInt16 i = 0; i < cCount; i++) this->circleSubs[i] = new Circle(cSubs[i]);
+		for (uint16_t i = 0; i < cCount; i++) this->circleSubs[i] = new Circle(cSubs[i]);
 	}
 
 	this->rectangleCount = rCount;
 	if (rCount != 0) {
 		this->rectangleSubs = new Rectangle*[rCount];
-		for (UInt16 i = 0; i < rCount; i++) this->rectangleSubs[i] = new Rectangle(rSubs[i]);
+		for (uint16_t i = 0; i < rCount; i++) this->rectangleSubs[i] = new Rectangle(rSubs[i]);
 	}
 
 	this->center = new Vector2D(center);
@@ -121,13 +121,13 @@ JointShape::JointShape(const JointShape& copiedObject) {
 	this->circleCount = copiedObject.circleCount;
 	if (this->circleCount != 0) {
 		this->circleSubs = new Circle*[this->circleCount];
-		for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
+		for (uint16_t i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
 	}
 
 	this->rectangleCount = copiedObject.rectangleCount;
 	if (this->rectangleCount != 0) {
 		this->rectangleSubs = new Rectangle*[this->rectangleCount];
-		for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
+		for (uint16_t i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
 	}
 
 	this->center = new Vector2D(*copiedObject.center);
@@ -138,25 +138,25 @@ JointShape::JointShape(const JointShape& copiedObject) {
 
 JointShape& JointShape::operator=(const JointShape& copiedObject) {
 	if (this->circleCount != 0) {
-		for (UInt16 i = 0; i < this->circleCount; i++) delete this->circleSubs[i];
+		for (uint16_t i = 0; i < this->circleCount; i++) delete this->circleSubs[i];
 		delete[] this-> circleSubs;
 	}
 
 	if (this->rectangleCount != 0) {
-		for (UInt16 i = 0; i < this->rectangleCount; i++) delete this->rectangleSubs[i];
+		for (uint16_t i = 0; i < this->rectangleCount; i++) delete this->rectangleSubs[i];
 		delete[] this-> rectangleSubs;
 	}
 
 	this->circleCount = copiedObject.circleCount;
 	if (this->circleCount != 0) {
 		this->circleSubs = new Circle*[this->circleCount];
-		for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
+		for (uint16_t i = 0; i < this->circleCount; i++) this->circleSubs[i] = new Circle(*copiedObject.circleSubs[i]);
 	}
 
 	this->rectangleCount = copiedObject.rectangleCount;
 	if (this->rectangleCount != 0) {
 		this->rectangleSubs = new Rectangle*[this->rectangleCount];
-		for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
+		for (uint16_t i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i] = new Rectangle(*copiedObject.rectangleSubs[i]);
 	}
 
 	*this->center = *copiedObject.center;
@@ -169,12 +169,12 @@ JointShape& JointShape::operator=(const JointShape& copiedObject) {
 
 JointShape::~JointShape() {
 	if (this->circleCount != 0) {
-		for (UInt16 i = 0; i < this->circleCount; i++) delete this->circleSubs[i];
+		for (uint16_t i = 0; i < this->circleCount; i++) delete this->circleSubs[i];
 		delete[] this-> circleSubs;
 	}
 
 	if (this->rectangleCount != 0) {
-		for (UInt16 i = 0; i < this->rectangleCount; i++) delete this->rectangleSubs[i];
+		for (uint16_t i = 0; i < this->rectangleCount; i++) delete this->rectangleSubs[i];
 		delete[] this-> rectangleSubs;
 	}
 
@@ -186,8 +186,8 @@ JointShape::~JointShape() {
 void JointShape::SetCenter(const Vector2D& center) {
 	Vector2D displacement = center-*this->center;
 
-	for (UInt16 i = 0; i < this->circleCount; i++) this->circleSubs[i]->SetCenter(this->circleSubs[i]->GetCenter() + displacement);
-	for (UInt16 i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i]->SetCenter(this->rectangleSubs[i]->GetCenter() + displacement);
+	for (uint16_t i = 0; i < this->circleCount; i++) this->circleSubs[i]->SetCenter(this->circleSubs[i]->GetCenter() + displacement);
+	for (uint16_t i = 0; i < this->rectangleCount; i++) this->rectangleSubs[i]->SetCenter(this->rectangleSubs[i]->GetCenter() + displacement);
 	this->enclosure->SetCenter(this->enclosure->GetCenter() + displacement);
 
 	*this->center = center;
@@ -200,13 +200,13 @@ Vector2D JointShape::GetCenter() const {
 void JointShape::SetOrientation(const float& orientation) {
 	float theta = orientation - this->orientation;
 
-	for (UInt16 i = 0; i < this->circleCount; i++) {
+	for (uint16_t i = 0; i < this->circleCount; i++) {
 		Vector2D localCenter = this->circleSubs[i]->GetCenter() - this->GetCenter();
 		Vector2D tLoc = localCenter.x*Vector2D(cos(theta),sin(theta)) + localCenter.y*Vector2D(-sin(theta),cos(theta));
 		this->circleSubs[i]->SetCenter(this->GetCenter()+tLoc);
 	}
 
-	for (UInt16 i = 0; i < this->rectangleCount; i++) {
+	for (uint16_t i = 0; i < this->rectangleCount; i++) {
 		Vector2D localCenter = this->rectangleSubs[i]->GetCenter() - this->GetCenter();
 		Vector2D tLoc = localCenter.x*Vector2D(cos(theta),sin(theta)) + localCenter.y*Vector2D(-sin(theta),cos(theta));
 		this->rectangleSubs[i]->SetCenter(this->GetCenter()+tLoc);
@@ -226,19 +226,19 @@ float JointShape::GetOrientation() const {
 
 
 //Colider Access
-UInt16 JointShape::GetCircleCount() const {
+uint16_t JointShape::GetCircleCount() const {
 	return this->circleCount;
 }
 
-Circle JointShape::GetCircle(const UInt16& index) const {
+Circle JointShape::GetCircle(const uint16_t& index) const {
 	return *this->circleSubs[index];
 }
 
-UInt16 JointShape::GetRectangleCount() const {
+uint16_t JointShape::GetRectangleCount() const {
 	return this->rectangleCount;
 }
 
-Rectangle JointShape::GetRectangle(const UInt16& index) const {
+Rectangle JointShape::GetRectangle(const uint16_t& index) const {
 	return *this->rectangleSubs[index];
 }
 
@@ -255,10 +255,10 @@ Circle JointShape::GetEnclosure() const {
 		if (!this->enclosure->CollidesWith(otherShape, nullptr)) return false;
 
 		if (collisionInfo == nullptr) {
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
 			return false;
@@ -266,7 +266,7 @@ Circle JointShape::GetEnclosure() const {
 		else {
 			CollisionInfo deepestCollision;
 			bool overlapping = false;
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
@@ -274,7 +274,7 @@ Circle JointShape::GetEnclosure() const {
 				if (deeper) deepestCollision = currentCollision;
 			}
 
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
@@ -292,10 +292,10 @@ Circle JointShape::GetEnclosure() const {
 		if (!this->enclosure->CollidesWith(rectEnclosure, nullptr)) return false;
 
 		if (collisionInfo == nullptr) {
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
 			return false;
@@ -303,7 +303,7 @@ Circle JointShape::GetEnclosure() const {
 		else {
 			CollisionInfo deepestCollision;
 			bool overlapping = false;
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
@@ -311,7 +311,7 @@ Circle JointShape::GetEnclosure() const {
 				if (deeper) deepestCollision = currentCollision;
 			}
 
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
@@ -328,10 +328,10 @@ Circle JointShape::GetEnclosure() const {
 		if (!this->enclosure->CollidesWith(otherShape.GetEnclosure(), nullptr)) return false;
 
 		if (collisionInfo == nullptr) {
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr)) return true;
 			}
 			return false;
@@ -339,7 +339,7 @@ Circle JointShape::GetEnclosure() const {
 		else {
 			CollisionInfo deepestCollision;
 			bool overlapping = false;
-			for (UInt16 i = 0; i < this->circleCount; i++) {
+			for (uint16_t i = 0; i < this->circleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->circleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
@@ -347,7 +347,7 @@ Circle JointShape::GetEnclosure() const {
 				if (deeper) deepestCollision = currentCollision;
 			}
 
-			for (UInt16 i = 0; i < this->rectangleCount; i++) {
+			for (uint16_t i = 0; i < this->rectangleCount; i++) {
 				CollisionInfo currentCollision;
 				overlapping |= this->rectangleSubs[i]->CollidesWith(otherShape, &currentCollision);
 
