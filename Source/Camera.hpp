@@ -1,10 +1,9 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 
 namespace Tin {
 	struct Vector2D;
-
-	typedef unsigned int UInt16;
 
 	class TIN_API Camera {
 		public:
@@ -16,7 +15,7 @@ namespace Tin {
 		Vector2D GetExtents() const;
 
 		private:
-		Camera(const UInt16& w, const UInt16& h);
+		Camera(const uint16_t& w, const uint16_t& h);
 		~Camera();
 
 		friend class GameManager;

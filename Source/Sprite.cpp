@@ -12,7 +12,7 @@ using namespace Tin;
 void Sprite::GenerateTexture(const char* targetFile) {
 	SDL_Texture* texture = IMG_LoadTexture(Sprite::boundedRenderer, targetFile);
 	if (texture == nullptr) throw std::runtime_error("The requested texture could not be generated");
-	Sprite::textureMap[targetFile] = new std::pair<SDL_Texture*, UInt16>(texture, 0);
+	Sprite::textureMap[targetFile] = new std::pair<SDL_Texture*, uint16_t>(texture, 0);
 }
 
 
@@ -51,7 +51,7 @@ Sprite::Sprite(const char* targetFile, const Vector2D& origin) {
 	this->x = this->y = 0;
 }
 
-Sprite::Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h) {
+Sprite::Sprite(const char* targetFile, const uint16_t& x, const uint16_t& y, const uint16_t& w, const uint16_t& h) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
@@ -69,7 +69,7 @@ Sprite::Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const U
 	this->y = textureHeight-h-y;
 }
 
-Sprite::Sprite(const char* targetFile, const UInt16& x, const UInt16& y, const UInt16& w, const UInt16& h, const Vector2D& origin) {
+Sprite::Sprite(const char* targetFile, const uint16_t& x, const uint16_t& y, const uint16_t& w, const uint16_t& h, const Vector2D& origin) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
@@ -156,21 +156,23 @@ void Sprite::Draw(const Vector2D& position, const bool& flipH, const bool& flipV
     }
     else {
         float degRot = -180.0*rotation/M_PI;
-    	SDL_Point rotationPoint(Vector2D::UnitPixelEquivalent*this->origin->x, this->h - Vector2D::UnitPixelEquivalent*this->origin->y);
-    	SDL_RenderCopyEx(boundedRenderer, textureMap[this->boundTexture]->first, &sourceRect, &destRect, degRot, &rotationPoint, flip);
+        float UPE = Vector2D::UnitPixelEquivalent;
+    	SDL_Point rotationPoint(UPE*this->origin->x, this->h - UPE*this->origin->y);
+    	SDL_Texture texture = textureMap[this->boundTexture]->first;
+    	SDL_RenderCopyEx(boundedRenderer, texture, &sourceRect, &destRect, degRot, &rotationPoint, flip);
     }
 }
 
 
 //Dimension Access
-UInt16 Sprite::GetWidth() const {
+uint16_t Sprite::GetWidth() const {
 	return this->w;
 }
 
-UInt16 Sprite::GetHeight() const {
+uint16_t Sprite::GetHeight() const {
 	return this->h;
 }
 
 //Statics
 SDL_Renderer* Sprite::boundedRenderer;
-std::map<const char*, std::pair<SDL_Texture*, UInt16>*> Sprite::textureMap;
+std::map<const char*, std::pair<SDL_Texture*, uint16_t>*> Sprite::textureMap;
