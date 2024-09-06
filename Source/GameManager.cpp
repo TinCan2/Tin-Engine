@@ -3,6 +3,10 @@
 #include "GameManager.hpp"
 #include <SDL.h>
 
+#ifdef TIN_MODULES_INCLUDE_FUNCTIONALS
+	#include "FunctionalObject.hpp"
+#endif
+
 #ifdef TIN_MODULES_INCLUDE_INPUT
 	#include "KeyboardManager.hpp"
 	#include "MouseManager.hpp"
@@ -85,6 +89,10 @@ void GameManager::Handle() {
 void GameManager::Update() {
 	#ifdef TIN_MODULES_INCLUDE_PHYSICS
 		PhysicalObject::UpdateBodies();
+	#endif
+
+	#ifdef TIN_MODULES_INCLUDE_FUNCTIONALS
+		FunctionalObject::UpdateObjects();
 	#endif
 }
 
