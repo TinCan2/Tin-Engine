@@ -431,4 +431,4 @@ void PhysicalObject::UpdateBodies() {
 //Statics
 std::vector<PhysicalObject*> PhysicalObject::bodyList;
 
-UInt64 PhysicalObject::lastFrame = 0, PhysicalObject::currentFrame = 0;
+uint64_t PhysicalObject::lastFrame = 0, PhysicalObject::currentFrame = 0;

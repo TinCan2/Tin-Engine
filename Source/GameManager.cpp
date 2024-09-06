@@ -67,8 +67,10 @@ void GameManager::Handle() {
 
 	SDL_RenderClear(this->mainRenderer);
 
-	KeyboardManager::GetCurrentManager()->PushBuffer();
-	MouseManager::GetCurrentManager()->PushBuffer();
+	#ifdef TIN_MODULES_INCLUDE_INPUT
+		KeyboardManager::GetCurrentManager()->PushBuffer();
+		MouseManager::GetCurrentManager()->PushBuffer();
+	#endif
 
 	SDL_Event currentEvent;
 	while (SDL_PollEvent(&currentEvent)) {

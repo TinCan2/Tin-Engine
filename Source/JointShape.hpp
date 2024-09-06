@@ -12,8 +12,6 @@ namespace Tin {
 	class Circle;
 	class Rectangle;
 
-	typedef unsigned int uint16_t;
-
 	class TIN_API JointShape {
 		public:
 		JointShape(Circle* cSubs, const uint16_t& cCount, Rectangle* rSubs, const uint16_t& rCount, const Vector2D& center);

@@ -158,7 +158,7 @@ void Sprite::Draw(const Vector2D& position, const bool& flipH, const bool& flipV
         float degRot = -180.0*rotation/M_PI;
         float UPE = Vector2D::UnitPixelEquivalent;
     	SDL_Point rotationPoint(UPE*this->origin->x, this->h - UPE*this->origin->y);
-    	SDL_Texture texture = textureMap[this->boundTexture]->first;
+    	SDL_Texture* texture = textureMap[this->boundTexture]->first;
     	SDL_RenderCopyEx(boundedRenderer, texture, &sourceRect, &destRect, degRot, &rotationPoint, flip);
     }
 }

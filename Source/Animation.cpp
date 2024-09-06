@@ -96,6 +96,6 @@ Animation::~Animation() {
 
 //Renderer Access
 void Animation::DrawFrame(const Vector2D& position, const bool& flipH, const bool& flipV, const float& rotation) const {
-	uint16_t currentFrame = (GameManager::GetCurrentInstance()->GetFrameCount() / this->frameLength) % this->frameCount;
+	uint16_t currentFrame = (GameManager::GetCurrentManager()->GetFrameCount() / this->frameLength) % this->frameCount;
 	this->frames[currentFrame]->Draw(position, flipH, flipV, rotation);
 }

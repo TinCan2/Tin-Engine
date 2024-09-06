@@ -4,7 +4,6 @@
 #include <cstdint>
 
 namespace Tin {
-	typedef unsigned int uint16_t;
 
 	class Sprite;
 	struct Vector2D;
