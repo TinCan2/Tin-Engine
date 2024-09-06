@@ -74,7 +74,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 		float t1 = 0, t2 = 1;
 
-		for (UInt16 i = 0; i < 4; i++) {
+		for (size_t i = 0; i < 4; i++) {
 			if (p[i] == 0) continue;
 			float t = q[i]/p[i];
 			(p[i] < 0) ? t1 = std::max(t, t1) : t2 = std::min(t, t2);
@@ -162,7 +162,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 		float eps = 0.1/Vector2D::UnitPixelEquivalent;
 
-		for (UInt16 i = 0; i < 4; i ++) {
+		for (size_t i = 0; i < 4; i ++) {
 			float prH = (vertO[i]-cS)*axSh;
 			if (prH < hProjection.first) hProjection.first = prH;
 			if (prH > hProjection.second) hProjection.second = prH;
@@ -193,7 +193,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 		hProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
 		vProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
 
-		for (UInt16 i = 0; i < 4; i ++) {
+		for (size_t i = 0; i < 4; i ++) {
 			float prH = (vertS[i]-cO)*axOh;
 			if (prH < hProjection.first) hProjection.first = prH;
 			if (prH > hProjection.second) hProjection.second = prH;
@@ -231,7 +231,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			std::pair<Vector2D, Vector2D> locInc;
 			UInt16 deepestIndex = 0;
 			if (referSelf) {
-				for (UInt16 i = 1; i < 4; i++) if ((vertO[i]-cO)*minNormal < minNormal*(vertO[deepestIndex]-cO)) deepestIndex = i;
+				for (size_t i = 1; i < 4; i++) if ((vertO[i]-cO)*minNormal < minNormal*(vertO[deepestIndex]-cO)) deepestIndex = i;
 				incidentFace.first = vertO[deepestIndex];
 				if (fabs(axOh*minNormal) < fabs(axOv*minNormal))incidentFace.second = vertO[3-deepestIndex];
 				else incidentFace.second = vertO[(1-deepestIndex%2)+2*(deepestIndex/2)];
@@ -250,7 +250,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 				incidentFace.second = cS + locInc.second;
 			}
 			else {
-				for (UInt16 i = 1; i < 4; i++) if ((vertS[i]-cS)*minNormal < minNormal*(vertS[deepestIndex]-cS)) deepestIndex = i;
+				for (size_t i = 1; i < 4; i++) if ((vertS[i]-cS)*minNormal < minNormal*(vertS[deepestIndex]-cS)) deepestIndex = i;
 				incidentFace.first = vertS[deepestIndex];
 				if (fabs(axSh*minNormal) < fabs(axSv*minNormal)) incidentFace.second = vertS[3-deepestIndex];
 				else incidentFace.second = vertS[(1-deepestIndex%2)+2*(deepestIndex/2)];
