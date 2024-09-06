@@ -12,7 +12,7 @@ Animation::Animation(const char** targetFiles, const uint16_t& frameCount, const
 
 	this->frameCount = frameCount;
 	this->frames = new std::shared_ptr<Sprite>[frameCount];
-	for (int i = 0; i < frameCount; i++) {
+	for (size_t i = 0; i < frameCount; i++) {
 		this->frames[i] = std::make_shared<Sprite>(targetFiles[i]);
 	}
 
@@ -24,7 +24,7 @@ Animation::Animation(const char** targetFiles, const uint16_t& frameCount, const
 
 	this->frameCount = frameCount;
 	this->frames = new std::shared_ptr<Sprite>[frameCount];
-	for (int i = 0; i < frameCount; i++) {
+	for (size_t i = 0; i < frameCount; i++) {
 		this->frames[i] = std::make_shared<Sprite>(targetFiles[i], origin);
 	}
 
@@ -41,8 +41,8 @@ Animation::Animation(const char* targetSheet, const uint16_t& w, const uint16_t&
 
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
-	for (int i = 0; i < rows; i++){
-		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h);
+	for (size_t i = 0; i < rows; i++){
+		for (size_t j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h);
 	}
 
 	this->frameLength = frameLength;
@@ -58,8 +58,8 @@ Animation::Animation(const char* targetSheet, const uint16_t& w, const uint16_t&
 
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
-	for (int i = 0; i < rows; i++){
-		for (int j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h, origin);
+	for (size_t i = 0; i < rows; i++){
+		for (size_t j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h, origin);
 	}
 
 	this->frameLength = frameLength;
@@ -68,7 +68,7 @@ Animation::Animation(const char* targetSheet, const uint16_t& w, const uint16_t&
 Animation::Animation(const Animation& coppiedAnimation) {
 	this->frameCount = coppiedAnimation.frameCount;
 	this->frames = new std::shared_ptr<Sprite>[frameCount];
-	for (int i = 0; i < frameCount; i++) {
+	for (size_t i = 0; i < frameCount; i++) {
 		this->frames[i] = coppiedAnimation.frames[i];
 	}
 
@@ -80,7 +80,7 @@ Animation& Animation::operator=(const Animation& coppiedAnimation) {
 
 	this->frameCount = coppiedAnimation.frameCount;
 	this->frames = new std::shared_ptr<Sprite>[frameCount];
-	for (int i = 0; i < frameCount; i++) {
+	for (size_t i = 0; i < frameCount; i++) {
 		this->frames[i] = coppiedAnimation.frames[i];
 	}
 
