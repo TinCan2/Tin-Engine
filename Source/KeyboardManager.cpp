@@ -39,7 +39,7 @@ const char* KeyboardManager::GetKey() const {
 KeyboardManager::KeyboardManager() {
 	this->keyStates = SDL_GetKeyboardState(nullptr);
 	this->keyBuffer = new uint8_t[SDL_NUM_SCANCODES];
-	std::memcpy(this->keyBuffer, this->keyStates, SDL_NUM_SCANCODES*8);
+	std::memcpy(this->keyBuffer, this->keyStates, SDL_NUM_SCANCODES);
 }
 
 KeyboardManager::~KeyboardManager() {}
@@ -47,7 +47,7 @@ KeyboardManager::~KeyboardManager() {}
 
 //Buffer Acces
 void KeyboardManager::PushBuffer() {
-	std::memcpy(this->keyBuffer, this->keyStates, SDL_NUM_SCANCODES*8);
+	std::memcpy(this->keyBuffer, this->keyStates, SDL_NUM_SCANCODES);
 }
 
 
