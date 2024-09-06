@@ -4,7 +4,6 @@
 #include <SDL.h>
 
 #ifdef TIN_MODULES_INCLUDE_INPUT
-	#include "InputManager.hpp"
 	#include "KeyboardManager.hpp"
 #endif
 
@@ -25,13 +24,13 @@
 using namespace Tin;
 
 //Singleton Implementation
-GameManager* GameManager::Instantiate(){
+GameManager* GameManager::Instantiate() {
 	if (currentManager != nullptr) return nullptr;
 	currentManager = new GameManager();
 	return currentManager;
 }
 
-GameManager* GameManager::GetCurrentInstance(){
+GameManager* GameManager::GetCurrentInstance() {
 	return currentManager;
 }
 
@@ -48,7 +47,6 @@ void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h
 
 	Camera::activeCamera = new Camera(w, h);
 	#ifdef TIN_MODULES_INCLUDE_INPUT
-		InputManager::currentManager = new InputManager();
 		KeyboardManager::currentManager = new KeyboardManager();
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
@@ -92,7 +90,6 @@ void GameManager::Render() {
 
 void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
-		delete InputManager::currentManager;
 		delete KeyboardManager::currentManager;
 	#endif
 	delete Camera::activeCamera;
