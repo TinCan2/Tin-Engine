@@ -5,6 +5,7 @@
 
 #ifdef TIN_MODULES_INCLUDE_INPUT
 	#include "KeyboardManager.hpp"
+	#include "MouseManager.hpp"
 #endif
 
 #ifdef TIN_MODULES_INCLUDE_PAINTER
@@ -48,6 +49,7 @@ void GameManager::Initialize(const char* title, const UInt16& w, const UInt16& h
 	Camera::activeCamera = new Camera(w, h);
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		KeyboardManager::currentManager = new KeyboardManager();
+		MouseManager::currentManager = new MouseManager();
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;
@@ -66,6 +68,7 @@ void GameManager::Handle() {
 	SDL_RenderClear(this->mainRenderer);
 
 	KeyboardManager::GetCurrentManager()->PushBuffer();
+	MouseManager::GetCurrentInstance()->PushBuffer();
 
 	SDL_Event currentEvent;
 	while (SDL_PollEvent(&currentEvent)) {
@@ -91,6 +94,7 @@ void GameManager::Render() {
 void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		delete KeyboardManager::currentManager;
+		delete MouseManager::currentManager;
 	#endif
 	delete Camera::activeCamera;
 
