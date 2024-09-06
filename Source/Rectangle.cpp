@@ -229,7 +229,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 			std::pair<Vector2D, Vector2D> incidentFace;
 			std::pair<Vector2D, Vector2D> locInc;
-			UInt16 deepestIndex = 0;
+			uint16_t deepestIndex = 0;
 			if (referSelf) {
 				for (size_t i = 1; i < 4; i++) if ((vertO[i]-cO)*minNormal < minNormal*(vertO[deepestIndex]-cO)) deepestIndex = i;
 				incidentFace.first = vertO[deepestIndex];

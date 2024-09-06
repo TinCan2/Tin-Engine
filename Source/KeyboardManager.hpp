@@ -1,9 +1,8 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 
 namespace Tin {
-
-	typedef unsigned char UInt8;
 
 	class TIN_API KeyboardManager {
 		public:
@@ -25,8 +24,8 @@ namespace Tin {
 
 		void PushBuffer();
 
-		const UInt8* keyStates;
-		UInt8* keyBuffer;
+		const uint8_t* keyStates;
+		uint8_t* keyBuffer;
 
 		static KeyboardManager* currentManager;
 	};
