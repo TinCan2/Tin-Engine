@@ -47,7 +47,7 @@ bool MouseManager::ButtonReleased(const Buttons& button) {
 	return (mouseState & buttonMask) && !(this->buttonBuffer & buttonMask);
 }
 
-MouseManager::Buttons MouseManager::GetLastButton() {
+MouseManager::Buttons MouseManager::GetButton() {
 	for (int i = 0; i < 5; i++) {
 		Buttons currentButton = static_cast<Buttons>(i);
 		if(ButtonDown(currentButton)) return currentButton;

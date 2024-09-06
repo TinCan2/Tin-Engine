@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();
-		std::cout << "The following key is pressed: " << keyboardManager->GetLastKey() << std::endl;
+		std::cout << "The following key is pressed: " << keyboardManager->GetKey() << std::endl;
 		gameManager->Update();
 		gameManager->Render();
 	}

@@ -20,7 +20,7 @@ namespace Tin {
 		bool ButtonDown(const Buttons& button);
 		bool ButtonReleased(const Buttons& button);
 
-		Buttons GetLastButton();
+		Buttons GetButton();
 
 		private:
 		MouseManager();

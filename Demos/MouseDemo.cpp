@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 		std::cout << "Mouse position: " << mousePos.x << ";" << mousePos.y << std::endl;
 
 		std::cout << "Current button: ";
-		switch (mouseManager->GetLastButton()) {
+		switch (mouseManager->GetButton()) {
 			case MouseManager::Buttons::Left:
 				std::cout << "Left" << std::endl;
 				break;

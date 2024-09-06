@@ -15,7 +15,7 @@ namespace Tin {
 		bool KeyDown(const char* const& keyName) const;
 		bool KeyReleased(const char* const& keyName) const;
 
-		const char* GetLastKey() const;
+		const char* GetKey() const;
 
 		private:
 		KeyboardManager();
