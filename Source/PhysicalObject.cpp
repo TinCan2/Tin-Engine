@@ -56,7 +56,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 
 	this->centerOfMass = new Vector2D();
 	float totalArea = 0;
-	for (UInt16 i = 0; i < collider.GetCircleCount(); i++) {
+	for (size_t i = 0; i < collider.GetCircleCount(); i++) {
 		Vector2D center = collider.GetCircle(i).GetCenter();
 		float r = collider.GetCircle(i).GetRadius();
 
@@ -64,7 +64,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 		*this->centerOfMass += area*center;
 		totalArea += area;
 	}
-	for (UInt16 i = 0; i < collider.GetRectangleCount(); i++) {
+	for (size_t i = 0; i < collider.GetRectangleCount(); i++) {
 		Vector2D center = collider.GetRectangle(i).GetCenter();
 		Vector2D ext = collider.GetRectangle(i).GetExtents();
 
@@ -77,7 +77,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 	this->mass = mass;
 	this->momentOfInertia = 0;
 	float density = mass/totalArea;
-	for (UInt16 i = 0; i < collider.GetCircleCount(); i++) {
+	for (size_t i = 0; i < collider.GetCircleCount(); i++) {
 		Vector2D center = collider.GetCircle(i).GetCenter();
 		float r = collider.GetCircle(i).GetRadius();
 
@@ -85,7 +85,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 		this->momentOfInertia += area*density*r*r/2;
 		this->momentOfInertia += area*density*(center - *this->centerOfMass).GetMagnitude2();
 	}
-	for (UInt16 i = 0; i < collider.GetRectangleCount(); i++) {
+	for (size_t i = 0; i < collider.GetRectangleCount(); i++) {
 		Vector2D center = collider.GetRectangle(i).GetCenter();
 		Vector2D ext = collider.GetRectangle(i).GetExtents();
 
@@ -327,7 +327,7 @@ void PhysicalObject::UpdateBodies() {
 	lastFrame = currentFrame;
 	currentFrame = SDL_GetTicks64();
 
-	for (int i = 0; i < bodyList.size(); i++) {
+	for (size_t i = 0; i < bodyList.size(); i++) {
 		float theta = bodyList[i]->angularSpeed*GetDeltaTime();
 		Vector2D displacement = (*bodyList[i]->velocity)*GetDeltaTime();
 		switch (bodyList[i]->colliderType) {
@@ -359,8 +359,8 @@ void PhysicalObject::UpdateBodies() {
 
 	if (bodyList.size() >= 2) {
 		CollisionInfo collision;
-		for (int i = 0; i < bodyList.size() - 1; i++) {
-			for (int j = i+1; j < bodyList.size(); j++) {
+		for (size_t i = 0; i < bodyList.size() - 1; i++) {
+			for (size_t j = i+1; j < bodyList.size(); j++) {
 				int collisionPair = 10*(static_cast<int>(bodyList[i]->colliderType)+1);
 				collisionPair += static_cast<int>(bodyList[j]->colliderType)+1;
 
