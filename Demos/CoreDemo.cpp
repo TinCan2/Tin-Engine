@@ -5,7 +5,7 @@ using namespace Tin;
 int main(int argc, char* argv[]) {
 	GameManager* gameManager = GameManager::Instantiate();
 
-	gameManager->Initialize("Input Demo", 640, 480);
+	gameManager->Initialize("Core Demo", 640, 480);
 
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();

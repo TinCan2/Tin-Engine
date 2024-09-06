@@ -11,7 +11,7 @@ using namespace Tin;
 int main(int argc, char* argv[]) {
 	GameManager* gameManager = GameManager::Instantiate();
 
-	gameManager->Initialize("Input Demo", 640, 480);
+	gameManager->Initialize("Mouse Demo", 640, 480);
 
 	MouseManager* mouseManager = MouseManager::GetCurrentManager();
 
