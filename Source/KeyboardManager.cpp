@@ -12,17 +12,17 @@ KeyboardManager* KeyboardManager::GetCurrentManager() {
 
 
 //Keyboard Access
-bool KeyboardManager::KeyPressed(const char* keyName) const {
+bool KeyboardManager::KeyPressed(const char* const& keyName) const {
 	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
 	return (this->keyStates[scancode] && !this->keyBuffer[scancode]);
 }
 
-bool KeyboardManager::KeyDown(const char* keyName) const {
+bool KeyboardManager::KeyDown(const char* const& keyName) const {
 	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
 	return this->keyStates[scancode];
 }
 
-bool KeyboardManager::KeyReleased(const char* keyName) const {
+bool KeyboardManager::KeyReleased(const char* const& keyName) const {
 	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
 	return (!this->keyStates[scancode] && this->keyBuffer[scancode]);
 }

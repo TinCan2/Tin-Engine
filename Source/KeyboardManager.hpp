@@ -11,9 +11,9 @@ namespace Tin {
 
 		KeyboardManager(const KeyboardManager& coppiedObject) = delete;
 
-		bool KeyPressed(const char* keyName) const;
-		bool KeyDown(const char* keyName) const;
-		bool KeyReleased(const char* keyName) const;
+		bool KeyPressed(const char* const& keyName) const;
+		bool KeyDown(const char* const& keyName) const;
+		bool KeyReleased(const char* const& keyName) const;
 
 		const char* GetLastKey() const;
 

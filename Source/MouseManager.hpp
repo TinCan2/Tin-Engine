@@ -16,9 +16,9 @@ namespace Tin {
 
 		Vector2D GetMousePosition() const;
 
-		bool ButtonPressed(Buttons button);
-		bool ButtonDown(Buttons button);
-		bool ButtonReleased(Buttons button);
+		bool ButtonPressed(const Buttons& button);
+		bool ButtonDown(const Buttons& button);
+		bool ButtonReleased(const Buttons& button);
 
 		Buttons GetLastButton();
 

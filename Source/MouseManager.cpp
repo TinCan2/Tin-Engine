@@ -23,7 +23,7 @@ Vector2D MouseManager::GetMousePosition() const {
 	return camera->GetPosition() + camera->GetExtents().FlipH() + relativePos.FlipV();
 }
 
-bool MouseManager::ButtonPressed(Buttons button) {
+bool MouseManager::ButtonPressed(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return !mouseState && this->buttonBuffer;
@@ -31,7 +31,7 @@ bool MouseManager::ButtonPressed(Buttons button) {
 	return (mouseState & buttonMask) && !(this->buttonBuffer & buttonMask);
 }
 
-bool MouseManager::ButtonDown(Buttons button) {
+bool MouseManager::ButtonDown(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return !mouseState;
@@ -39,7 +39,7 @@ bool MouseManager::ButtonDown(Buttons button) {
 	return mouseState & buttonMask;
 }
 
-bool MouseManager::ButtonReleased(Buttons button) {
+bool MouseManager::ButtonReleased(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return mouseState && !this->buttonBuffer;
