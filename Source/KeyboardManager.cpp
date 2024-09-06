@@ -28,7 +28,7 @@ bool KeyboardManager::KeyReleased(const char* const& keyName) const {
 }
 
 const char* KeyboardManager::GetKey() const {
-	for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
+	for (size_t i = 0; i < SDL_NUM_SCANCODES; i++) {
 		if (this->keyStates[i]) return SDL_GetKeyName(SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i)));
 	}
 	return "";
