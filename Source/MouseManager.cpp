@@ -6,7 +6,7 @@
 using namespace Tin;
 
 //Singleton Implementation
-MouseManager* MouseManager::GetCurrentInstance() {
+MouseManager* MouseManager::GetCurrentManager() {
 	return currentManager;
 }
 

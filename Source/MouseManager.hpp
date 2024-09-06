@@ -8,7 +8,7 @@ namespace Tin {
 
 	class TIN_API MouseManager {
 		public:
-		static MouseManager* GetCurrentInstance();
+		static MouseManager* GetCurrentManager();
 
 		MouseManager(const MouseManager&) = delete;
 

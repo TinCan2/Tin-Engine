@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Input Demo", 640, 480);
 
-	MouseManager* mouseManager = MouseManager::GetCurrentInstance();
+	MouseManager* mouseManager = MouseManager::GetCurrentManager();
 
 	Painter p;
 

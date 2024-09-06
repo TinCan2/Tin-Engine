@@ -68,7 +68,7 @@ void GameManager::Handle() {
 	SDL_RenderClear(this->mainRenderer);
 
 	KeyboardManager::GetCurrentManager()->PushBuffer();
-	MouseManager::GetCurrentInstance()->PushBuffer();
+	MouseManager::GetCurrentManager()->PushBuffer();
 
 	SDL_Event currentEvent;
 	while (SDL_PollEvent(&currentEvent)) {
