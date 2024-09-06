@@ -13,7 +13,7 @@ namespace Tin {
 	class TIN_API GameManager{
 		public:
 		static GameManager* Instantiate();
-		static GameManager* GetCurrentInstance();
+		static GameManager* GetCurrentManager();
 		static void Destroy();
 
 		GameManager(const GameManager&) = delete;

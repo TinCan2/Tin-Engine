@@ -30,7 +30,7 @@ GameManager* GameManager::Instantiate() {
 	return currentManager;
 }
 
-GameManager* GameManager::GetCurrentInstance() {
+GameManager* GameManager::GetCurrentManager() {
 	return currentManager;
 }
 

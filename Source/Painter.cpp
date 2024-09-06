@@ -37,7 +37,7 @@ Painter::~Painter() {
 
 //Renderer Access
 void Painter::PaintLine(const Vector2D& A, const Vector2D& B) const {
-	GameManager::GetCurrentInstance()->ScheduleColorReset();
+	GameManager::GetCurrentManager()->ScheduleColorReset();
 	SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
@@ -81,7 +81,7 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 		delete[] vertices;
 	}
 	else {
-		GameManager::GetCurrentInstance()->ScheduleColorReset();
+		GameManager::GetCurrentManager()->ScheduleColorReset();
 		SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
 		for (int i=0; i<n; i++) {
@@ -125,7 +125,7 @@ void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) con
 		SDL_RenderGeometry(boundedRenderer, nullptr, vertices, 4, indices, 6);
 	}
 	else {
-		GameManager::GetCurrentInstance()->ScheduleColorReset();
+		GameManager::GetCurrentManager()->ScheduleColorReset();
 		SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
 		for (int i=0; i<4; i++) {
