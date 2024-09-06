@@ -10,13 +10,12 @@ namespace Tin {
 		static KeyboardManager* GetCurrentManager();
 
 		KeyboardManager(const KeyboardManager& coppiedObject) = delete;
-		KeyboardManager operator=(const KeyboardManager& coppiedObject) = delete;
 
-		bool KeyPressed(const char* keyName);
-		bool KeyDown(const char* keyName);
-		bool KeyReleased(const char* keyName);
+		bool KeyPressed(const char* keyName) const;
+		bool KeyDown(const char* keyName) const;
+		bool KeyReleased(const char* keyName) const;
 
-		const char* GetLastKey();
+		const char* GetLastKey() const;
 
 		private:
 		KeyboardManager();

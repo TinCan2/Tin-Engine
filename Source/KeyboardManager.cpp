@@ -11,6 +11,30 @@ KeyboardManager* KeyboardManager::GetCurrentManager() {
 }
 
 
+//Keyboard Access
+bool KeyboardManager::KeyPressed(const char* keyName) const {
+	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
+	return (this->keyStates[scancode] && !this->keyBuffer[scancode]);
+}
+
+bool KeyboardManager::KeyDown(const char* keyName) const {
+	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
+	return this->keyStates[scancode];
+}
+
+bool KeyboardManager::KeyReleased(const char* keyName) const {
+	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
+	return (!this->keyStates[scancode] && this->keyBuffer[scancode]);
+}
+
+const char* KeyboardManager::GetLastKey() const {
+	for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
+		if (this->keyStates[i]) return SDL_GetKeyName(SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i)));
+	}
+	return "";
+}
+
+
 //Construction and Destruction
 KeyboardManager::KeyboardManager() {
 	this->keyStates = SDL_GetKeyboardState(nullptr);
@@ -20,29 +44,6 @@ KeyboardManager::KeyboardManager() {
 
 KeyboardManager::~KeyboardManager() {}
 
-
-//Keyboard Access
-bool KeyboardManager::KeyPressed(const char* keyName) {
-	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
-	return (this->keyStates[scancode] && !this->keyBuffer[scancode]);
-}
-
-bool KeyboardManager::KeyDown(const char* keyName) {
-	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
-	return this->keyStates[scancode];
-}
-
-bool KeyboardManager::KeyReleased(const char* keyName) {
-	SDL_Scancode scancode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(keyName));
-	return (!this->keyStates[scancode] && this->keyBuffer[scancode]);
-}
-
-const char* KeyboardManager::GetLastKey() {
-	for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
-		if (this->keyStates[i]) return SDL_GetKeyName(SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i)));
-	}
-	return "";
-}
 
 //Buffer Acces
 void KeyboardManager::PushBuffer() {
