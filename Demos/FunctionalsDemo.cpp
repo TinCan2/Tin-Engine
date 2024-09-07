@@ -15,7 +15,7 @@ class DemoFunctional : public FunctionalObject {
 int main(int argc, char* argv[]) {
 	GameManager* gameManager = GameManager::Instantiate();
 
-	gameManager->Initialize("Core Demo", 640, 480);
+	gameManager->Initialize("Functional Demo", 640, 480);
 
 	DemoFunctional d;
 
