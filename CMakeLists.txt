@@ -42,7 +42,7 @@ set(TIN_MODULES_DEMOS_INPUT "GetKeyDemo" "InputDemo" "MouseDemo")
 set(TIN_MODULES_DEMOS_SHAPES)
 set(TIN_MODULES_DEMOS_SPRITE)
 set(TIN_MODULES_DEMOS_PAINTER)
-set(TIN_MODULES_DEMOS_PHYSICS "PhysicsDemo")
+set(TIN_MODULES_DEMOS_PHYSICS "PhysicsDemo" "AABBOptimizationDemo")
 set(TIN_MODULES_DEMOS_ANIMATION)
 set(TIN_MODULES_DEMOS_FUNCTIONALS "FunctionalsDemo")
 
@@ -90,7 +90,7 @@ if (WIN32)
 endif()
 
 target_compile_features(tinEngine PUBLIC cxx_std_20)
-target_compile_definitions(tinEngine PRIVATE ${TIN_DEFINITIONS})
+target_compile_definitions(tinEngine PUBLIC ${TIN_DEFINITIONS})
 
 
 #==Dependency Management==#
