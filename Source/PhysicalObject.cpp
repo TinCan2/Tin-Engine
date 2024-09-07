@@ -357,73 +357,71 @@ void PhysicalObject::UpdateBodies() {
 		*bodyList[i]->centerOfMass += displacement;
 	}
 
-	if (bodyList.size() >= 2) {
-		CollisionInfo collision;
-		for (size_t i = 0; i < bodyList.size() - 1; i++) {
-			for (size_t j = i+1; j < bodyList.size(); j++) {
-				int collisionPair = 10*(static_cast<int>(bodyList[i]->colliderType)+1);
-				collisionPair += static_cast<int>(bodyList[j]->colliderType)+1;
+	CollisionInfo collision;
+	for (size_t i = 0; i + 1 < bodyList.size(); i++) {
+		for (size_t j = i+1; j < bodyList.size(); j++) {
+			int collisionPair = 10*(static_cast<int>(bodyList[i]->colliderType)+1);
+			collisionPair += static_cast<int>(bodyList[j]->colliderType)+1;
 
-				bool colliding = false;
-				switch (collisionPair) {
-					case 11: {
-						Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
-						Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 12: {
-						Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
-						Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 13: {
-						Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
-						JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 21: {
-						Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
-						Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 22: {
-						Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
-						Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 23: {
-						Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
-						JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 31: {
-						JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
-						Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 32: {
-						JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
-						Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
-					case 33: {
-						JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
-						JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
-						colliding = bodyI->CollidesWith(*bodyJ, &collision);
-						break;
-					}
+			bool colliding = false;
+			switch (collisionPair) {
+				case 11: {
+					Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
+					Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
 				}
-
-				if (colliding) ResolveCollision(bodyList[i], bodyList[j], collision);
+				case 12: {
+					Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
+					Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 13: {
+					Circle* bodyI = static_cast<Circle*>(bodyList[i]->collider);
+					JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 21: {
+					Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
+					Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 22: {
+					Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
+					Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 23: {
+					Rectangle* bodyI = static_cast<Rectangle*>(bodyList[i]->collider);
+					JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 31: {
+					JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
+					Circle* bodyJ = static_cast<Circle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 32: {
+					JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
+					Rectangle* bodyJ = static_cast<Rectangle*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
+				case 33: {
+					JointShape* bodyI = static_cast<JointShape*>(bodyList[i]->collider);
+					JointShape* bodyJ = static_cast<JointShape*>(bodyList[j]->collider);
+					colliding = bodyI->CollidesWith(*bodyJ, &collision);
+					break;
+				}
 			}
+
+			if (colliding) ResolveCollision(bodyList[i], bodyList[j], collision);
 		}
 	}
 }

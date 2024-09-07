@@ -36,7 +36,7 @@ set(TIN_MODULES_DEPS_FUNCTUIONALS "CORE")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables." OFF)
-set(TIN_DEMO_LIST "Core" "Input" "GetKey" "Mouse" "Functionals")
+set(TIN_DEMO_LIST "Core" "Input" "GetKey" "Mouse" "Functionals" "Physics")
 
 if (${TIN_BUILD_DEMOS})
 	foreach(module ${TIN_MODULES})
