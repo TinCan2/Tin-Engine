@@ -36,16 +36,22 @@ set(TIN_MODULES_DEPS_FUNCTUIONALS "CORE")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
+set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo")
 
-set(TIN_MODULES_DEMOS_CORE "CoreDemo")
-set(TIN_MODULES_DEMOS_INPUT "GetKeyDemo" "InputDemo" "MouseDemo")
-set(TIN_MODULES_DEMOS_SHAPES)
-set(TIN_MODULES_DEMOS_SPRITE)
-set(TIN_MODULES_DEMOS_PAINTER)
-set(TIN_MODULES_DEMOS_PHYSICS "PhysicsDemo" "AABBOptimizationDemo")
-set(TIN_MODULES_DEMOS_ANIMATION)
-set(TIN_MODULES_DEMOS_FUNCTIONALS "FunctionalsDemo")
+set(TIN_DEMO_DEPS_CoreDemo "CORE")
+set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
+set(TIN_DEMO_DEPS_InputDemo "INPUT")
+set(TIN_DEMO_DEPS_MouseDemo "INPUT")
+set(TIN_DEMO_DEPS_PhysicsDemo "PHYSICS")
+set(TIN_DEMO_DEPS_FunctionalsDemo "FUNCTIONALS")
 
+if(${TIN_BUILD_DEMOS})
+	foreach(demo ${demos})
+		foreach (dep ${TIN_DEMO_DEPS_${demo}})
+			set(TIN_MODULES_INCLUDE_${dep} ON)
+		endforeach()
+	endforeach()
+endif()
 
 #==Module Activation==#
 set(TIN_SOURCE)
@@ -146,15 +152,11 @@ add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_i
 
 #==Demo Generation==#
 if (${TIN_BUILD_DEMOS})
-	foreach(module ${TIN_MODULES})
-		if (${TIN_MODULES_INCLUDE_${module}})
-			foreach(demo ${TIN_MODULES_DEMOS_${module}})
-				add_executable(${demo} "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}.cpp")
+	foreach(demo ${TIN_DEMOS})
+		add_executable(${demo} "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}.cpp")
 
-				target_link_libraries(${demo} PRIVATE tinEngine)
-				target_include_directories(${demo} PRIVATE "${TIN_OUTPUT_DIR}/include")
-				set_target_properties(${demo} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/demos")
-			endforeach()
-		endif()
+		target_link_libraries(${demo} PRIVATE tinEngine)
+		target_include_directories(${demo} PRIVATE "${TIN_OUTPUT_DIR}/include")
+		set_target_properties(${demo} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/demos")
 	endforeach()
 endif()
