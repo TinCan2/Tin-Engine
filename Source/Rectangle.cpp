@@ -9,6 +9,10 @@
 	#include "JointShape.hpp"
 #endif
 
+#include <iostream>
+#include "Painter.hpp"
+#include "Color.hpp"
+
 using namespace Tin;
 
 //Construction and Destruction
@@ -84,6 +88,44 @@ void Rectangle::SetOrientation(const float& orientation) {
 		*p1 = *p1 + t1*dir;
 	}
 
+	bool Rectangle::AABBCollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const {
+		Vector2D dir = otherShape.GetCenter() - this->GetCenter();
+
+		Vector2D extS = this->GetExtents();
+		Vector2D extO = otherShape.GetExtents();
+
+		float thetaS = this->GetOrientation();
+		float thetaO = otherShape.GetOrientation();
+
+		int rCount = abs(lround(2*(thetaO - thetaS)/M_PI));
+		Vector2D tExtO = (rCount%2 == 1) ? Vector2D(extO.y, extO.x) : extO;
+
+		Vector2D tDir = dir.x*Vector2D(cos(-thetaS), sin(-thetaS)) + dir.y*Vector2D(-sin(-thetaS), cos(-thetaS));
+
+		float hOverlap = extS.x + tExtO.x - fabs(tDir.x);
+		float vOverlap = extS.y + tExtO.y - fabs(tDir.y);
+
+		bool overlapping = hOverlap > 0 && vOverlap > 0;
+
+		if (overlapping && collisionInfo != nullptr) {
+			bool minAxH = hOverlap < vOverlap;
+			Vector2D uNorm = (minAxH) ? Vector2D(tDir.x/fabs(tDir.x),0) : Vector2D(0, tDir.y/fabs(tDir.y));
+
+			float cVal;
+			if (minAxH) cVal = std::clamp(tDir.y - tExtO.y, -extS.y, extS.y) + std::clamp(tDir.y + tExtO.y, -extS.y, extS.y);
+			else cVal = std::clamp(tDir.x - tExtO.x, -extS.x, extS.x) + std::clamp(tDir.x + tExtO.x, -extS.x, extS.x);
+			cVal /= 2;
+
+			Vector2D locNorm = uNorm * std::min(hOverlap, vOverlap);
+			*collisionInfo->normal = locNorm.x*Vector2D(cos(thetaS), sin(thetaS)) + locNorm.y*Vector2D(-sin(thetaS), cos(thetaS));
+
+			Vector2D locCont = (minAxH) ? Vector2D(tDir.x-uNorm.x*tExtO.x, cVal) : Vector2D(cVal, tDir.y-uNorm.y*tExtO.y);
+			*collisionInfo->contact = locCont.x*Vector2D(cos(thetaS), sin(thetaS)) + locCont.y*Vector2D(-sin(thetaS), cos(thetaS));
+			*collisionInfo->contact += this->GetCenter();
+		}
+
+		return overlapping;
+	}
 
 	//Collision Detection
 	bool Rectangle::CollidesWith(const Circle& otherShape, CollisionInfo* const& collisionInfo) const {
@@ -136,6 +178,9 @@ void Rectangle::SetOrientation(const float& orientation) {
 		//Determine the axes and vertices
 		float thetaS = this->GetOrientation();
 		float thetaO = otherShape.GetOrientation();
+
+		float angularRemainder = fabs(fmod(thetaO - thetaS, M_PI/2));
+		if (angularRemainder < 0.001 || M_PI/2-angularRemainder < 0.001) return this->AABBCollidesWith(otherShape, collisionInfo);
 
 		Vector2D axSh(cos(thetaS), sin(thetaS));
 		Vector2D axSv(-sin(thetaS), cos(thetaS));

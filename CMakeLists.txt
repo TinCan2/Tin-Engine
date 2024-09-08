@@ -36,7 +36,7 @@ set(TIN_MODULES_DEPS_FUNCTUIONALS "CORE")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
-set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo")
+set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo" "AABBOptimizationDemo")
 
 set(TIN_DEMO_DEPS_CoreDemo "CORE")
 set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
@@ -44,6 +44,7 @@ set(TIN_DEMO_DEPS_InputDemo "INPUT")
 set(TIN_DEMO_DEPS_MouseDemo "INPUT")
 set(TIN_DEMO_DEPS_PhysicsDemo "PHYSICS")
 set(TIN_DEMO_DEPS_FunctionalsDemo "FUNCTIONALS")
+set(TIN_DEMO_DEPS_AABBOptimizationDemo "PHYSICS")
 
 if(${TIN_BUILD_DEMOS})
 	foreach(demo ${demos})

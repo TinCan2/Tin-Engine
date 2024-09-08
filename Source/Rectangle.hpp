@@ -36,6 +36,7 @@ namespace Tin {
 		private:
 		#ifdef TIN_MODULES_INCLUDE_PHYSICS
 			static void LiangBarsky(Vector2D* p1, Vector2D* p2, const Vector2D& extents);
+			bool AABBCollidesWith(const Rectangle& otherShape, CollisionInfo* const& collisionInfo) const;
 		#endif
 
 		Vector2D* center;
