@@ -2,6 +2,7 @@
 #include "Sprite.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <numbers>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdexcept>
@@ -151,11 +152,11 @@ void Sprite::Draw(const Vector2D& position, const bool& flipH, const bool& flipV
 	destRect.y = -drawingPos.y * Vector2D::UnitPixelEquivalent - this->h;
 
     SDL_RendererFlip flip = (SDL_RendererFlip)(flipH | (flipV<<1));
-    if (fmod(rotation,2*M_PI) == 0){
+    if (fmod(rotation,2*std::numbers::pi) == 0){
         SDL_RenderCopyEx(boundedRenderer, textureMap[this->boundTexture]->first, &sourceRect, &destRect, 0, nullptr, flip);
     }
     else {
-        float degRot = -180.0*rotation/M_PI;
+        float degRot = -180.0*rotation/std::numbers::pi;
         float UPE = Vector2D::UnitPixelEquivalent;
     	SDL_Point rotationPoint(UPE*this->origin->x, this->h - UPE*this->origin->y);
     	SDL_Texture* texture = textureMap[this->boundTexture]->first;

@@ -7,6 +7,7 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <numbers>
 #include <SDL.h>
 
 using namespace Tin;
@@ -51,13 +52,13 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 	float rA = fabs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
-	int n = ceil(M_PI/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
+	int n = ceil(std::numbers::pi/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 
 	Vector2D* corners = new Vector2D[n];
 	for (size_t i=0; i<n; i++) {
-		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*M_PI/n), rA*sin(2*i*M_PI/n));
+		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*std::numbers::pi/n), rA*sin(2*i*std::numbers::pi/n));
 		corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 	}
 

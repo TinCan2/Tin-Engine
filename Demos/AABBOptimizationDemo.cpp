@@ -7,6 +7,7 @@
 #include "Vector2D.hpp"
 
 #include <cmath>
+#include <numbers>
 #include <iostream>
 
 
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("AABB Optimziation Demo", 640, 480);
 
-	Rectangle rectA(Vector2D(-3,0), Vector2D(1,2), 7.23+4*M_PI/2); //Orange
+	Rectangle rectA(Vector2D(-3,0), Vector2D(1,2), 7.23+4*std::numbers::pi/2); //Orange
 	Rectangle rectB(Vector2D(-4,2), Vector2D(1,2), 7.23); //Blue
 
 	Painter p;

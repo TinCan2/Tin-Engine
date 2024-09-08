@@ -1,17 +1,14 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <numbers>
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	#include "Circle.hpp"
 	#include "CollisionInfo.hpp"
 	#include "JointShape.hpp"
 #endif
-
-#include <iostream>
-#include "Painter.hpp"
-#include "Color.hpp"
 
 using namespace Tin;
 
@@ -97,7 +94,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 		float thetaS = this->GetOrientation();
 		float thetaO = otherShape.GetOrientation();
 
-		int rCount = abs(lround(2*(thetaO - thetaS)/M_PI));
+		int rCount = abs(lround(2*(thetaO - thetaS)/std::numbers::pi));
 		Vector2D tExtO = (rCount%2 == 1) ? Vector2D(extO.y, extO.x) : extO;
 
 		Vector2D tDir = dir.x*Vector2D(cos(-thetaS), sin(-thetaS)) + dir.y*Vector2D(-sin(-thetaS), cos(-thetaS));
@@ -179,8 +176,8 @@ void Rectangle::SetOrientation(const float& orientation) {
 		float thetaS = this->GetOrientation();
 		float thetaO = otherShape.GetOrientation();
 
-		float angularRemainder = fabs(fmod(thetaO - thetaS, M_PI/2));
-		if (angularRemainder < 0.001 || M_PI/2-angularRemainder < 0.001) return this->AABBCollidesWith(otherShape, collisionInfo);
+		float angularRemainder = fabs(fmod(thetaO - thetaS, std::numbers::pi/2));
+		if (angularRemainder < 0.001 || std::numbers::pi/2-angularRemainder < 0.001) return this->AABBCollidesWith(otherShape, collisionInfo);
 
 		Vector2D axSh(cos(thetaS), sin(thetaS));
 		Vector2D axSv(-sin(thetaS), cos(thetaS));

@@ -6,6 +6,7 @@
 #include "Vector2D.hpp"
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 #include <SDL.h>
 #include <stdexcept>
 
@@ -60,7 +61,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 		Vector2D center = collider.GetCircle(i).GetCenter();
 		float r = collider.GetCircle(i).GetRadius();
 
-		float area = M_PI*r*r;
+		float area = std::numbers::pi*r*r;
 		*this->centerOfMass += area*center;
 		totalArea += area;
 	}
@@ -81,7 +82,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 		Vector2D center = collider.GetCircle(i).GetCenter();
 		float r = collider.GetCircle(i).GetRadius();
 
-		float area = M_PI*r*r;
+		float area = std::numbers::pi*r*r;
 		this->momentOfInertia += area*density*r*r/2;
 		this->momentOfInertia += area*density*(center - *this->centerOfMass).GetMagnitude2();
 	}
