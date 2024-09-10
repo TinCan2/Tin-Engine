@@ -8,6 +8,7 @@
 #endif
 
 #ifdef TIN_MODULES_INCLUDE_INPUT
+	#include "ControllerManager.hpp"
 	#include "KeyboardManager.hpp"
 	#include "MouseManager.hpp"
 #endif
@@ -23,8 +24,6 @@
 #ifdef TIN_MODULES_INCLUDE_SPRITE
 	#include "Sprite.hpp"
 #endif
-
-#include <iostream>
 
 using namespace Tin;
 
@@ -52,6 +51,7 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 
 	Camera::activeCamera = new Camera(w, h);
 	#ifdef TIN_MODULES_INCLUDE_INPUT
+		ControllerManager::currentManager = new ControllerManager();
 		KeyboardManager::currentManager = new KeyboardManager();
 		MouseManager::currentManager = new MouseManager();
 	#endif
@@ -72,6 +72,7 @@ void GameManager::Handle() {
 	SDL_RenderClear(this->mainRenderer);
 
 	#ifdef TIN_MODULES_INCLUDE_INPUT
+		ControllerManager::GetCurrentManager()->PushBuffers();
 		KeyboardManager::GetCurrentManager()->PushBuffer();
 		MouseManager::GetCurrentManager()->PushBuffer();
 	#endif
@@ -80,8 +81,16 @@ void GameManager::Handle() {
 	while (SDL_PollEvent(&currentEvent)) {
 		switch (currentEvent.type){
 			case SDL_QUIT:
-				this->QuitGame(); //This is temporary
+				this->QuitGame(); //This is temporary, to be later switched with a function pointer method.
 				break;
+			#ifdef TIN_MODULES_INCLUDE_INPUT
+				case SDL_CONTROLLERDEVICEADDED:
+					ControllerManager::GetCurrentManager()->AddController(currentEvent.cdevice.which);
+					break;
+				case SDL_CONTROLLERDEVICEREMOVED:
+					ControllerManager::GetCurrentManager()->RemoveController(currentEvent.cdevice.which);
+					break;
+			#endif
 		}
 	}
 }
@@ -103,6 +112,7 @@ void GameManager::Render() {
 
 void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
+		delete ControllerManager::currentManager;
 		delete KeyboardManager::currentManager;
 		delete MouseManager::currentManager;
 	#endif
