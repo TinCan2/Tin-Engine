@@ -124,13 +124,3 @@ void ControllerManager::PushBuffers() {
 
 //Statics
 ControllerManager* ControllerManager::currentManager;
-
-
-void ControllerManager::PrintControllers() {
-	std::cout << "Printing controller list" << std::endl;
-	for (size_t i = 0; i < this->controllerList.size(); i++) {
-		std::cout << "Controller Number: " << i << std::endl;
-		std::cout << "Controller: " << this->controllerList[i]->controller << std::endl;
-	}
-	std::cout << std::endl;
-}
