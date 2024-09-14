@@ -37,7 +37,7 @@ set(TIN_MODULES_DEPS_FUNCTUIONALS "CORE")
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
 set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo" "AABBOptimizationDemo")
-list(APPEND TIN_DEMOS "ControllerDemo")
+list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo")
 
 set(TIN_DEMO_DEPS_CoreDemo "CORE")
 set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
@@ -155,11 +155,15 @@ add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_i
 
 #==Demo Generation==#
 if (${TIN_BUILD_DEMOS})
+	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+						"${CMAKE_CURRENT_SOURCE_DIR}/Demos/Sprites" ${TIN_OUTPUT_DIR}/demos/Sprites)
+
 	foreach(demo ${TIN_DEMOS})
 		add_executable(${demo} "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}.cpp")
 
 		target_link_libraries(${demo} PRIVATE tinEngine)
 		target_include_directories(${demo} PRIVATE "${TIN_OUTPUT_DIR}/include")
+		target_compile_definitions(${demo} PUBLIC TIN_DEMO_LOCATION=\"${TIN_OUTPUT_DIR}/demos/\")
 		set_target_properties(${demo} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/demos")
 		set_target_properties(${demo} PROPERTIES FOLDER "Demos")
 	endforeach()
