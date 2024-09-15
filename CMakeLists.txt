@@ -4,7 +4,7 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES "CORE" "INPUT" "SHAPES" "SPRITE" "PAINTER" "PHYSICS" "ANIMATION" "FUNCTIONALS")
+set(TIN_MODULES "CORE" "INPUT" "SHAPES" "SPRITE" "PAINTER" "PHYSICS" "ANIMATION" "FUNCTIONALS" "VISUALS")
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_INPUT "Include the input module." ON)
@@ -14,6 +14,7 @@ option(TIN_MODULES_INCLUDE_PAINTER "Include the painter module." ON)
 option(TIN_MODULES_INCLUDE_PHYSICS "Include the physics module." ON)
 option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
 option(TIN_MODULES_INCLUDE_FUNCTIONALS "Include the functionals module." ON)
+option(TIN_MODULES_INCLUDE_VISUALS "Include the visuals module." ON)
 
 set(TIN_MODULES_FILES_CORE "GameManager" "Vector2D" "Camera" "Color")
 set(TIN_MODULES_FILES_INPUT "KeyboardManager" "MouseManager" "ControllerManager")
@@ -23,6 +24,7 @@ set(TIN_MODULES_FILES_PAINTER "Painter")
 set(TIN_MODULES_FILES_PHYSICS "CollisionInfo" "PhysicalObject")
 set(TIN_MODULES_FILES_ANIMATION "Animation")
 set(TIN_MODULES_FILES_FUNCTIONALS "FunctionalObject")
+set(TIN_MODULES_FILES_VISUALS "VisualObject")
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_INPUT "CORE")
@@ -32,12 +34,13 @@ set(TIN_MODULES_DEPS_PAINTER "SHAPES")
 set(TIN_MODULES_DEPS_PHYSICS "SHAPES")
 set(TIN_MODULES_DEPS_ANIMATION "SPRITE")
 set(TIN_MODULES_DEPS_FUNCTUIONALS "CORE")
+set(TIN_MODULES_DEPS_VISUALS "ANIMATION")
 
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
 set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo" "AABBOptimizationDemo")
-list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo")
+list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo" "VisualsDemo")
 
 set(TIN_DEMO_DEPS_CoreDemo "CORE")
 set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
@@ -47,6 +50,7 @@ set(TIN_DEMO_DEPS_PhysicsDemo "PHYSICS")
 set(TIN_DEMO_DEPS_FunctionalsDemo "FUNCTIONALS")
 set(TIN_DEMO_DEPS_AABBOptimizationDemo "PHYSICS")
 set(TIN_DEMO_DEPS_ControllerDemo "INPUT")
+set(TIN_DEMO_DEPS_VisualsDemo "VISUALS" "INPUT")
 
 if(${TIN_BUILD_DEMOS})
 	foreach(demo ${demos})
