@@ -6,7 +6,7 @@ namespace Tin {
 	class FunctionalObject {
 		public:
 		FunctionalObject();
-		~FunctionalObject();
+		virtual ~FunctionalObject();
 
 		virtual void OnUpdate() = 0;
 
