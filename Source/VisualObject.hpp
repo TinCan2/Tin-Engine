@@ -12,7 +12,7 @@ namespace Tin {
 	class TIN_API VisualObject {
 		public:
 		VisualObject(const Vector2D& position, float depth, float rotation = 0);
-		~VisualObject();
+		virtual ~VisualObject();
 
 		VisualObject(const VisualObject& coppiedObject);
 		VisualObject& operator=(const VisualObject& coppiedObject);

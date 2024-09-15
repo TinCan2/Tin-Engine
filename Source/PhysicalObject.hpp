@@ -21,7 +21,7 @@ namespace Tin {
 		PhysicalObject(const PhysicalObject& coppiedObject);
 		PhysicalObject& operator=(const PhysicalObject& coppiedObject);
 
-		~PhysicalObject();
+		virtual ~PhysicalObject();
 
 		enum class ColliderTypes : uint8_t {Circle, Rectangle, JointShape};
 

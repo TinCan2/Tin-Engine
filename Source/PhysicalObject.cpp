@@ -10,6 +10,10 @@
 #include <SDL.h>
 #include <stdexcept>
 
+#ifdef TIN_MODULES_INCLUDE_VISUALS
+	#include "VisualObject.hpp"
+#endif
+
 using namespace Tin;
 
 //Construction and Destruction
@@ -329,33 +333,42 @@ void PhysicalObject::UpdateBodies() {
 	currentFrame = SDL_GetTicks64();
 
 	for (size_t i = 0; i < bodyList.size(); i++) {
-		float theta = bodyList[i]->angularSpeed*GetDeltaTime();
-		Vector2D displacement = (*bodyList[i]->velocity)*GetDeltaTime();
-		switch (bodyList[i]->colliderType) {
+		PhysicalObject* currentBody = bodyList[i];
+		float theta = currentBody->angularSpeed*GetDeltaTime();
+		Vector2D displacement = (*currentBody->velocity)*GetDeltaTime();
+		switch (currentBody->colliderType) {
 			case ColliderTypes::Circle: {
-				Circle* circleBody = static_cast<Circle*>(bodyList[i]->collider);
+				Circle* circleBody = static_cast<Circle*>(currentBody->collider);
 				circleBody->SetCenter(circleBody->GetCenter() + displacement);
 				break;
 			}
 			case ColliderTypes::Rectangle: {
-				Rectangle* rectangleBody = static_cast<Rectangle*>(bodyList[i]->collider);
+				Rectangle* rectangleBody = static_cast<Rectangle*>(currentBody->collider);
 				rectangleBody->SetOrientation(rectangleBody->GetOrientation() + theta);
 				rectangleBody->SetCenter(rectangleBody->GetCenter() + displacement);
 				break;
 			}
 			case ColliderTypes::JointShape: {
-				JointShape* jointBody = static_cast<JointShape*>(bodyList[i]->collider);
-				Vector2D dir = jointBody->GetCenter() - *bodyList[i]->centerOfMass;
+				JointShape* jointBody = static_cast<JointShape*>(currentBody->collider);
+				Vector2D dir = jointBody->GetCenter() - *currentBody->centerOfMass;
 				Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.y*Vector2D(-sin(theta), cos(theta));
 
-				jointBody->SetCenter(*bodyList[i]->centerOfMass + tDir);
+				jointBody->SetCenter(*currentBody->centerOfMass + tDir);
 				jointBody->SetOrientation(jointBody->GetOrientation() + theta);
 
 				jointBody->SetCenter(jointBody->GetCenter() + displacement);
 				break;
 			}
 		}
-		*bodyList[i]->centerOfMass += displacement;
+		*currentBody->centerOfMass += displacement;
+
+		#ifdef TIN_MODULES_INCLUDE_VISUALS
+			VisualObject* visual = dynamic_cast<VisualObject*>(currentBody);
+			if (visual != nullptr) {
+				visual->SetPosition(visual->GetPosition() + displacement);
+				visual->SetRotation(visual->GetRotation() + theta);
+			}
+		#endif
 	}
 
 	CollisionInfo collision;
