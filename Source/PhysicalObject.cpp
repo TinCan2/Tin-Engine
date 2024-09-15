@@ -231,13 +231,21 @@ void PhysicalObject::SetAngularSpeed(const float& angularSpeed) {
 	this->angularSpeed = angularSpeed;
 }
 
-float PhysicalObject::GetRestitutionCoefficient() {
+float PhysicalObject::GetRestitutionCoefficient() const {
 	return this->rCoeff;
 }
 
 void PhysicalObject::SetRestitutionCoefficient(const float& rCoeff) {
 	if (rCoeff > 1 || rCoeff < 0) throw "Invalid coefficient of restitution.";
 	this->rCoeff = rCoeff;
+}
+
+bool PhysicalObject::GetLockRotation() const {
+	return this->lockRotation;
+}
+
+void PhysicalObject::SetLockRotation(const bool& lockRotation) {
+	this->lockRotation = true;
 }
 
 
@@ -275,14 +283,15 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		float crossJ = (contact-*bodyJ->centerOfMass)^unitNorm;
 
 		float denom = invMassI + invMassJ;
-		denom += crossI*crossI/bodyI->momentOfInertia + crossJ*crossJ/bodyJ->momentOfInertia;
+		if (!bodyI->lockRotation) denom += crossI*crossI/bodyI->momentOfInertia;
+		if (!bodyJ->lockRotation) denom += crossJ*crossJ/bodyJ->momentOfInertia;
 		impulse /= denom;
 
 		*bodyI->velocity -= unitNorm*impulse*invMassI;
 		*bodyJ->velocity += unitNorm*impulse*invMassJ;
 
-		bodyI->angularSpeed -= impulse*crossI/bodyI->momentOfInertia;
-		bodyJ->angularSpeed += impulse*crossJ/bodyJ->momentOfInertia;
+		if (!bodyI->lockRotation) bodyI->angularSpeed -= impulse*crossI/bodyI->momentOfInertia;
+		if (!bodyJ->lockRotation) bodyJ->angularSpeed += impulse*crossJ/bodyJ->momentOfInertia;
 
 		Vector2D depthNormal = collision.GetNormal();
 		Vector2D correction = 0.2*depthNormal/(invMassI + invMassJ);

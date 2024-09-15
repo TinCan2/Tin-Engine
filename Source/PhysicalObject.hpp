@@ -42,8 +42,11 @@ namespace Tin {
 		void SetVelocity(const Vector2D& velocity);
 		void SetAngularSpeed(const float& angularSpeed);
 
-		float GetRestitutionCoefficient();
+		float GetRestitutionCoefficient() const;
 		void SetRestitutionCoefficient(const float& rCoeff);
+
+		bool GetLockRotation() const;
+		void SetLockRotation(const bool& lockRotation);
 
 		static float GetDeltaTime();
 
@@ -60,6 +63,8 @@ namespace Tin {
 		float angularSpeed;
 
 		float rCoeff;
+
+		bool lockRotation;
 
 		static void ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const CollisionInfo& collision);
 		static void UpdateBodies();
