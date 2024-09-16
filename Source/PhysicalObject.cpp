@@ -255,8 +255,18 @@ float PhysicalObject::GetDeltaTime() {
 }
 
 
+//Colision Funcitons
+void PhysicalObject::OnCollision(const PhysicalObject& otherBody, const CollisionInfo& collision) {}
+
+
 //Body Access
 void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const CollisionInfo& collision) {
+	CollisionInfo reverseCollision(collision);
+	*reverseCollision.normal *= -1;
+
+	bodyI->OnCollision(*bodyJ, collision);
+	bodyJ->OnCollision(*bodyI, collision);
+
 	Vector2D unitNorm = collision.GetNormal();
 	unitNorm /= unitNorm.GetMagnitude();
 

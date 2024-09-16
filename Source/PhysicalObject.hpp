@@ -50,6 +50,8 @@ namespace Tin {
 
 		static float GetDeltaTime();
 
+		virtual void OnCollision(const PhysicalObject& otherBody, const CollisionInfo& collision);
+
 		private:
 		void* collider;
 		ColliderTypes colliderType;

@@ -23,5 +23,7 @@ namespace Tin {
 		friend class Circle;
 		friend class Rectangle;
 		friend class JointShape;
+
+		friend class PhysicalObject;
 	};
 }
