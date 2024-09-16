@@ -14,6 +14,8 @@
 	#include "VisualObject.hpp"
 #endif
 
+#include <iostream>
+
 using namespace Tin;
 
 //Construction and Destruction
@@ -334,6 +336,13 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 				break;
 			}
 		}
+
+		#ifdef TIN_MODULES_INCLUDE_VISUALS
+			VisualObject* visualI = dynamic_cast<VisualObject*>(bodyI);
+			VisualObject* visualJ = dynamic_cast<VisualObject*>(bodyJ);
+			if (visualI != nullptr) visualI->SetPosition(visualI->GetPosition() - correction*invMassI);
+			if (visualJ != nullptr) visualJ->SetPosition(visualJ->GetPosition() + correction*invMassJ);
+		#endif
 	}
 }
 

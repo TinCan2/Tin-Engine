@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
 	rectA.SetRestitutionCoefficient(1);
 	rectB.SetRestitutionCoefficient(1);
 
-	rectA.SetLockRotation(true);
+//	rectA.SetLockRotation(true);
 
 	Painter p;
 

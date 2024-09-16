@@ -40,7 +40,7 @@ set(TIN_MODULES_DEPS_VISUALS "ANIMATION")
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
 set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo" "AABBOptimizationDemo")
-list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo" "VisualsDemo")
+list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo" "VisualsDemo" "FPVDemo")
 
 set(TIN_DEMO_DEPS_CoreDemo "CORE")
 set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
@@ -51,6 +51,7 @@ set(TIN_DEMO_DEPS_FunctionalsDemo "FUNCTIONALS")
 set(TIN_DEMO_DEPS_AABBOptimizationDemo "PHYSICS")
 set(TIN_DEMO_DEPS_ControllerDemo "INPUT")
 set(TIN_DEMO_DEPS_VisualsDemo "VISUALS" "INPUT")
+set(TIN_DEMO_DEPS_FPVDemo "FUNCTIONALS" "PHYSICS" "VISUALS" "INPUT")
 
 if(${TIN_BUILD_DEMOS})
 	foreach(demo ${demos})
