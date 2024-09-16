@@ -97,7 +97,7 @@ option(TIN_BUILD_SHARED "Build the engine to be linked dynamically." ON)
 option(TIN_LINK_SDL_DYNAMIC "Link the SDL libraries dynamically to the engine." ON)
 
 set(BUILD_SHARED_LIBS ${TIN_BUILD_SHARED})
-add_library(tinEngine ${TIN_SOURCE})
+add_library(tinEngine ${TIN_SOURCE} ${TIN_HEADER})
 
 if (WIN32)
 	list(APPEND TIN_DEFINITIONS TIN_EXPORTS)
