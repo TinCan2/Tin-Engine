@@ -13,6 +13,8 @@ VisualObject::VisualObject(const Vector2D& position, float depth, float rotation
 	this->position = new Vector2D(position);
 	this->rotation = rotation;
 
+	this->flipV = this->flipH = false;
+
 	this->depth = depth;
 	std::vector<VisualObject*>::iterator it = std::lower_bound(renderList.begin(), renderList.end(), this, CompareDepth);
 	renderList.insert(it, this);
@@ -43,6 +45,9 @@ VisualObject::VisualObject(const VisualObject& coppiedObject) {
 	this->position = new Vector2D(*coppiedObject.position);
 	this->rotation = coppiedObject.rotation;
 
+	this->flipH = coppiedObject.flipH;
+	this->flipV = coppiedObject.flipV;
+
 	this->depth = depth;
 	std::vector<VisualObject*>::iterator it = std::lower_bound(renderList.begin(), renderList.end(), this, CompareDepth);
 	renderList.insert(it, this);
@@ -64,6 +69,9 @@ VisualObject& VisualObject::operator=(const VisualObject& coppiedObject) {
 
 	*this->position = *coppiedObject.position;
 	this->rotation = coppiedObject.rotation;
+
+	this->flipH = coppiedObject.flipH;
+	this->flipV = coppiedObject.flipV;
 
 	std::pair<std::vector<VisualObject*>::iterator, std::vector<VisualObject*>::iterator> range;
 	range = std::equal_range(renderList.begin(), renderList.end(), this, CompareDepth);
