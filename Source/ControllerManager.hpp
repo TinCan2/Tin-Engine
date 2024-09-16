@@ -22,14 +22,14 @@ namespace Tin {
 
 		size_t GetControllerCount();
 
-		bool ButtonPressed(const size_t& index, const Buttons& button);
-		bool ButtonDown(const size_t& index, const Buttons& button);
-		bool ButtonReleased(const size_t& index, const Buttons& button);
+		bool ButtonPressed(const size_t& index, const Buttons& button) const;
+		bool ButtonDown(const size_t& index, const Buttons& button) const;
+		bool ButtonReleased(const size_t& index, const Buttons& button) const;
 
-		Buttons GetButton(const size_t& index);
+		Buttons GetButton(const size_t& index) const;
 
-		Vector2D GetStick(const size_t& index, const Sides& side);
-		float GetTrigger(const size_t& index, const Sides& side);
+		Vector2D GetStick(const size_t& index, const Sides& side) const;
+		float GetTrigger(const size_t& index, const Sides& side) const;
 
 		private:
 		ControllerManager();
@@ -40,7 +40,7 @@ namespace Tin {
 		void AddController(const int32_t& deviceIndex);
 		void RemoveController(const int32_t& instanceID);
 
-		uint32_t FormatButtons(const size_t& index);
+		uint32_t FormatButtons(const size_t& index) const;
 
 		void PushBuffers();
 

@@ -19,7 +19,7 @@ size_t ControllerManager::GetControllerCount() {
 	return this->controllerList.size();
 }
 
-bool ControllerManager::ButtonPressed(const size_t& index, const Buttons& button) {
+bool ControllerManager::ButtonPressed(const size_t& index, const Buttons& button) const {
 	uint32_t buttonStates = this->FormatButtons(index);
 	uint32_t buttonBuffer = this->controllerList[index]->buttonBuffer;
 
@@ -28,14 +28,14 @@ bool ControllerManager::ButtonPressed(const size_t& index, const Buttons& button
 	return (buttonStates & buttonMask) && !(buttonBuffer & buttonMask);
 }
 
-bool ControllerManager::ButtonDown(const size_t& index, const Buttons& button) {
+bool ControllerManager::ButtonDown(const size_t& index, const Buttons& button) const {
 	uint32_t buttonStates = this->FormatButtons(index);
 
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
 	return buttonStates & buttonMask;
 }
 
-bool ControllerManager::ButtonReleased(const size_t& index, const Buttons& button) {
+bool ControllerManager::ButtonReleased(const size_t& index, const Buttons& button) const {
 	uint32_t buttonStates = this->FormatButtons(index);
 	uint32_t buttonBuffer = this->controllerList[index]->buttonBuffer;
 
@@ -44,7 +44,7 @@ bool ControllerManager::ButtonReleased(const size_t& index, const Buttons& butto
 	return !(buttonStates & buttonMask) && (buttonBuffer & buttonMask);
 }
 
-ControllerManager::Buttons ControllerManager::GetButton(const size_t& index) {
+ControllerManager::Buttons ControllerManager::GetButton(const size_t& index) const {
 	for (size_t i = 0; i <= 20; i++) {
 		Buttons currentButton = static_cast<Buttons>(i);
 		if(this->ButtonDown(index, currentButton)) return currentButton;
@@ -52,7 +52,7 @@ ControllerManager::Buttons ControllerManager::GetButton(const size_t& index) {
 	return Buttons::None;
 }
 
-Vector2D ControllerManager::GetStick(const size_t& index, const Sides& side) {
+Vector2D ControllerManager::GetStick(const size_t& index, const Sides& side) const {
 	if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
 	SDL_GameController* controller = this->controllerList[index]->controller;
 
@@ -63,7 +63,7 @@ Vector2D ControllerManager::GetStick(const size_t& index, const Sides& side) {
 	return Vector2D(static_cast<float>(x)/INT16_MAX, static_cast<float>(y)/INT16_MAX);
 }
 
-float ControllerManager::GetTrigger(const size_t& index, const Sides& side) {
+float ControllerManager::GetTrigger(const size_t& index, const Sides& side) const {
     if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
 	SDL_GameController* controller = this->controllerList[index]->controller;
 
@@ -101,7 +101,7 @@ void ControllerManager::RemoveController(const int32_t& instanceID) {
 
 
 //Format Helpers
-uint32_t ControllerManager::FormatButtons(const size_t& index) {
+uint32_t ControllerManager::FormatButtons(const size_t& index) const {
 	if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
 	SDL_GameController* controller = this->controllerList[index]->controller;
 
