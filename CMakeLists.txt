@@ -157,6 +157,19 @@ endif()
 file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
 add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
 
+if (WIN32 AND TIN_BUILD_DEMOS)
+	if (TIN_BUILD_SHARED)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+							$<TARGET_FILE:tinEngine> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+	endif()
+	if (TIN_LINK_SDL_DYNAMIC)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								$<TARGET_FILE:SDL2> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								$<TARGET_FILE:SDL2_image> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+	endif()
+endif()
+
 
 #==Demo Generation==#
 if (${TIN_BUILD_DEMOS})
