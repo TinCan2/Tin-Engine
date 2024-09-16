@@ -4,8 +4,6 @@
 #include <SDL.h>
 #include <stdexcept>
 
-#include <iostream>
-
 using namespace Tin;
 
 //Singleton Implementation

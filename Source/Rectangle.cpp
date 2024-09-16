@@ -97,7 +97,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 		int rCount = abs(lround(2*(thetaO - thetaS)/std::numbers::pi));
 		Vector2D tExtO = (rCount%2 == 1) ? Vector2D(extO.y, extO.x) : extO;
 
-		Vector2D tDir = dir.x*Vector2D(cos(-thetaS), sin(-thetaS)) + dir.y*Vector2D(-sin(-thetaS), cos(-thetaS));
+		Vector2D tDir = dir.x*Vector2D(std::cos(-thetaS), std::sin(-thetaS)) + dir.y*Vector2D(-std::sin(-thetaS), std::cos(-thetaS));
 
 		float hOverlap = extS.x + tExtO.x - std::abs(tDir.x);
 		float vOverlap = extS.y + tExtO.y - std::abs(tDir.y);
@@ -114,10 +114,10 @@ void Rectangle::SetOrientation(const float& orientation) {
 			cVal /= 2;
 
 			Vector2D locNorm = uNorm * std::min(hOverlap, vOverlap);
-			*collisionInfo->normal = locNorm.x*Vector2D(cos(thetaS), sin(thetaS)) + locNorm.y*Vector2D(-sin(thetaS), cos(thetaS));
+			*collisionInfo->normal = locNorm.x*Vector2D(std::cos(thetaS), std::sin(thetaS)) + locNorm.y*Vector2D(-std::sin(thetaS), std::cos(thetaS));
 
 			Vector2D locCont = (minAxH) ? Vector2D(tDir.x-uNorm.x*tExtO.x, cVal) : Vector2D(cVal, tDir.y-uNorm.y*tExtO.y);
-			*collisionInfo->contact = locCont.x*Vector2D(cos(thetaS), sin(thetaS)) + locCont.y*Vector2D(-sin(thetaS), cos(thetaS));
+			*collisionInfo->contact = locCont.x*Vector2D(std::cos(thetaS), std::sin(thetaS)) + locCont.y*Vector2D(-std::sin(thetaS), std::cos(thetaS));
 			*collisionInfo->contact += this->GetCenter();
 		}
 
@@ -134,8 +134,8 @@ void Rectangle::SetOrientation(const float& orientation) {
 		float theta = this->GetOrientation();
 		Vector2D ext = this->GetExtents();
 
-		Vector2D axH(cos(theta), sin(theta));
-		Vector2D axV(-sin(theta), cos(theta));
+		Vector2D axH(std::cos(theta), std::sin(theta));
+		Vector2D axV(-std::sin(theta), std::cos(theta));
 
 		Vector2D dir = otherShape.GetCenter() - this->GetCenter();
 		Vector2D tDir = dir.x*axH.FlipV() + dir.y*axV.FlipH();
@@ -176,13 +176,13 @@ void Rectangle::SetOrientation(const float& orientation) {
 		float thetaS = this->GetOrientation();
 		float thetaO = otherShape.GetOrientation();
 
-		float angularRemainder = std::abs(fmod(thetaO - thetaS, std::numbers::pi/2));
+		float angularRemainder = std::abs(std::fmod(thetaO - thetaS, std::numbers::pi/2));
 		if (angularRemainder < 0.001 || std::numbers::pi/2-angularRemainder < 0.001) return this->AABBCollidesWith(otherShape, collisionInfo);
 
-		Vector2D axSh(cos(thetaS), sin(thetaS));
-		Vector2D axSv(-sin(thetaS), cos(thetaS));
-		Vector2D axOh(cos(thetaO), sin(thetaO));
-		Vector2D axOv(-sin(thetaO), cos(thetaO));
+		Vector2D axSh(std::cos(thetaS), std::sin(thetaS));
+		Vector2D axSv(-std::sin(thetaS), std::cos(thetaS));
+		Vector2D axOh(std::cos(thetaO), std::sin(thetaO));
+		Vector2D axOv(-std::sin(thetaO), std::cos(thetaO));
 
 		Vector2D cS = this->GetCenter();
 		Vector2D cO = otherShape.GetCenter();

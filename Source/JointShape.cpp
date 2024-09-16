@@ -2,8 +2,8 @@
 #include "JointShape.hpp"
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	#include "CollisionInfo.hpp"
@@ -202,19 +202,19 @@ void JointShape::SetOrientation(const float& orientation) {
 
 	for (size_t i = 0; i < this->circleCount; i++) {
 		Vector2D localCenter = this->circleSubs[i]->GetCenter() - this->GetCenter();
-		Vector2D tLoc = localCenter.x*Vector2D(cos(theta),sin(theta)) + localCenter.y*Vector2D(-sin(theta),cos(theta));
+		Vector2D tLoc = localCenter.x*Vector2D(std::cos(theta),std::sin(theta)) + localCenter.y*Vector2D(-std::sin(theta),std::cos(theta));
 		this->circleSubs[i]->SetCenter(this->GetCenter()+tLoc);
 	}
 
 	for (size_t i = 0; i < this->rectangleCount; i++) {
 		Vector2D localCenter = this->rectangleSubs[i]->GetCenter() - this->GetCenter();
-		Vector2D tLoc = localCenter.x*Vector2D(cos(theta),sin(theta)) + localCenter.y*Vector2D(-sin(theta),cos(theta));
+		Vector2D tLoc = localCenter.x*Vector2D(std::cos(theta),std::sin(theta)) + localCenter.y*Vector2D(-std::sin(theta),std::cos(theta));
 		this->rectangleSubs[i]->SetCenter(this->GetCenter()+tLoc);
 		this->rectangleSubs[i]->SetOrientation(this->rectangleSubs[i]->GetOrientation() + theta);
 	}
 
 	Vector2D dir = this->enclosure->GetCenter() - *this->center;
-	Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.y*Vector2D(-sin(theta), cos(theta));
+	Vector2D tDir = dir.x*Vector2D(std::cos(theta), std::sin(theta)) + dir.y*Vector2D(-std::sin(theta), std::cos(theta));
 	this->enclosure->SetCenter(*this->center + tDir);
 
 	this->orientation = orientation;

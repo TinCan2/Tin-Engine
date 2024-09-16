@@ -14,8 +14,6 @@
 	#include "VisualObject.hpp"
 #endif
 
-#include <iostream>
-
 using namespace Tin;
 
 //Construction and Destruction
@@ -369,7 +367,7 @@ void PhysicalObject::UpdateBodies() {
 			case ColliderTypes::JointShape: {
 				JointShape* jointBody = static_cast<JointShape*>(currentBody->collider);
 				Vector2D dir = jointBody->GetCenter() - *currentBody->centerOfMass;
-				Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.y*Vector2D(-sin(theta), cos(theta));
+				Vector2D tDir = dir.x*Vector2D(std::cos(theta), std::sin(theta)) + dir.y*Vector2D(-std::sin(theta), std::cos(theta));
 
 				jointBody->SetCenter(*currentBody->centerOfMass + tDir);
 				jointBody->SetOrientation(jointBody->GetOrientation() + theta);

@@ -52,13 +52,13 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 	float rA = std::abs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
-	int n = ceil(std::numbers::pi/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
+	int n = std::ceil(std::numbers::pi/std::acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 
 	Vector2D* corners = new Vector2D[n];
 	for (size_t i=0; i<n; i++) {
-		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*std::numbers::pi/n), rA*sin(2*i*std::numbers::pi/n));
+		corners[i] = circle.GetCenter() + Vector2D(rA*std::cos(2*i*std::numbers::pi/n), rA*std::sin(2*i*std::numbers::pi/n));
 		corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 	}
 
@@ -100,8 +100,8 @@ void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) con
 
 	if (std::abs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || std::abs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
 
-	Vector2D tExt = extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));
-	Vector2D tExtF = -extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));
+	Vector2D tExt = extents.x*Vector2D(std::cos(theta),std::sin(theta)) + extents.y*Vector2D(-std::sin(theta),std::cos(theta));
+	Vector2D tExtF = -extents.x*Vector2D(std::cos(theta),std::sin(theta)) + extents.y*Vector2D(-std::sin(theta),std::cos(theta));
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 	Vector2D corners[] = {center+tExt, center+tExtF, center-tExt, center-tExtF};
