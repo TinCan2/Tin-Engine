@@ -3,7 +3,7 @@
 #include <vector>
 
 namespace Tin {
-	class FunctionalObject {
+	class TIN_API FunctionalObject {
 		public:
 		FunctionalObject();
 		virtual ~FunctionalObject();
