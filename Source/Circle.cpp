@@ -13,7 +13,7 @@ using namespace Tin;
 //Construction and Destruction
 Circle::Circle(const Vector2D& center, const float& radius) {
 	this->center = new Vector2D(center);
-	this->radius = fabs(radius);
+	this->radius = std::abs(radius);
 }
 
 Circle::Circle(const Circle& copiedCircle) {
@@ -47,7 +47,7 @@ void Circle::SetCenter(const Vector2D& center) {
 }
 
 void Circle::SetRadius(const float& radius) {
-	this->radius = fabs(radius);
+	this->radius = std::abs(radius);
 }
 
 
@@ -67,7 +67,7 @@ void Circle::SetRadius(const float& radius) {
 
 			*collisionInfo->normal = depth*dir/(d+0.1/Vector2D::UnitPixelEquivalent);
 
-			if (d <= fabs(rS-rO)) *collisionInfo->contact = (rS < rO) ? this->GetCenter() : otherShape.GetCenter();
+			if (d <= std::abs(rS-rO)) *collisionInfo->contact = (rS < rO) ? this->GetCenter() : otherShape.GetCenter();
 			else {
 				float l = (rS*rS - rO*rO)/(2*d*d) + 0.5;
 				*collisionInfo->contact = this->GetCenter() + l*dir;

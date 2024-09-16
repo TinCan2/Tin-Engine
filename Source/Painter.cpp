@@ -49,7 +49,7 @@ void Painter::PaintLine(const Vector2D& A, const Vector2D& B) const {
 }
 
 void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
-	float rA = fabs(circle.GetRadius());
+	float rA = std::abs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
 	int n = ceil(std::numbers::pi/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
@@ -98,7 +98,7 @@ void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) con
 	Vector2D center = rectangle.GetCenter();
 	float theta = rectangle.GetOrientation();
 
-	if (fabs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || fabs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
+	if (std::abs(extents.x) < 0.5/Vector2D::UnitPixelEquivalent || std::abs(extents.y) < 0.5/Vector2D::UnitPixelEquivalent) return;
 
 	Vector2D tExt = extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));
 	Vector2D tExtF = -extents.x*Vector2D(cos(theta),sin(theta)) + extents.y*Vector2D(-sin(theta),cos(theta));

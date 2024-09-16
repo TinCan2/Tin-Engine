@@ -298,8 +298,8 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		Vector2D depthNormal = collision.GetNormal();
 		Vector2D correction = 0.2*depthNormal/(invMassI + invMassJ);
 
-		if (fabs(bodyI->angularSpeed) < 0.05) bodyI->angularSpeed *= 0.5;
-		if (fabs(bodyJ->angularSpeed) < 0.05) bodyJ->angularSpeed *= 0.5;
+		if (std::abs(bodyI->angularSpeed) < 0.05) bodyI->angularSpeed *= 0.5;
+		if (std::abs(bodyJ->angularSpeed) < 0.05) bodyJ->angularSpeed *= 0.5;
 
 		switch (bodyI->GetColliderType()) {
 			case ColliderTypes::Circle: {

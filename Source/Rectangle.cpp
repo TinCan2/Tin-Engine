@@ -15,7 +15,7 @@ using namespace Tin;
 //Construction and Destruction
 Rectangle::Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation) {
 	this->center = new Vector2D(center);
-	this->extents = new Vector2D(fabs(extents.x), fabs(extents.y));
+	this->extents = new Vector2D(std::abs(extents.x), std::abs(extents.y));
 	this->orientation = orientation;
 }
 
@@ -57,8 +57,8 @@ void Rectangle::SetCenter(const Vector2D& center) {
 }
 
 void Rectangle::SetExtents(const Vector2D& extents) {
-	this->extents->x = fabs(extents.x);
-	this->extents->y = fabs(extents.y);
+	this->extents->x = std::abs(extents.x);
+	this->extents->y = std::abs(extents.y);
 }
 
 void Rectangle::SetOrientation(const float& orientation) {
@@ -99,14 +99,14 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 		Vector2D tDir = dir.x*Vector2D(cos(-thetaS), sin(-thetaS)) + dir.y*Vector2D(-sin(-thetaS), cos(-thetaS));
 
-		float hOverlap = extS.x + tExtO.x - fabs(tDir.x);
-		float vOverlap = extS.y + tExtO.y - fabs(tDir.y);
+		float hOverlap = extS.x + tExtO.x - std::abs(tDir.x);
+		float vOverlap = extS.y + tExtO.y - std::abs(tDir.y);
 
 		bool overlapping = hOverlap > 0 && vOverlap > 0;
 
 		if (overlapping && collisionInfo != nullptr) {
 			bool minAxH = hOverlap < vOverlap;
-			Vector2D uNorm = (minAxH) ? Vector2D(tDir.x/fabs(tDir.x),0) : Vector2D(0, tDir.y/fabs(tDir.y));
+			Vector2D uNorm = (minAxH) ? Vector2D(tDir.x/std::abs(tDir.x),0) : Vector2D(0, tDir.y/std::abs(tDir.y));
 
 			float cVal;
 			if (minAxH) cVal = std::clamp(tDir.y - tExtO.y, -extS.y, extS.y) + std::clamp(tDir.y + tExtO.y, -extS.y, extS.y);
@@ -144,12 +144,12 @@ void Rectangle::SetOrientation(const float& orientation) {
 		bool overlapping = (tDir-clampPoint).GetMagnitude2() < r*r;
 
 		if (overlapping && collisionInfo != nullptr) {
-			if (fabs(tDir.x) <= ext.x && fabs(tDir.y) <= ext.y) {
-				float depth =  std::min(ext.x-fabs(tDir.x), ext.y-fabs(tDir.y)) + r;
+			if (std::abs(tDir.x) <= ext.x && std::abs(tDir.y) <= ext.y) {
+				float depth =  std::min(ext.x-std::abs(tDir.x), ext.y-std::abs(tDir.y)) + r;
 				float eps = 0.1/Vector2D::UnitPixelEquivalent;
 
-				bool minPenAxX = ext.x-fabs(tDir.x) < ext.y-fabs(tDir.y);
-				*collisionInfo->normal = (minPenAxX) ? axH*tDir.x/(fabs(tDir.x)+eps) : axV*tDir.y/(fabs(tDir.y)+eps);
+				bool minPenAxX = ext.x-std::abs(tDir.x) < ext.y-std::abs(tDir.y);
+				*collisionInfo->normal = (minPenAxX) ? axH*tDir.x/(std::abs(tDir.x)+eps) : axV*tDir.y/(std::abs(tDir.y)+eps);
 				*collisionInfo->normal *= depth;
 			}
 			else {
@@ -176,7 +176,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 		float thetaS = this->GetOrientation();
 		float thetaO = otherShape.GetOrientation();
 
-		float angularRemainder = fabs(fmod(thetaO - thetaS, std::numbers::pi/2));
+		float angularRemainder = std::abs(fmod(thetaO - thetaS, std::numbers::pi/2));
 		if (angularRemainder < 0.001 || std::numbers::pi/2-angularRemainder < 0.001) return this->AABBCollidesWith(otherShape, collisionInfo);
 
 		Vector2D axSh(cos(thetaS), sin(thetaS));
@@ -218,7 +218,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			float m = hProjection.first + hProjection.second;
 			float depth = (m > 0) ? extS.x - hProjection.first : hProjection.second + extS.x;
 			if (depth < minDepth) {
-				minNormal = axSh * m/(fabs(m)+eps);
+				minNormal = axSh * m/(std::abs(m)+eps);
 				minDepth = depth;
 			}
 		}
@@ -227,7 +227,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			float m = vProjection.first + vProjection.second;
 			float depth = (m > 0) ? extS.y - vProjection.first : vProjection.second + extS.y;
 			if (depth < minDepth) {
-				minNormal = axSv * m/(fabs(m)+eps);
+				minNormal = axSv * m/(std::abs(m)+eps);
 				minDepth = depth;
 			}
 		}
@@ -249,7 +249,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			float m = hProjection.first + hProjection.second;
 			float depth = (m > 0) ? extO.x - hProjection.first : hProjection.second + extO.x;
 			if (depth < minDepth) {
-				minNormal = axOh * m/(fabs(m)+eps);
+				minNormal = axOh * m/(std::abs(m)+eps);
 				minDepth = depth;
 				referSelf = false;
 			}
@@ -259,7 +259,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			float m = vProjection.first + vProjection.second;
 			float depth = (m > 0) ? extO.y - vProjection.first : vProjection.second + extO.y;
 			if (depth < minDepth) {
-				minNormal = axOv * m/(fabs(m)+eps);
+				minNormal = axOv * m/(std::abs(m)+eps);
 				minDepth = depth;
 				referSelf = false;
 			}
@@ -275,7 +275,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			if (referSelf) {
 				for (size_t i = 1; i < 4; i++) if ((vertO[i]-cO)*minNormal < minNormal*(vertO[deepestIndex]-cO)) deepestIndex = i;
 				incidentFace.first = vertO[deepestIndex];
-				if (fabs(axOh*minNormal) < fabs(axOv*minNormal))incidentFace.second = vertO[3-deepestIndex];
+				if (std::abs(axOh*minNormal) < std::abs(axOv*minNormal))incidentFace.second = vertO[3-deepestIndex];
 				else incidentFace.second = vertO[(1-deepestIndex%2)+2*(deepestIndex/2)];
 
 				locInc.first = incidentFace.first - cS;
@@ -294,7 +294,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 			else {
 				for (size_t i = 1; i < 4; i++) if ((vertS[i]-cS)*minNormal < minNormal*(vertS[deepestIndex]-cS)) deepestIndex = i;
 				incidentFace.first = vertS[deepestIndex];
-				if (fabs(axSh*minNormal) < fabs(axSv*minNormal)) incidentFace.second = vertS[3-deepestIndex];
+				if (std::abs(axSh*minNormal) < std::abs(axSv*minNormal)) incidentFace.second = vertS[3-deepestIndex];
 				else incidentFace.second = vertS[(1-deepestIndex%2)+2*(deepestIndex/2)];
 
 				locInc.first = incidentFace.first - cO;
