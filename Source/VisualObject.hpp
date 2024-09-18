@@ -35,6 +35,8 @@ namespace Tin {
 		void SetDepth(const float& depth);
 		float GetDepth() const;
 
+		virtual void OnRender();
+
 		private:
 		void* visual;
 		bool animated;

@@ -164,6 +164,21 @@ float VisualObject::GetDepth() const {
 }
 
 
+//Rendering Methods
+void Tin::VisualObject::OnRender() {
+	if (this->visual == nullptr) return;
+
+	if (this->animated) {
+		Animation* animation = static_cast<Animation*>(this->visual);
+		animation->DrawFrame(*this->position, this->flipH, this->flipV, this->rotation);
+	}
+	else {
+		Sprite* sprite = static_cast<Sprite*>(this->visual);
+		sprite->Draw(*this->position, this->flipH, this->flipV, this->rotation);
+	}
+}
+
+
 //Depth Check Helper
 bool VisualObject::CompareDepth(VisualObject* a, VisualObject* b) {
 	return a->depth < b->depth;
@@ -172,19 +187,7 @@ bool VisualObject::CompareDepth(VisualObject* a, VisualObject* b) {
 
 //Renderer Access
 void VisualObject::RenderObjects() {
-	for (size_t i = renderList.size(); i > 0; i--) {
-		VisualObject* instance = renderList[i-1];
-		if (instance->visual == nullptr) continue;
-
-		if (instance->animated) {
-			Animation* animation = static_cast<Animation*>(instance->visual);
-			animation->DrawFrame(*instance->position, instance->flipH, instance->flipV, instance->rotation);
-		}
-		else {
-			Sprite* sprite = static_cast<Sprite*>(instance->visual);
-			sprite->Draw(*instance->position, instance->flipH, instance->flipV, instance->rotation);
-		}
-	}
+	for (size_t i = renderList.size(); i > 0; i--) renderList[i - 1]->OnRender();
 }
 
 
