@@ -63,7 +63,7 @@ endif()
 
 #==Module Activation==#
 set(TIN_SOURCE)
-set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp")
+set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/TinEngine.hpp")
 set(TIN_DEFINITIONS)
 
 set(TIN_ACTIVATION_QUEUE)
