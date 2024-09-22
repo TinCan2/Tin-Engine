@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 #include "GameManager.hpp"
+#include "ModuleDefinitions.hpp"
 #include <SDL.h>
 
 #ifdef TIN_MODULES_INCLUDE_FUNCTIONALS

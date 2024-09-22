@@ -1,3 +1,5 @@
+#include "ModuleDefinitions.hpp"
+
 #ifdef TIN_MODULES_INCLUDE_ANIMATION
 	#include "Animation.hpp"
 #endif

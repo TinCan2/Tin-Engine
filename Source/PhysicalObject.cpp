@@ -1,6 +1,7 @@
 #include "Circle.hpp"
 #include "CollisionInfo.hpp"
 #include "JointShape.hpp"
+#include "ModuleDefinitions.hpp"
 #include "PhysicalObject.hpp"
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"

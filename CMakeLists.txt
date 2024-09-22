@@ -63,9 +63,10 @@ endif()
 
 
 #==Module Activation==#
+set(TIN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Source)
+
 set(TIN_SOURCE)
-set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/TinEngine.hpp")
-set(TIN_DEFINITIONS)
+set(TIN_HEADER ${TIN_SOURCE_DIR}/DllMacro.hpp ${TIN_SOURCE_DIR}/TinEngine.hpp ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
 
 set(TIN_ACTIVATION_QUEUE)
 foreach(module ${TIN_MODULES})
@@ -78,10 +79,9 @@ while(TIN_ACTIVATION_QUEUE)
 	list(GET TIN_ACTIVATION_QUEUE 0 module)
 
 	foreach(file ${TIN_MODULES_FILES_${module}})
-		list(APPEND TIN_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Source/${file}.cpp")
-		list(APPEND TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/${file}.hpp")
+		list(APPEND TIN_SOURCE "${TIN_SOURCE_DIR}/${file}.cpp")
+		list(APPEND TIN_HEADER "${TIN_SOURCE_DIR}/${file}.hpp")
 	endforeach()
-	list(APPEND TIN_DEFINITIONS "TIN_MODULES_INCLUDE_${module}")
 
 	foreach(dep ${TIN_MODULES_DEPS_${module}})
 		if (NOT ${TIN_MODULES_INCLUDE_${dep}})
@@ -93,6 +93,8 @@ while(TIN_ACTIVATION_QUEUE)
 	list(REMOVE_ITEM TIN_ACTIVATION_QUEUE ${module})
 endwhile()
 
+configure_file(${TIN_SOURCE_DIR}/ModuleDefinitions.hpp.in ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
+
 
 #==Library Generation==#
 option(TIN_BUILD_SHARED "Build the engine to be linked dynamically." ON)
@@ -101,12 +103,10 @@ option(TIN_LINK_SDL_DYNAMIC "Link the SDL libraries dynamically to the engine." 
 set(BUILD_SHARED_LIBS ${TIN_BUILD_SHARED})
 add_library(tinEngine ${TIN_SOURCE} ${TIN_HEADER})
 
-if (WIN32)
-	list(APPEND TIN_DEFINITIONS TIN_EXPORTS)
-endif()
-
 target_compile_features(tinEngine PUBLIC cxx_std_20)
-target_compile_definitions(tinEngine PUBLIC ${TIN_DEFINITIONS})
+if (WIN32)
+	target_compile_definitions(tinEngine PUBLIC TIN_EXPORTS)
+endif()
 
 
 #==Dependency Management==#
