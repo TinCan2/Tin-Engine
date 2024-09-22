@@ -61,6 +61,7 @@ if(${TIN_BUILD_DEMOS})
 	endforeach()
 endif()
 
+
 #==Module Activation==#
 set(TIN_SOURCE)
 set(TIN_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/Source/DllMacro.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/TinEngine.hpp")
@@ -83,8 +84,9 @@ while(TIN_ACTIVATION_QUEUE)
 	list(APPEND TIN_DEFINITIONS "TIN_MODULES_INCLUDE_${module}")
 
 	foreach(dep ${TIN_MODULES_DEPS_${module}})
-		if (NOT ${TIN_MODULES_INCLUDE_${module}})
+		if (NOT ${TIN_MODULES_INCLUDE_${dep}})
 			list(APPEND TIN_ACTIVATION_QUEUE ${dep})
+			set(TIN_MODULES_INCLUDE_${dep} ON)
 		endif()
 	endforeach()
 
