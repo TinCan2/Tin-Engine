@@ -4,7 +4,7 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES "CORE" "INPUT" "SHAPES" "SPRITE" "PAINTER" "PHYSICS" "ANIMATION" "FUNCTIONALS" "VISUALS")
+set(TIN_MODULES CORE INPUT SHAPES SPRITE PAINTER PHYSICS ANIMATION FUNCTIONALS VISUALS)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_INPUT "Include the input module." ON)
@@ -39,8 +39,8 @@ set(TIN_MODULES_DEPS_VISUALS "ANIMATION")
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
-set(TIN_DEMOS "CoreDemo" "GetKeyDemo" "InputDemo" "MouseDemo" "PhysicsDemo" "FunctionalsDemo" "AABBOptimizationDemo")
-list(APPEND TIN_DEMOS "ControllerDemo" "Sprite-AnimationDemo" "VisualsDemo" "FPVDemo")
+set(TIN_DEMOS CoreDemo GetKeyDemo InputDemo MouseDemo PhysicsDemo FunctionalsDemo AABBOptimizationDemo)
+list(APPEND TIN_DEMOS ControllerDemo Sprite-AnimationDemo VisualsDemo FPVDemo)
 
 set(TIN_DEMO_DEPS_CoreDemo "CORE")
 set(TIN_DEMO_DEPS_GetKeyDemo "INPUT")
@@ -99,6 +99,7 @@ configure_file(${TIN_SOURCE_DIR}/ModuleDefinitions.hpp.in ${TIN_SOURCE_DIR}/Modu
 #==Library Generation==#
 option(TIN_BUILD_SHARED "Build the engine to be linked dynamically." ON)
 option(TIN_LINK_SDL_DYNAMIC "Link the SDL libraries dynamically to the engine." ON)
+option(TIN_LINK_TXML_DYNAMIC "Link the TinyXML2 library dynamically to the engine." ON)
 
 set(BUILD_SHARED_LIBS ${TIN_BUILD_SHARED})
 add_library(tinEngine ${TIN_SOURCE} ${TIN_HEADER})
@@ -114,6 +115,7 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(SDL2 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.30.6 GIT_PROGRESS ON)
 FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git GIT_TAG release-2.8.2 GIT_PROGRESS ON)
+FetchContent_Declare(tinyxml2 GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git GIT_TAG 10.0.0 GIT_PROGRESS ON)
 
 set(SDL_SHARED ${TIN_LINK_SDL_DYNAMIC})
 if (${TIN_LINK_SDL_DYNAMIC})
@@ -125,7 +127,10 @@ endif()
 set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
 FetchContent_MakeAvailable(SDL2 SDL2_image)
 
-set(TIN_LINK_LIST "SDL2_image")
+set(BUILD_SHARED_LIBS ${TIN_LINK_TXML_DYNAMIC})
+FetchContent_MakeAvailable(tinyxml2)
+
+set(TIN_LINK_LIST "SDL2_image" "tinyxml2")
 if (${TIN_LINK_SDL_DYNAMIC})
 	list(APPEND TIN_LINK_LIST SDL2)
 else()
@@ -155,6 +160,10 @@ else()
 	set_target_properties(SDL2-static PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 	set_target_properties(SDL2-static PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 endif()
+
+set_target_properties(tinyxml2 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(tinyxml2 PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(tinyxml2 PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 
 file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
 add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
