@@ -6,7 +6,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-Tileset::Tileset(const char* targetSheet, uint16_t w, uint16_t h) {
+Tileset::Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h) {
 	Sprite sheet(targetSheet);
 
     this->columns = sheet.GetWidth()/w;
