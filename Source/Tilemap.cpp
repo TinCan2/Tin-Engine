@@ -1,5 +1,6 @@
 #include "JointShape.hpp"
 #include "PhysicalObject.hpp"
+#include "Rectangle.hpp"
 #include "Sprite.hpp"
 #include "Tilemap.hpp"
 #include "Tileset.hpp"
@@ -7,11 +8,6 @@
 #include <cstring>
 #include <limits>
 #include <vector>
-
-#include <iostream>
-#include "Painter.hpp"
-#include "Color.hpp"
-#include "Rectangle.hpp"
 
 using namespace Tin;
 
@@ -134,6 +130,10 @@ void Tilemap::OnRender() {
 //Tile Access
 void Tilemap::SetTileID(size_t x, size_t y, size_t id) {
 	this->tileMatrix[y][x] = id;
+}
+
+size_t Tilemap::GetTileID(size_t x, size_t y) const {
+	return this->tileMatrix[y][x];
 }
 
 

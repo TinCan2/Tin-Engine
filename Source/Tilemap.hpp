@@ -21,6 +21,7 @@ namespace Tin {
 		virtual void OnRender() override;
 
 		void SetTileID(size_t x, size_t y, size_t id);
+		size_t GetTileID(size_t x, size_t y) const;
 
 		#ifdef TIN_MODULES_INCLUDE_PHYSICS
 			void GeneratePhysics();
