@@ -1,4 +1,5 @@
 #pragma once
+#include "ModuleDefinitions.hpp"
 #include "VisualObject.hpp"
 #include <memory>
 
@@ -21,7 +22,9 @@ namespace Tin {
 
 		void SetTileID(size_t x, size_t y, size_t id);
 
-		void GeneratePhysics();
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			void GeneratePhysics();
+		#endif
 
 		private:
 		std::shared_ptr<Tileset>* tilesets;
@@ -31,7 +34,9 @@ namespace Tin {
 		size_t** tileMatrix;
 		size_t w,h;
 
-		PhysicalObject* physics;
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			PhysicalObject* physics;
+		#endif
 
 		Vector2D* anchor;
 		Vector2D* tileSize;

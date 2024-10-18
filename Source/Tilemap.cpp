@@ -104,6 +104,10 @@ Tilemap::~Tilemap() {
 
 	delete this->anchor;
 	delete this->tileSize;
+
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		if (this->physics != nullptr) delete this->physics;
+	#endif
 }
 
 
@@ -134,49 +138,51 @@ void Tilemap::SetTileID(size_t x, size_t y, size_t id) {
 
 
 //Physics
-void Tilemap::GeneratePhysics() {
-	if (this->physics != nullptr) delete this->physics;
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	void Tilemap::GeneratePhysics() {
+		if (this->physics != nullptr) delete this->physics;
 
-	bool** coverMatrix = new bool*[this->h];
-	for (int i = 0; i < h; i++) {
-		coverMatrix[i] = new bool[w];
-		for (int j = 0; j < w; j++) coverMatrix[i][j] = false;
-	}
+		bool** coverMatrix = new bool*[this->h];
+		for (int i = 0; i < h; i++) {
+			coverMatrix[i] = new bool[w];
+			for (int j = 0; j < w; j++) coverMatrix[i][j] = false;
+		}
 
-	std::vector<Rectangle> coverList;
-	for (size_t i = 0; i < this->h; i++) {
-		for (size_t j = 0; j < this->w; j++) {
-			if (coverMatrix[i][j]) continue;
+		std::vector<Rectangle> coverList;
+		for (size_t i = 0; i < this->h; i++) {
+			for (size_t j = 0; j < this->w; j++) {
+				if (coverMatrix[i][j]) continue;
 
-			size_t tileID = this->tileMatrix[i][j];
-			if (tileID != 0) {
-				size_t maxX=j;
-				while (this->tileMatrix[i][maxX] != 0 && !coverMatrix[i][maxX] && maxX < this->w) maxX++;
-				maxX -= 1;
+				size_t tileID = this->tileMatrix[i][j];
+				if (tileID != 0) {
+					size_t maxX=j;
+					while (this->tileMatrix[i][maxX] != 0 && !coverMatrix[i][maxX] && maxX < this->w) maxX++;
+					maxX -= 1;
 
-				size_t maxY = this->h-1;
-				for (size_t x = j; x <= maxX; x++) {
-					for (size_t y = i; y <= maxY; y++) {
-						if (this->tileMatrix[y][x] == 0 || coverMatrix[y][x]) maxY = y-1;
+					size_t maxY = this->h-1;
+					for (size_t x = j; x <= maxX; x++) {
+						for (size_t y = i; y <= maxY; y++) {
+							if (this->tileMatrix[y][x] == 0 || coverMatrix[y][x]) maxY = y-1;
+						}
 					}
-				}
 
-				Vector2D a(j*this->tileSize->x, i*this->tileSize->y);
-				Vector2D b((maxX+1)*this->tileSize->x, (maxY+1)*this->tileSize->y);
-				a+=*this->anchor;
-				b+=*this->anchor;
-				coverList.push_back(Rectangle((a+b)/2, (b-a)/2));
+					Vector2D a(j*this->tileSize->x, i*this->tileSize->y);
+					Vector2D b((maxX+1)*this->tileSize->x, (maxY+1)*this->tileSize->y);
+					a+=*this->anchor;
+					b+=*this->anchor;
+					coverList.push_back(Rectangle((a+b)/2, (b-a)/2));
 
-				for (size_t x = j; x <= maxX; x++) {
-					for(size_t y = i; y <= maxY; y++) coverMatrix[y][x] = true;
+					for (size_t x = j; x <= maxX; x++) {
+						for(size_t y = i; y <= maxY; y++) coverMatrix[y][x] = true;
+					}
 				}
 			}
 		}
+
+		for (int i = 0; i < h; i++) delete[] coverMatrix[i];
+		delete[] coverMatrix;
+
+		JointShape colider(nullptr, 0, &coverList[0], coverList.size(), *this->anchor);
+		this->physics = new PhysicalObject(colider, std::numeric_limits<float>::infinity());
 	}
-
-	for (int i = 0; i < h; i++) delete[] coverMatrix[i];
-	delete[] coverMatrix;
-
-	JointShape colider(nullptr, 0, &coverList[0], coverList.size(), *this->anchor);
-	this->physics = new PhysicalObject(colider, std::numeric_limits<float>::infinity());
-}
+#endif
