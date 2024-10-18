@@ -15,6 +15,8 @@
 	#include "VisualObject.hpp"
 #endif
 
+#include <iostream>
+
 using namespace Tin;
 
 //Construction and Destruction
@@ -181,6 +183,7 @@ PhysicalObject::~PhysicalObject() {
 	delete this->velocity;
 
 	std::vector<PhysicalObject*>::iterator it = std::find(bodyList.begin(), bodyList.end(), this);
+	bodyList.erase(it);
 }
 
 
