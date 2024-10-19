@@ -118,6 +118,7 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(SDL2 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.30.6 GIT_PROGRESS ON)
 FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git GIT_TAG release-2.8.2 GIT_PROGRESS ON)
+FetchContent_Declare(SDL2_mixer GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git GIT_TAG release-2.8.0 GIT_PROGRESS ON)
 
 set(SDL_SHARED ${TIN_LINK_SDL_DYNAMIC})
 if (${TIN_LINK_SDL_DYNAMIC})
@@ -127,7 +128,8 @@ else()
 endif()
 
 set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
-FetchContent_MakeAvailable(SDL2 SDL2_image)
+set(SDL2MIXER_VENDORED ON)
+FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_mixer)
 
 set(TIN_LINK_LIST "SDL2_image")
 if (${TIN_LINK_SDL_DYNAMIC})
@@ -149,6 +151,10 @@ set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPU
 set_target_properties(SDL2_image PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 set_target_properties(SDL2_image PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 set_target_properties(SDL2_image PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+
+set_target_properties(SDL2_mixer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(SDL2_mixer PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(SDL2_mixer PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 
 if (${TIN_LINK_SDL_DYNAMIC})
 	set_target_properties(SDL2 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
