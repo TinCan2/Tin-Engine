@@ -4,6 +4,10 @@
 #include "ModuleDefinitions.hpp"
 #include <SDL.h>
 
+#ifdef TIN_MODULES_INCLUDE_AUDIO
+	#include "Audio.hpp"
+#endif
+
 #ifdef TIN_MODULES_INCLUDE_FUNCTIONALS
 	#include "FunctionalObject.hpp"
 #endif
@@ -55,6 +59,9 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
+	#ifdef TIN_MODULES_INCLUDE_AUDIO
+		Audio::InitializeMixer();
+	#endif
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		ControllerManager::currentManager = new ControllerManager();
 		KeyboardManager::currentManager = new KeyboardManager();
@@ -120,6 +127,9 @@ void GameManager::Render() {
 }
 
 void GameManager::Terminate() {
+	#ifdef TIN_MODULES_INCLUDE_AUDIO
+		Audio::CloseMixer();
+	#endif
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		delete ControllerManager::currentManager;
 		delete KeyboardManager::currentManager;

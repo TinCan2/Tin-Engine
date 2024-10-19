@@ -4,7 +4,7 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES CORE INPUT SHAPES SPRITE PAINTER PHYSICS ANIMATION FUNCTIONALS VISUALS TILES)
+set(TIN_MODULES CORE INPUT SHAPES SPRITE PAINTER PHYSICS ANIMATION FUNCTIONALS VISUALS TILES AUDIO)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_INPUT "Include the input module." ON)
@@ -16,6 +16,7 @@ option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
 option(TIN_MODULES_INCLUDE_FUNCTIONALS "Include the functionals module." ON)
 option(TIN_MODULES_INCLUDE_VISUALS "Include the visuals module." ON)
 option(TIN_MODULES_INCLUDE_TILES "Include the tiles module." ON)
+option(TIN_MODULES_INCLUDE_AUDIO "Include the audio module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
 set(TIN_MODULES_FILES_INPUT KeyboardManager MouseManager ControllerManager)
@@ -27,6 +28,7 @@ set(TIN_MODULES_FILES_ANIMATION Animation)
 set(TIN_MODULES_FILES_FUNCTIONALS FunctionalObject)
 set(TIN_MODULES_FILES_VISUALS VisualObject)
 set(TIN_MODULES_FILES_TILES Tileset Tilemap)
+set(TIN_MODULES_FILES_AUDIO Audio)
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_INPUT CORE)
@@ -38,12 +40,13 @@ set(TIN_MODULES_DEPS_ANIMATION SPRITE)
 set(TIN_MODULES_DEPS_FUNCTUIONALS CORE)
 set(TIN_MODULES_DEPS_VISUALS ANIMATION)
 set(TIN_MODULES_DEPS_TILES VISUALS)
+set(TIN_MODULES_DEPS_AUDIO CORE)
 
 
 #==Demo Definitions==#
 option(TIN_BUILD_DEMOS "Build the demo executables for testing." OFF)
 set(TIN_DEMOS CoreDemo GetKeyDemo InputDemo MouseDemo PhysicsDemo FunctionalsDemo AABBOptimizationDemo)
-list(APPEND TIN_DEMOS ControllerDemo Sprite-AnimationDemo VisualsDemo FPVDemo TilesetDemo TilemapDemo)
+list(APPEND TIN_DEMOS ControllerDemo Sprite-AnimationDemo VisualsDemo FPVDemo TilesetDemo TilemapDemo AudioDemo)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
 set(TIN_DEMO_DEPS_GetKeyDemo INPUT)
@@ -56,6 +59,7 @@ set(TIN_DEMO_DEPS_ControllerDemo INPUT)
 set(TIN_DEMO_DEPS_VisualsDemo VISUALS INPUT)
 set(TIN_DEMO_DEPS_FPVDemo FUNCTIONALS PHYSICS VISUALS INPUT)
 set(TIN_DEMO_DEPS_TilesetDemo TILES PHYSICS)
+set(TIN_DEMO_DEPS_AudioDemo AUDIO INPUT)
 
 if(${TIN_BUILD_DEMOS})
 	foreach(demo ${demos})
@@ -131,7 +135,7 @@ set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
 set(SDL2MIXER_VENDORED ON)
 FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_mixer)
 
-set(TIN_LINK_LIST "SDL2_image")
+set(TIN_LINK_LIST SDL2_image SDL2_mixer)
 if (${TIN_LINK_SDL_DYNAMIC})
 	list(APPEND TIN_LINK_LIST SDL2)
 else()
@@ -179,6 +183,8 @@ if (WIN32 AND TIN_BUILD_DEMOS)
 								$<TARGET_FILE:SDL2> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
 		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
 								$<TARGET_FILE:SDL2_image> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								$<TARGET_FILE:SDL2_mixer> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
 	endif()
 endif()
 
@@ -187,6 +193,8 @@ endif()
 if (${TIN_BUILD_DEMOS})
 	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
 						"${CMAKE_CURRENT_SOURCE_DIR}/Demos/Sprites" ${TIN_OUTPUT_DIR}/demos/Sprites)
+	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+						"${CMAKE_CURRENT_SOURCE_DIR}/Demos/Audio" ${TIN_OUTPUT_DIR}/demos/Audio)
 
 	foreach(demo ${TIN_DEMOS})
 		add_executable(${demo} "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}.cpp")
