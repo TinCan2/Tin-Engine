@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Tilemap Demo", 640, 480);
 
-	Tileset sets[] = {Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_grass.png", 16, 16),
-					  Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_rock.png", 16, 16)};
+	Tileset sets[] = {Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_grass.png", 16, 16, 1),
+					  Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_rock.png", 16, 16, 1)};
 
 	Tilemap map(sets, 2, 40, 30, Vector2D(1,1), Vector2D(-20,-15), 0);
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 
 	map.GeneratePhysics();
 
-	PhysicalObject ball(Circle(Vector2D(13,0),2),1);
+	PhysicalObject ball(Circle(Vector2D(13.5,1),1),1);
 	Painter p;
 
 	while(!gameManager->IsQuitting()) {

@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Tileset Demo", 640, 480);
 
-	Tileset tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_foreground.png", 8, 8);
+	Tileset tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_foreground -padded.png", 8, 8, 1);
 
 	std::cout << "Rows: " << tileset.GetRowCount() << std::endl;
 	std::cout << "Columns: " << tileset.GetColumnCount() << std::endl;

@@ -7,7 +7,7 @@ namespace Tin {
 
 	class Tileset {
 		public:
-		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h);
+		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h, const uint16_t& margin=0);
 
 		Tileset(const Tileset& coppiedTileset);
 		Tileset& operator=(const Tileset& coppiedTileset);
@@ -17,7 +17,7 @@ namespace Tin {
 		uint16_t GetRowCount() const;
 		uint16_t GetColumnCount() const;
 
-		Sprite GetTile(uint16_t tileId);
+		Sprite& GetTile(uint16_t tileId);
 
 		private:
 		std::shared_ptr<Sprite>* tiles;
