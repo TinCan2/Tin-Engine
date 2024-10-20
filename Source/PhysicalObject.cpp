@@ -36,6 +36,8 @@ PhysicalObject::PhysicalObject(const Circle& collider, const float& mass) {
 
 	this->rCoeff = 0;
 
+	this->lockRotation = false;
+
 	bodyList.push_back(this);
 }
 
@@ -53,6 +55,8 @@ PhysicalObject::PhysicalObject(const Rectangle& collider, const float& mass) {
 	this->angularSpeed = 0;
 
 	this->rCoeff = 0;
+
+	this->lockRotation = false;
 
 	bodyList.push_back(this);
 }
@@ -107,6 +111,8 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 
 	this->rCoeff = 0;
 
+	this->lockRotation = false;
+
 	bodyList.push_back(this);
 }
 
@@ -134,6 +140,8 @@ PhysicalObject::PhysicalObject(const PhysicalObject& coppiedObject) {
 
 	this->rCoeff = coppiedObject.rCoeff;
 
+	this->lockRotation = coppiedObject.lockRotation;
+
 	bodyList.push_back(this);
 }
 
@@ -160,6 +168,8 @@ PhysicalObject& PhysicalObject::operator=(const PhysicalObject& coppiedObject) {
 	this->angularSpeed = coppiedObject.angularSpeed;
 
 	this->rCoeff = coppiedObject.rCoeff;
+
+	this->lockRotation = coppiedObject.lockRotation;
 
 	bodyList.push_back(this);
 
@@ -308,10 +318,11 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		if (!bodyJ->lockRotation) bodyJ->angularSpeed += impulse*crossJ/bodyJ->momentOfInertia;
 
 		Vector2D depthNormal = collision.GetNormal();
-		Vector2D correction = 0.2*depthNormal/(invMassI + invMassJ);
+		Vector2D correction = 0.5*depthNormal/(invMassI + invMassJ);
 
-		if (std::abs(bodyI->angularSpeed) < 0.05) bodyI->angularSpeed *= 0.5;
-		if (std::abs(bodyJ->angularSpeed) < 0.05) bodyJ->angularSpeed *= 0.5;
+		std::cout << bodyJ->angularSpeed << std::endl;
+		if (std::abs(bodyI->angularSpeed) < 0.01) bodyI->angularSpeed *= 0.5;
+		if (std::abs(bodyJ->angularSpeed) < 0.01) bodyJ->angularSpeed *= 0.5;
 
 		switch (bodyI->GetColliderType()) {
 			case ColliderTypes::Circle: {

@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
 
 	PhysicalObject rectA(Rectangle(Vector2D(0, 0), Vector2D(2,3), 1), 1);
-	PhysicalObject rectB(Rectangle(Vector2D(1, 8), Vector2D(2,3), -1), 1);
+//	PhysicalObject rectB(Rectangle(Vector2D(1, 8), Vector2D(2,3), -1), 1);
 
 	ground.SetRestitutionCoefficient(1);
 	ceiling.SetRestitutionCoefficient(1);
@@ -27,8 +27,8 @@ int main(int argc, char* argv[]) {
 	wallLeft.SetRestitutionCoefficient(1);
 
 
-	rectA.SetRestitutionCoefficient(1);
-	rectB.SetRestitutionCoefficient(1);
+	rectA.SetRestitutionCoefficient(0.5);
+//	rectB.SetRestitutionCoefficient(1);
 
 //	rectA.SetLockRotation(true);
 
@@ -38,10 +38,10 @@ int main(int argc, char* argv[]) {
 		gameManager->Handle();
 		gameManager->Update();
 		rectA.SetVelocity(rectA.GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
-		rectB.SetVelocity(rectB.GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
+//		rectB.SetVelocity(rectB.GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
 
 		p.PaintRectangle(rectA.GetColliderAsRectangle());
-		p.PaintRectangle(rectB.GetColliderAsRectangle());
+//		p.PaintRectangle(rectB.GetColliderAsRectangle());
 
 		gameManager->Render();
 	}
