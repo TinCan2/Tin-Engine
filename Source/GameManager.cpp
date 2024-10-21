@@ -69,6 +69,7 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 		ControllerManager::currentManager = new ControllerManager();
 		KeyboardManager::currentManager = new KeyboardManager();
 		MouseManager::currentManager = new MouseManager();
+		MouseManager::GetCurrentManager()->mainRenderer = this->mainRenderer;
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;

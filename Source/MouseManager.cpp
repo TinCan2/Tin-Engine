@@ -16,8 +16,11 @@ Vector2D MouseManager::GetMousePosition() const {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
+	float lX, lY;
+	SDL_RenderWindowToLogical(this->mainRenderer, x, y, &lX, &lY);
+
 	float UPE = Vector2D::UnitPixelEquivalent;
-	Vector2D relativePos = Vector2D(x/UPE, y/UPE);
+	Vector2D relativePos = Vector2D(lX/UPE, lY/UPE);
 
 	Camera* camera = Camera::GetCurrentInstance();
 	return camera->GetPosition() + camera->GetExtents().FlipH() + relativePos.FlipV();

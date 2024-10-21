@@ -320,7 +320,6 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		Vector2D depthNormal = collision.GetNormal();
 		Vector2D correction = 0.5*depthNormal/(invMassI + invMassJ);
 
-		std::cout << bodyJ->angularSpeed << std::endl;
 		if (std::abs(bodyI->angularSpeed) < 0.01) bodyI->angularSpeed *= 0.5;
 		if (std::abs(bodyJ->angularSpeed) < 0.01) bodyJ->angularSpeed *= 0.5;
 

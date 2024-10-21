@@ -2,6 +2,8 @@
 #include "DllMacro.hpp"
 #include <cstdint>
 
+struct SDL_Renderer;
+
 namespace Tin {
 
 	struct Vector2D;
@@ -25,6 +27,8 @@ namespace Tin {
 		private:
 		MouseManager();
 		~MouseManager();
+
+		SDL_Renderer* mainRenderer;
 
 		friend class GameManager;
 
