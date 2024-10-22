@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Vector2D.h"
+#include "Camera.hpp"
+#include "Vector2D.hpp"
 
 using namespace Tin;
 
@@ -20,8 +20,8 @@ Vector2D Camera::GetExtents() const {
 
 
 //Construction and Destruction
-Camera::Camera(UInt16 w, UInt16 h) {
-	UInt16 UPE = Vector2D::UnitPixelEquivalent;
+Camera::Camera(const uint16_t& w, const uint16_t& h) {
+	uint16_t UPE = Vector2D::UnitPixelEquivalent;
 	this->position = new Vector2D(0, 0);
 	this->extents = new Vector2D(w/(2*UPE),h/(2*UPE));
 }

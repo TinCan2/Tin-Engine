@@ -1,9 +1,8 @@
 #pragma once
+#include <cstdint>
 
 namespace Tin {
 	struct Vector2D;
-
-	typedef unsigned int UInt16;
 
 	class Camera {
 		public:
@@ -15,7 +14,7 @@ namespace Tin {
 		Vector2D GetExtents() const;
 
 		private:
-		Camera(UInt16 w, UInt16 h);
+		Camera(const uint16_t& w, const uint16_t& h);
 		~Camera();
 
 		friend class GameManager;

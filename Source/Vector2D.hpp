@@ -28,6 +28,8 @@ namespace Tin {
 		friend Vector2D operator*(const float& a, const Vector2D& b);
 		friend float operator*(const Vector2D& a, const Vector2D& b);
 
+		friend float operator^(const Vector2D& a, const Vector2D& b);
+
 		friend Vector2D operator*=(Vector2D& a, const float& b);
 
 		friend Vector2D operator/(const Vector2D& a, const float& b);

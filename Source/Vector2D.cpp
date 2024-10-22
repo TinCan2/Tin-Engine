@@ -1,4 +1,4 @@
-#include "Vector2D.h"
+#include "Vector2D.hpp"
 #include <cmath>
 
 using namespace Tin;
@@ -17,7 +17,7 @@ Vector2D::Vector2D(float x, float y) {
 
 //Magnitude
 float Vector2D::GetMagnitude() {
-	return pow(this->x * this->x + this->y * this->y, 0.5);
+	return std::sqrt(this->x * this->x + this->y * this->y);
 }
 
 float Vector2D::GetMagnitude2() {
@@ -70,6 +70,10 @@ Vector2D operator*(const float& a, const Vector2D& b) {
 
 float operator*(const Vector2D& a, const Vector2D& b) {
 	return a.x*b.x + a.y*b.y;
+}
+
+float operator^(const Vector2D& a, const Vector2D& b) {
+	return a.x*b.y-b.x*a.y;
 }
 
 Vector2D operator*=(Vector2D& a, const float& b) {

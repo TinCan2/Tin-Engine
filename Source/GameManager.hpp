@@ -1,13 +1,11 @@
 #pragma once
+#include <cstdint>
 
 struct SDL_Window;
 struct SDL_Renderer;
 
 namespace Tin {
 	struct Color;
-
-	typedef unsigned int UInt16;
-	typedef unsigned long long UInt64;
 
 	class GameManager{
 		public:
@@ -17,16 +15,18 @@ namespace Tin {
 
 		GameManager(const GameManager&) = delete;
 
-		void Initialize(const char* title, UInt16 w, UInt16 h);
+		void Initialize(const char*& title, const uint16_t& w, const uint16_t& h);
+
 		void Handle();
 		void Update();
 		void Render();
+
 		void Terminate();
 
-		bool IsQuitting();
+		bool IsQuitting() const;
 		void QuitGame();
 
-		UInt64 GetFrameCount();
+		uint64_t GetFrameCount() const;
 
 		Color GetRenderColor() const;
 		void ScheduleColorReset();
@@ -43,7 +43,7 @@ namespace Tin {
 		Color* renderColor;
 		bool resetColor;
 
-		UInt64 frameCount;
+		uint64_t frameCount;
 
 		static GameManager* currentManager;
 	};

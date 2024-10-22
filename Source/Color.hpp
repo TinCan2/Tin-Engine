@@ -1,13 +1,13 @@
 #pragma once
+#include <cstdint>
 
 namespace Tin {
-	typedef unsigned char UInt8;
 
 	struct Color {
-		UInt8 r, g, b, a;
+		uint8_t r, g, b, a;
 
 		Color();
-		Color(UInt8 r, UInt8 g, UInt8 b);
-		Color(UInt8 r, UInt8 g, UInt8 b, UInt8 a);
+		Color(uint8_t r, uint8_t g, uint8_t b);
+		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 	};
 }
