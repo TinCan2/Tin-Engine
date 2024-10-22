@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 #include "GameManager.hpp"
+#include "Sprite.hpp"
 #include <SDL2/SDL.h>
 
 using namespace Tin;
@@ -28,6 +29,7 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
+	Sprite::boundedRenderer = this->mainRenderer;
 }
 
 void GameManager::Handle() {

@@ -1,6 +1,6 @@
-#include "Camera.h"
-#include "Sprite.h"
-#include "Vector2D.h"
+#include "Camera.hpp"
+#include "Sprite.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -12,7 +12,7 @@ using namespace Tin;
 void Sprite::GenerateTexture(const char* targetFile) {
 	SDL_Texture* texture = IMG_LoadTexture(Sprite::boundedRenderer, targetFile);
 	if (texture == nullptr) throw std::runtime_error("The requested texture could not be generated");
-	Sprite::textureMap[targetFile] = new std::pair<SDL_Texture*, UInt16>(texture, 0);
+	Sprite::textureMap[targetFile] = {texture, 0};
 }
 
 
@@ -21,12 +21,12 @@ Sprite::Sprite(const char* targetFile) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
-	textureMap[targetFile]->second++;
+	textureMap[targetFile].refCount++;
 
 	this->origin = new Vector2D(0, 0);
 
 	int textureWidth, textureHeight;
-	SDL_QueryTexture(textureMap[targetFile]->first, nullptr, nullptr, &textureWidth, &textureHeight);
+	SDL_QueryTexture(textureMap[targetFile].SDLTexture, nullptr, nullptr, &textureWidth, &textureHeight);
 
 	this->w = textureWidth;
 	this->h = textureHeight;
@@ -38,12 +38,12 @@ Sprite::Sprite(const char* targetFile, const Vector2D& origin) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
-	textureMap[targetFile]->second++;
+	textureMap[targetFile].refCount++;
 
 	this->origin = new Vector2D(origin);
 
 	int textureWidth, textureHeight;
-	SDL_QueryTexture(textureMap[targetFile]->first, nullptr, nullptr, &textureWidth, &textureHeight);
+	SDL_QueryTexture(textureMap[targetFile].SDLTexture, nullptr, nullptr, &textureWidth, &textureHeight);
 
 	this->w = textureWidth;
 	this->h = textureHeight;
@@ -51,16 +51,16 @@ Sprite::Sprite(const char* targetFile, const Vector2D& origin) {
 	this->x = this->y = 0;
 }
 
-Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h) {
+Sprite::Sprite(const char* targetFile, cuint16_t& x, cuint16_t& y, cuint16_t& w, cuint16_t& h) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
-	textureMap[targetFile]->second++;
+	textureMap[targetFile].refCount++;
 
 	this->origin = new Vector2D(0, 0);
 
 	int textureHeight;
-	SDL_QueryTexture(textureMap[targetFile]->first, nullptr, nullptr, nullptr, &textureHeight);
+	SDL_QueryTexture(textureMap[targetFile].SDLTexture, nullptr, nullptr, nullptr, &textureHeight);
 
 	this->w = w;
 	this->h = h;
@@ -69,16 +69,16 @@ Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h) {
 	this->y = textureHeight-h-y;
 }
 
-Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h, const Vector2D& origin) {
+Sprite::Sprite(const char* targetFile, cuint16_t& x, cuint16_t& y, cuint16_t& w, cuint16_t& h, const Vector2D& origin) {
 	if (!textureMap.contains(targetFile)) GenerateTexture(targetFile);
 
 	this->boundTexture = targetFile;
-	textureMap[targetFile]->second++;
+	textureMap[targetFile].refCount++;
 
 	this->origin = new Vector2D(origin);
 
 	int textureHeight;
-	SDL_QueryTexture(textureMap[targetFile]->first, nullptr, nullptr, nullptr, &textureHeight);
+	SDL_QueryTexture(textureMap[targetFile].SDLTexture, nullptr, nullptr, nullptr, &textureHeight);
 
 	this->w = w;
 	this->h = h;
@@ -89,7 +89,7 @@ Sprite::Sprite(const char* targetFile, UInt16 x, UInt16 y, UInt16 w, UInt16 h, c
 
 Sprite::Sprite(const Sprite& coppiedSprite) {
 	this->boundTexture = coppiedSprite.boundTexture;
-	textureMap[this->boundTexture]->second++;
+	textureMap[this->boundTexture].refCount++;
 
 	this->origin = new Vector2D(*coppiedSprite.origin);
 
@@ -99,13 +99,32 @@ Sprite::Sprite(const Sprite& coppiedSprite) {
 	this->h = coppiedSprite.h;
 }
 
+Sprite& Sprite::operator=(const Sprite& coppiedSprite) {
+	textureMap[this->boundTexture].refCount--;
+	if (textureMap[this->boundTexture].refCount == 0) {
+		SDL_DestroyTexture(textureMap[this->boundTexture].SDLTexture);
+		textureMap.erase(this->boundTexture);
+	}
+
+	this->boundTexture = coppiedSprite.boundTexture;
+	textureMap[this->boundTexture].refCount++;
+
+	*this->origin = *coppiedSprite.origin;
+
+	this->x = coppiedSprite.x;
+	this->y = coppiedSprite.y;
+	this->w = coppiedSprite.w;
+	this->h = coppiedSprite.h;
+
+	return *this;
+}
+
 Sprite::~Sprite() {
 	delete this->origin;
 
-	textureMap[this->boundTexture]->second--;
-	if (textureMap[this->boundTexture]->second == 0) {
-		SDL_DestroyTexture(textureMap[this->boundTexture]->first);
-		delete textureMap[this->boundTexture];
+	textureMap[this->boundTexture].refCount--;
+	if (textureMap[this->boundTexture].refCount == 0) {
+		SDL_DestroyTexture(textureMap[this->boundTexture].SDLTexture);
 		textureMap.erase(this->boundTexture);
 	}
 }
@@ -131,25 +150,26 @@ void Sprite::Draw(const Vector2D& position, bool flipH, bool flipV, float rotati
 
     SDL_RendererFlip flip = (SDL_RendererFlip)(flipH | (flipV<<1));
     if (fmod(rotation,2*M_PI) == 0){
-        SDL_RenderCopyEx(boundedRenderer, textureMap[this->boundTexture]->first, &sourceRect, &destRect, 0, nullptr, flip);
+        SDL_RenderCopyEx(boundedRenderer, textureMap[this->boundTexture].SDLTexture, &sourceRect, &destRect, 0, nullptr, flip);
     }
     else {
         float degRot = -180.0*rotation/M_PI;
     	SDL_Point rotationPoint(Vector2D::UnitPixelEquivalent*this->origin->x, this->h - Vector2D::UnitPixelEquivalent*this->origin->y);
-    	SDL_RenderCopyEx(boundedRenderer, textureMap[this->boundTexture]->first, &sourceRect, &destRect, degRot, &rotationPoint, flip);
+    	SDL_Texture* sdlTexture = textureMap[this->boundTexture].SDLTexture;
+    	SDL_RenderCopyEx(boundedRenderer, sdlTexture, &sourceRect, &destRect, degRot, &rotationPoint, flip);
     }
 }
 
 
 //Dimension Access
-UInt16 Sprite::GetWidth() const {
+uint16_t Sprite::GetWidth() const {
 	return this->w;
 }
 
-UInt16 Sprite::GetHeight() const {
+uint16_t Sprite::GetHeight() const {
 	return this->h;
 }
 
 //Statics
 SDL_Renderer* Sprite::boundedRenderer;
-std::map<const char*, std::pair<SDL_Texture*, UInt16>*> Sprite::textureMap;
+std::map<const char*, Sprite::Texture> Sprite::textureMap;

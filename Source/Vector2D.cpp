@@ -9,7 +9,7 @@ Vector2D::Vector2D() {
 	this->y = 0;
 }
 
-Vector2D::Vector2D(float x, float y) {
+Vector2D::Vector2D(const float& x, const float& y) {
 	this->x = x;
 	this->y = y;
 }
@@ -36,62 +36,62 @@ Vector2D Vector2D::FlipV() {
 
 
 //Operators
-Vector2D operator+(const Vector2D& a, const Vector2D& b) {
+Vector2D Tin::operator+(const Vector2D& a, const Vector2D& b) {
 	return Vector2D(a.x + b.x, a.y + b.y);
 }
 
-Vector2D operator+=(Vector2D& a, const Vector2D& b) {
+Vector2D Tin::operator+=(Vector2D& a, const Vector2D& b) {
 	a.x += b.x;
 	a.y += b.y;
 	return Vector2D(a);
 }
 
-Vector2D operator-(const Vector2D& a) {
+Vector2D Tin::operator-(const Vector2D& a) {
 	return Vector2D(-a.x, -a.y);
 }
 
-Vector2D operator-(const Vector2D& a, const Vector2D& b) {
+Vector2D Tin::operator-(const Vector2D& a, const Vector2D& b) {
 	return Vector2D(a.x - b.x, a.y - b.y);
 }
 
-Vector2D operator-=(Vector2D& a, const Vector2D& b) {
+Vector2D Tin::operator-=(Vector2D& a, const Vector2D& b) {
 	a.x -= b.x;
 	a.y -= b.y;
 	return Vector2D(a);
 }
 
-Vector2D operator*(const Vector2D& a, const float& b) {
+Vector2D Tin::operator*(const Vector2D& a, const float& b) {
 	return Vector2D(a.x * b, a.y * b);
 }
 
-Vector2D operator*(const float& a, const Vector2D& b) {
+Vector2D Tin::operator*(const float& a, const Vector2D& b) {
 	return Vector2D(a * b.x, a * b.y);
 }
 
-float operator*(const Vector2D& a, const Vector2D& b) {
+float Tin::operator*(const Vector2D& a, const Vector2D& b) {
 	return a.x*b.x + a.y*b.y;
 }
 
-float operator^(const Vector2D& a, const Vector2D& b) {
+float Tin::operator^(const Vector2D& a, const Vector2D& b) {
 	return a.x*b.y-b.x*a.y;
 }
 
-Vector2D operator*=(Vector2D& a, const float& b) {
+Vector2D Tin::operator*=(Vector2D& a, const float& b) {
 	a.x *= b;
 	a.y *= b;
 	return Vector2D(a);
 }
 
-Vector2D operator/(const Vector2D& a, const float& b) {
+Vector2D Tin::operator/(const Vector2D& a, const float& b) {
 	return Vector2D(a.x / b, a.y / b);
 }
 
-Vector2D operator/=(Vector2D& a, const float& b) {
+Vector2D Tin::operator/=(Vector2D& a, const float& b) {
 	a.x /= b;
 	a.y /= b;
 	return Vector2D(a);
 }
 
-bool operator==(const Vector2D& a, const Vector2D& b) {
+bool Tin::operator==(const Vector2D& a, const Vector2D& b) {
 	return (std::abs(a.x - b.x)*Vector2D::UnitPixelEquivalent < 0.5f) && (std::abs(a.y - b.y)*Vector2D::UnitPixelEquivalent < 0.5f);
 }

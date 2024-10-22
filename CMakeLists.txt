@@ -4,24 +4,30 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES CORE)
+set(TIN_MODULES CORE SPRITE)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
+option(TIN_MODULES_INCLUDE_SPRITE "Include the sprite module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
+set(TIN_MODULES_FILES_SPRITE Sprite)
 
 set(TIN_MODULES_DEPS_CORE)
-
+set(TIN_MODULES_DEPS_SPRITE CORE)
 
 #==Demo Definitions==#
-set(TIN_DEMOS CoreDemo)
+set(TIN_DEMOS CoreDemo SpriteDemo)
+set(TIN_DEMOS_ON OFF)
 
 option(TIN_DEMO_BUILD_CoreDemo "Build the Core Demo." OFF)
+option(TIN_DEMO_BUILD_SpriteDemo "Build the Sprite Demo." OFF)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
+set(TIN_DEMO_DEPS_SpriteDemo SPRITE)
 
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
+		set(TIN_DEMOS_ON ON)
 		foreach (dep ${TIN_DEMO_DEPS_${demo}})
 			set(TIN_MODULES_INCLUDE_${dep} ON)
 		endforeach()
@@ -78,6 +84,7 @@ endif()
 include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(SDL2 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.30.6 GIT_PROGRESS ON)
+FetchContent_Declare(SDL2_image GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git GIT_TAG release-2.8.2 GIT_PROGRESS ON)
 
 set(SDL_SHARED ${TIN_LINK_SDL_DYNAMIC})
 if (${TIN_LINK_SDL_DYNAMIC})
@@ -87,9 +94,9 @@ else()
 endif()
 
 set(BUILD_SHARED_LIBS ${TIN_LINK_SDL_DYNAMIC})
-FetchContent_MakeAvailable(SDL2)
+FetchContent_MakeAvailable(SDL2 SDL2_image)
 
-set(TIN_LINK_LIST)
+set(TIN_LINK_LIST SDL2_image)
 if (${TIN_LINK_SDL_DYNAMIC})
 	list(APPEND TIN_LINK_LIST SDL2)
 else()
@@ -106,6 +113,11 @@ set_target_properties(tinEngine PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPU
 set_target_properties(tinEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/engine")
 set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/engine")
 
+set_target_properties(SDL2_image PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(SDL2_image PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+set_target_properties(SDL2_image PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
+
+
 if (${TIN_LINK_SDL_DYNAMIC})
 	set_target_properties(SDL2 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 	set_target_properties(SDL2 PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
@@ -121,6 +133,11 @@ add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_i
 
 
 #==Demo Generation==#
+if(${TIN_DEMOS_ON})
+	add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+							"${CMAKE_CURRENT_SOURCE_DIR}/Demos/Sprites" ${TIN_OUTPUT_DIR}/demos/Sprites)
+endif()
+
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
 		add_executable(${demo} "${CMAKE_CURRENT_SOURCE_DIR}/Demos/${demo}.cpp")
