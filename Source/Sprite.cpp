@@ -131,7 +131,7 @@ Sprite::~Sprite() {
 
 
 //Renderer Access
-void Sprite::Draw(const Vector2D& position, bool flipH, bool flipV, float rotation) const {
+void Sprite::Draw(const Vector2D& position, const bool& flipH, const bool& flipV, const float& rotation) const {
 	SDL_Rect sourceRect, destRect;
 	sourceRect.x = this->x;
 	sourceRect.y = this->y;

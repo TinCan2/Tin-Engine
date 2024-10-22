@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 #include "GameManager.hpp"
+#include "Painter.hpp"
 #include "Sprite.hpp"
 #include <SDL2/SDL.h>
 
@@ -29,12 +30,13 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
+	Painter::boundedRenderer = this->mainRenderer;
 	Sprite::boundedRenderer = this->mainRenderer;
 }
 
 void GameManager::Handle() {
 	if (this->resetColor) {
-		SDL_SetRenderDrawColor(this->mainRenderer, this->renderColor->r, this->renderColor->g, this->renderColor->b, this->renderColor->a);
+		SDL_SetRenderDrawColor(this->mainRenderer, this->backgroundColor->r, this->backgroundColor->g, this->backgroundColor->b, this->backgroundColor->a);
 		this-> resetColor = false;
 	}
 
@@ -83,8 +85,8 @@ uint64_t GameManager::GetFrameCount() const {
 
 
 //Color Access
-Color GameManager::GetRenderColor() const {
-	return *this->renderColor;
+Color GameManager::GetBackgroundColor() const {
+	return *this->backgroundColor;
 }
 
 void GameManager::ScheduleColorReset() {
@@ -96,11 +98,11 @@ void GameManager::ScheduleColorReset() {
 GameManager::GameManager() {
 	this->quitting = false;
 	this->frameCount = 0;
-	this->renderColor = new Color();
+	this->backgroundColor = new Color();
 }
 
 GameManager::~GameManager() {
-	delete this->renderColor;
+	delete this->backgroundColor;
 }
 
 

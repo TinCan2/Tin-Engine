@@ -24,7 +24,7 @@ namespace Tin {
 
 		~Sprite();
 
-		void Draw(const Vector2D& position, bool flipH=false, bool flipV=false, float rotation = 0) const;
+		void Draw(const Vector2D& position, const bool& flipH=false, const bool& flipV=false, const float& rotation = 0) const;
 
 		uint16_t GetWidth() const;
 		uint16_t GetHeight() const;
