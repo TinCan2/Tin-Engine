@@ -302,6 +302,7 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		float compositeRCoeff = bodyI->rCoeff*bodyJ->rCoeff;
 
 		float impulse = -(1+compositeRCoeff)*normalRelativeVelocity;
+		impulse += 0.2*std::max(0.0, collision.GetNormal().GetMagnitude()-0.01)/GetDeltaTime();
 
 		float crossI = (contact-*bodyI->centerOfMass)^unitNorm;
 		float crossJ = (contact-*bodyJ->centerOfMass)^unitNorm;
@@ -322,49 +323,6 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 
 		if (std::abs(bodyI->angularSpeed) < 0.01) bodyI->angularSpeed *= 0.5;
 		if (std::abs(bodyJ->angularSpeed) < 0.01) bodyJ->angularSpeed *= 0.5;
-
-		switch (bodyI->GetColliderType()) {
-			case ColliderTypes::Circle: {
-				Circle* circleBody = static_cast<Circle*>(bodyI->collider);
-				circleBody->SetCenter(circleBody->GetCenter() - correction*invMassI);
-				break;
-			}
-			case ColliderTypes::Rectangle: {
-				Rectangle* rectangleBody = static_cast<Rectangle*>(bodyI->collider);
-				rectangleBody->SetCenter(rectangleBody->GetCenter() - correction*invMassI);
-				break;
-			}
-			case ColliderTypes::JointShape: {
-				JointShape* jointBody = static_cast<JointShape*>(bodyI->collider);
-				jointBody->SetCenter(jointBody->GetCenter() - correction*invMassI);
-				break;
-			}
-		}
-
-		switch (bodyJ->GetColliderType()) {
-			case ColliderTypes::Circle: {
-				Circle* circleBody = static_cast<Circle*>(bodyJ->collider);
-				circleBody->SetCenter(circleBody->GetCenter() + correction*invMassJ);
-				break;
-			}
-			case ColliderTypes::Rectangle: {
-				Rectangle* rectangleBody = static_cast<Rectangle*>(bodyJ->collider);
-				rectangleBody->SetCenter(rectangleBody->GetCenter() + correction*invMassJ);
-				break;
-			}
-			case ColliderTypes::JointShape: {
-				JointShape* jointBody = static_cast<JointShape*>(bodyJ->collider);
-				jointBody->SetCenter(jointBody->GetCenter() + correction*invMassJ);
-				break;
-			}
-		}
-
-		#ifdef TIN_MODULES_INCLUDE_VISUALS
-			VisualObject* visualI = dynamic_cast<VisualObject*>(bodyI);
-			VisualObject* visualJ = dynamic_cast<VisualObject*>(bodyJ);
-			if (visualI != nullptr) visualI->SetPosition(visualI->GetPosition() - correction*invMassI);
-			if (visualJ != nullptr) visualJ->SetPosition(visualJ->GetPosition() + correction*invMassJ);
-		#endif
 	}
 }
 

@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 
 	map.GeneratePhysics();
 
-	PhysicalObject ball(Circle(Vector2D(13,1),2),1);
+	PhysicalObject ball(Circle(Vector2D(13.5,1),1),1);
 	Painter p;
 
 	while(!gameManager->IsQuitting()) {

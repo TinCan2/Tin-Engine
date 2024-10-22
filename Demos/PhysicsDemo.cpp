@@ -18,14 +18,19 @@ int main(int argc, char* argv[]) {
 	PhysicalObject wallLeft(Rectangle(Vector2D(-21, 0), Vector2D(1, 15)), std::numeric_limits<float>::infinity());
 
 
-	PhysicalObject rectA(Rectangle(Vector2D(0, 0), Vector2D(2,3), 1), 1);
+	PhysicalObject rectA(Rectangle(Vector2D(0, 5), Vector2D(2,3), 1), 1);
 //	PhysicalObject rectB(Rectangle(Vector2D(1, 8), Vector2D(2,3), -1), 1);
+
+	PhysicalObject blockLeft(Rectangle(Vector2D(-5, 0), Vector2D(1, 3), 1), std::numeric_limits<float>::infinity());
+	PhysicalObject blockRight(Rectangle(Vector2D(5, 0), Vector2D(1, 3), -1), std::numeric_limits<float>::infinity());
 
 	ground.SetRestitutionCoefficient(1);
 	ceiling.SetRestitutionCoefficient(1);
 	wallRight.SetRestitutionCoefficient(1);
 	wallLeft.SetRestitutionCoefficient(1);
 
+	blockLeft.SetRestitutionCoefficient(1);
+	blockRight.SetRestitutionCoefficient(1);
 
 	rectA.SetRestitutionCoefficient(0.5);
 //	rectB.SetRestitutionCoefficient(1);
@@ -42,6 +47,9 @@ int main(int argc, char* argv[]) {
 
 		p.PaintRectangle(rectA.GetColliderAsRectangle());
 //		p.PaintRectangle(rectB.GetColliderAsRectangle());
+
+		p.PaintRectangle(blockLeft.GetColliderAsRectangle());
+		p.PaintRectangle(blockRight.GetColliderAsRectangle());
 
 		gameManager->Render();
 	}
