@@ -80,7 +80,7 @@ uint64_t GameManager::GetFrameCount() const {
 }
 
 
-//Color Acces
+//Color Access
 Color GameManager::GetRenderColor() const {
 	return *this->renderColor;
 }
