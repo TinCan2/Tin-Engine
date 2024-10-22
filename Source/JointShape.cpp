@@ -52,7 +52,7 @@ Circle JointShape::CircleFrom3(const Circle& circleA, const Circle& circleB, con
     return Circle(center, r);
 }
 
-Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount) {
+Circle JointShape::Welzl(Circle** P, cuint16_t& pCount, Circle** R, cuint16_t& rCount) {
     if (pCount == 0 || rCount == 3) {
         switch (rCount) {
         	case 1:
@@ -86,7 +86,7 @@ Circle JointShape::Welzl(Circle** P, const UInt16& pCount, Circle** R, const UIn
 
 
 //Construction and Destruction
-JointShape::JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center) {
+JointShape::JointShape(Circle* cSubs, cuint16_t& cCount, Rectangle* rSubs, cuint16_t& rCount, const Vector2D& center) {
 	this->circleCount = cCount;
 	if (cCount != 0) {
 		this->circleSubs = new Circle*[cCount];
@@ -220,19 +220,19 @@ float JointShape::GetOrientation() const {
 
 
 //Colider Access
-UInt16 JointShape::GetCircleCount() const {
+uint16_t JointShape::GetCircleCount() const {
 	return this->circleCount;
 }
 
-Circle JointShape::GetCircle(const UInt16& index) const {
+Circle JointShape::GetCircle(cuint16_t& index) const {
 	return *this->circleSubs[index];
 }
 
-UInt16 JointShape::GetRectangleCount() const {
+uint16_t JointShape::GetRectangleCount() const {
 	return this->rectangleCount;
 }
 
-Rectangle JointShape::GetRectangle(const UInt16& index) const {
+Rectangle JointShape::GetRectangle(cuint16_t& index) const {
 	return *this->rectangleSubs[index];
 }
 

@@ -1,13 +1,13 @@
-#include "Animation.h"
-#include "GameManager.h"
-#include "Sprite.h"
-#include "Vector2D.h"
+#include "Animation.hpp"
+#include "GameManager.hpp"
+#include "Sprite.hpp"
+#include "Vector2D.hpp"
 #include <stdexcept>
 
 using namespace Tin;
 
 //Construction and Destruction
-Animation::Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength) {
+Animation::Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	this->frameCount = frameCount;
@@ -19,7 +19,7 @@ Animation::Animation(const char** targetFiles, const UInt16& frameCount, const U
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char** targetFiles, const UInt16& frameCount, const UInt16& frameLength, const Vector2D& origin) {
+Animation::Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength, const Vector2D& origin) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	this->frameCount = frameCount;
@@ -31,7 +31,7 @@ Animation::Animation(const char** targetFiles, const UInt16& frameCount, const U
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, const UInt16& frameLength) {
+Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);
@@ -48,7 +48,7 @@ Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, 
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, const UInt16& w, const UInt16& h, const UInt16& frameLength, const Vector2D& origin) {
+Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, const Vector2D& origin) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);

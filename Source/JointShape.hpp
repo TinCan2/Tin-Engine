@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace Tin {
 	struct Vector2D;
@@ -6,11 +7,11 @@ namespace Tin {
 	class Circle;
 	class Rectangle;
 
-	typedef unsigned int UInt16;
+	typedef const uint16_t cuint16_t;
 
 	class JointShape {
 		public:
-		JointShape(Circle* cSubs, const UInt16& cCount, Rectangle* rSubs, const UInt16& rCount, const Vector2D& center);
+		JointShape(Circle* cSubs, cuint16_t& cCount, Rectangle* rSubs, cuint16_t& rCount, const Vector2D& center);
 
 		JointShape(const JointShape& copiedObject);
 		JointShape& operator=(const JointShape& copiedObject);
@@ -24,21 +25,21 @@ namespace Tin {
 		float GetOrientation() const;
 
 		UInt16 GetCircleCount() const;
-		Circle GetCircle(const UInt16& index) const;
+		Circle GetCircle(cuint16_t& index) const;
 		UInt16 GetRectangleCount() const;
-		Rectangle GetRectangle(const UInt16& index) const;
+		Rectangle GetRectangle(cuint16_t& index) const;
 
 		Circle GetEnclosure() const;
 
 		private:
 		static Circle CircleFrom2(const Circle& circleA, const Circle& circleB);
 		static Circle CircleFrom3(const Circle& circleA, const Circle& circleB, const Circle& circleC);
-		static Circle Welzl(Circle** P, const UInt16& pCount, Circle** R, const UInt16& rCount);
+		static Circle Welzl(Circle** P, cuint16_t& pCount, Circle** R, cuint16_t& rCount);
 
 		Circle** circleSubs;
 		Rectangle** rectangleSubs;
 
-		UInt16 circleCount, rectangleCount;
+		uint16_t circleCount, rectangleCount;
 
 		Vector2D* center;
 		float orientation;
