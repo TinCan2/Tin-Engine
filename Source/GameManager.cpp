@@ -1,9 +1,16 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 #include "GameManager.hpp"
-#include "Painter.hpp"
-#include "Sprite.hpp"
+#include "ModuleDefinitions.hpp"
 #include <SDL2/SDL.h>
+
+#ifdef TIN_MODULES_INCLUDE_PAINTER
+	#include "Painter.hpp"
+#endif
+
+#ifdef TIN_MODULES_INCLUDE_SPRITE
+	#include "Sprite.hpp"
+#endif
 
 using namespace Tin;
 
@@ -30,8 +37,12 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
 	Camera::activeCamera = new Camera(w, h);
-	Painter::boundedRenderer = this->mainRenderer;
-	Sprite::boundedRenderer = this->mainRenderer;
+	#ifdef TIN_MODULES_INCLUDE_PAINTER
+		Painter::boundedRenderer = this->mainRenderer;
+	#endif
+	#ifdef TIN_MODULES_INCLUDE_SPRITE
+		Sprite::boundedRenderer = this->mainRenderer;
+	#endif
 }
 
 void GameManager::Handle() {
