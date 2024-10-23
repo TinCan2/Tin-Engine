@@ -4,26 +4,28 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-<<<<<<< HEAD
-set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER)
+set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER PHYSICS)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_SPRITE "Include the sprite module." ON)
 option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
 option(TIN_MODULES_INCLUDE_SHAPES "Include the shapes module." ON)
 option(TIN_MODULES_INCLUDE_PAINTER "Include the painter module." ON)
+option(TIN_MODULES_INCLUDE_PHYSICS "Include the physics module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
 set(TIN_MODULES_FILES_SPRITE Sprite)
 set(TIN_MODULES_FILES_ANIMATION Animation)
 set(TIN_MODULES_FILES_SHAPES Circle Rectangle JointShape)
 set(TIN_MODULES_FILES_PAINTER Painter)
+set(TIN_MODULES_FILES_PHYSICS PhysicalObject)
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_SPRITE CORE)
 set(TIN_MODULES_DEPS_ANIMATION SPRITE)
-set(TIN_MODULES_DEPS_SHAPES Circle Rectangle JointShape)
-set(TIN_MODULES_DEPS_PAINTER Painter)
+set(TIN_MODULES_DEPS_SHAPES CORE)
+set(TIN_MODULES_DEPS_PAINTER SHAPES)
+set(TIN_MODULES_DEPS_PHYSICS SHAPES)
 
 #==Demo Definitions==#
 set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo AABBOptimizationDemo)

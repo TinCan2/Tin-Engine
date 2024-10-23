@@ -1,6 +1,6 @@
 #pragma once
-#include "ModuleDefinitions.hpp"
 #include "DllMacro.hpp"
+#include "ModuleDefinitions.hpp"
 
 namespace Tin {
 	struct Vector2D;

@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-#include "Circle.hpp"
 #include "Rectangle.hpp"
-#include "JointShape.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
 #include <cstdint>
 #include <numbers>
-#include <algorithm>
-=======
-#include "Rectangle.hpp"
-#include "Vector2D.hpp"
-#include <cmath>
 #include <algorithm>
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
@@ -18,7 +10,6 @@
 	#include "CollisionInfo.hpp"
 	#include "JointShape.hpp"
 #endif
->>>>>>> 876bff7246f2612e8d213ae58499696cb6b9fc0d
 
 using namespace Tin;
 
