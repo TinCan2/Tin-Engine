@@ -50,7 +50,7 @@ endforeach()
 set(TIN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 
 set(TIN_SOURCE)
-set(TIN_HEADER)
+set(TIN_HEADER ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
 
 set(TIN_ACTIVATION_QUEUE)
 foreach(module ${TIN_MODULES})
@@ -76,6 +76,8 @@ while(TIN_ACTIVATION_QUEUE)
 
 	list(REMOVE_ITEM TIN_ACTIVATION_QUEUE ${module})
 endwhile()
+
+configure_file(${TIN_SOURCE_DIR}/ModuleDefinitions.hpp.in ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
 
 
 #==Library Generation==#
@@ -139,6 +141,16 @@ else()
 	set_target_properties(SDL2-static PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 endif()
 
+
+#==Header Copying==#
+foreach(module ${TIN_MODULES})
+	foreach (file ${TIN_MODULES_FILES_${module}})
+		if (NOT "${TIN_SOURCE_DIR}/${file}.hpp" IN_LIST TIN_HEADER AND EXISTS "${TIN_OUTPUT_DIR}/include/${file}.hpp")
+			file(REMOVE ${TIN_OUTPUT_DIR}/include/${file}.hpp)
+		endif()
+	endforeach()
+endforeach()
+
 file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
 add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
 
@@ -158,5 +170,7 @@ foreach(demo ${TIN_DEMOS})
 		target_compile_definitions(${demo} PUBLIC TIN_DEMO_LOCATION=\"${TIN_OUTPUT_DIR}/demos/\")
 		set_target_properties(${demo} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/demos")
 		set_target_properties(${demo} PROPERTIES FOLDER "Demos")
+	elseif(EXISTS "${TIN_OUTPUT_DIR}/demos/${demo}")
+		file(REMOVE ${TIN_OUTPUT_DIR}/demos/${demo})
 	endif()
 endforeach()
