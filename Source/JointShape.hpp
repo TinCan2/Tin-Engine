@@ -24,9 +24,9 @@ namespace Tin {
 		void SetOrientation(const float& orientation);
 		float GetOrientation() const;
 
-		UInt16 GetCircleCount() const;
+		uint16_t GetCircleCount() const;
 		Circle GetCircle(cuint16_t& index) const;
-		UInt16 GetRectangleCount() const;
+		uint16_t GetRectangleCount() const;
 		Rectangle GetRectangle(cuint16_t& index) const;
 
 		Circle GetEnclosure() const;

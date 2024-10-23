@@ -1,5 +1,5 @@
-#include "Rectangle.h"
-#include "Vector2D.h"
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 
 using namespace Tin;

@@ -1,5 +1,5 @@
-#include "Circle.h"
-#include "Vector2D.h"
+#include "Circle.hpp"
+#include "Vector2D.hpp"
 #include <cmath>
 
 using namespace Tin;

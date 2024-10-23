@@ -4,26 +4,37 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES CORE SPRITE)
+set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_SPRITE "Include the sprite module." ON)
+option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
+option(TIN_MODULES_INCLUDE_SHAPES "Include the shapes module." ON)
+option(TIN_MODULES_INCLUDE_PAINTER "Include the painter module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
 set(TIN_MODULES_FILES_SPRITE Sprite)
+set(TIN_MODULES_FILES_ANIMATION Animation)
+set(TIN_MODULES_FILES_SHAPES Circle Rectangle JointShape)
+set(TIN_MODULES_FILES_PAINTER Painter)
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_SPRITE CORE)
+set(TIN_MODULES_DEPS_ANIMATION SPRITE)
+set(TIN_MODULES_DEPS_SHAPES Circle Rectangle JointShape)
+set(TIN_MODULES_DEPS_PAINTER Painter)
 
 #==Demo Definitions==#
-set(TIN_DEMOS CoreDemo SpriteDemo)
+set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo)
 set(TIN_DEMOS_ON OFF)
 
 option(TIN_DEMO_BUILD_CoreDemo "Build the Core Demo." OFF)
 option(TIN_DEMO_BUILD_SpriteDemo "Build the Sprite Demo." OFF)
+option(TIN_DEMO_BUILD_Sprite-AnimationDemo "Build the Sprite-Animation Demo." OFF)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
 set(TIN_DEMO_DEPS_SpriteDemo SPRITE)
+set(TIN_DEMO_DEPS_Sprite-AnimationDemo SPRITE ANIMATION)
 
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
