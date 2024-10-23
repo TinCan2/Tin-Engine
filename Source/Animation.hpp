@@ -1,15 +1,16 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <cstdint>
 #include <memory>
 
-namespace Tin {
 
+namespace Tin {
 	class Sprite;
 	struct Vector2D;
 
 	typedef const uint16_t cuint16_t;
 
-	class Animation {
+	class TIN_API Animation {
 		public:
 		Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength);
 		Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength, const Vector2D& origin);
@@ -26,6 +27,7 @@ namespace Tin {
 
 		private:
 		uint16_t frameCount, frameLength;
+
 		std::shared_ptr<Sprite>* frames;
 	};
 }

@@ -3,6 +3,8 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <algorithm>
+
 
 using namespace Tin;
 
@@ -332,6 +334,7 @@ Circle JointShape::GetEnclosure() const {
 				*contact = deepestContact;
 				*normal = deepestNormal;
 			}
+
 			return overlapping;
 		}
 	}

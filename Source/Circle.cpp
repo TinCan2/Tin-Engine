@@ -1,8 +1,11 @@
 #include "Circle.hpp"
-#include "Rectangle.hpp"
-#include "JointShape.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "Rectangle.hpp"
+	#include "JointShape.hpp"
+#endif
 
 using namespace Tin;
 

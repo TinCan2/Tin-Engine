@@ -8,6 +8,10 @@
 	#include "Painter.hpp"
 #endif
 
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "PhysicalObject.hpp"
+#endif
+
 #ifdef TIN_MODULES_INCLUDE_SPRITE
 	#include "Sprite.hpp"
 #endif
@@ -63,7 +67,11 @@ void GameManager::Handle() {
 	}
 }
 
-void GameManager::Update() {}
+void GameManager::Update() {
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		PhysicalObject::UpdateBodies();
+	#endif
+}
 
 void GameManager::Render() {
 	SDL_RenderPresent(this->mainRenderer);

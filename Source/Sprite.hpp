@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <map>
@@ -12,7 +13,7 @@ namespace Tin {
 
 	typedef const uint16_t cuint16_t;
 
-	class Sprite {
+	class TIN_API Sprite {
 		public:
 		Sprite(const char* targetFile);
 		Sprite(const char* targetFile, const Vector2D& origin);

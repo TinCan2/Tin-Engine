@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include "JointShape.hpp"
@@ -6,6 +7,18 @@
 #include <cstdint>
 #include <numbers>
 #include <algorithm>
+=======
+#include "Rectangle.hpp"
+#include "Vector2D.hpp"
+#include <cmath>
+#include <algorithm>
+
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	#include "Circle.hpp"
+	#include "CollisionInfo.hpp"
+	#include "JointShape.hpp"
+#endif
+>>>>>>> 876bff7246f2612e8d213ae58499696cb6b9fc0d
 
 using namespace Tin;
 
@@ -241,6 +254,7 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 		hProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
 		vProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
+
 
 		for (size_t i = 0; i < 4; i ++) {
 			float prH = (vertS[i]-cO)*axOh;

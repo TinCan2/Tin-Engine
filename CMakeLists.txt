@@ -4,6 +4,7 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
+<<<<<<< HEAD
 set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
@@ -131,7 +132,6 @@ set_target_properties(tinEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPU
 set_target_properties(SDL2_image PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 set_target_properties(SDL2_image PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
 set_target_properties(SDL2_image PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")
-
 
 if (${TIN_LINK_SDL_DYNAMIC})
 	set_target_properties(SDL2 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TIN_OUTPUT_DIR}/deps")

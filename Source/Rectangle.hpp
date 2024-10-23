@@ -1,13 +1,16 @@
 #pragma once
+#include "DllMacro.hpp"
 #include "ModuleDefinitions.hpp"
 
 namespace Tin {
 	struct Vector2D;
 
-	class Circle;
-	class JointShape;
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		class Circle;
+		class JointShape;
+	#endif
 
-	class Rectangle {
+	class TIN_API Rectangle {
 		public:
 		Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation=0);
 

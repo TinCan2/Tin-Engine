@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include "ModuleDefinitions.hpp"
 #include <cstdint>
 
@@ -10,7 +11,7 @@ namespace Tin {
 
 	typedef const uint16_t cuint16_t;
 
-	class JointShape {
+	class TIN_API JointShape {
 		public:
 		JointShape(Circle* cSubs, cuint16_t& cCount, Rectangle* rSubs, cuint16_t& rCount, const Vector2D& center);
 

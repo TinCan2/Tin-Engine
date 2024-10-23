@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include <cstdint>
 
 struct SDL_Window;
@@ -7,7 +8,7 @@ struct SDL_Renderer;
 namespace Tin {
 	struct Color;
 
-	class GameManager{
+	class TIN_API GameManager{
 		public:
 		static GameManager* Instantiate();
 		static GameManager* GetCurrentInstance();
