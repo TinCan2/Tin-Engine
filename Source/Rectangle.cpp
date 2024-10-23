@@ -7,7 +7,6 @@
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	#include "Circle.hpp"
-	#include "CollisionInfo.hpp"
 	#include "JointShape.hpp"
 #endif
 

@@ -55,7 +55,7 @@ endforeach()
 set(TIN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 
 set(TIN_SOURCE)
-set(TIN_HEADER ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
+set(TIN_HEADER ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp ${TIN_SOURCE_DIR}/DllMacro.hpp)
 
 set(TIN_ACTIVATION_QUEUE)
 foreach(module ${TIN_MODULES})

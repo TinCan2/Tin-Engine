@@ -1,5 +1,6 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 #include <vector>
 
 namespace Tin {
@@ -10,9 +11,6 @@ namespace Tin {
 	class JointShape;
 
 	class CollisionInfo;
-
-	typedef unsigned char UInt8;
-	typedef unsigned long long UInt64;
 
 	class TIN_API PhysicalObject {
 		public:
@@ -25,7 +23,7 @@ namespace Tin {
 
 		~PhysicalObject();
 
-		enum class ColliderTypes : UInt8 {Circle, Rectangle, JointShape};
+		enum class ColliderTypes : uint8_t {Circle, Rectangle, JointShape};
 
 		Circle GetColliderAsCircle() const;
 		Rectangle GetColliderAsRectangle() const;
@@ -63,13 +61,13 @@ namespace Tin {
 
 		float rCoeff;
 
-		static void ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const CollisionInfo& collision);
+		static void ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const Vector2D& contact, const Vector2D& normal);
 		static void UpdateBodies();
 		friend class GameManager;
 
 		static std::vector<PhysicalObject*> bodyList;
 
-		static UInt64 lastFrame;
-		static UInt64 currentFrame;
+		static uint64_t lastFrame;
+		static uint64_t currentFrame;
 	};
 }

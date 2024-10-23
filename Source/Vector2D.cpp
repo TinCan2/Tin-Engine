@@ -16,11 +16,11 @@ Vector2D::Vector2D(const float& x, const float& y) {
 
 
 //Magnitude
-float Vector2D::GetMagnitude() {
+float Vector2D::GetMagnitude() const {
 	return std::sqrt(this->x * this->x + this->y * this->y);
 }
 
-float Vector2D::GetMagnitude2() {
+float Vector2D::GetMagnitude2() const {
 	return this->x * this->x + this->y * this->y;
 }
 

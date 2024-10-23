@@ -10,8 +10,8 @@ namespace Tin {
 		Vector2D();
 		Vector2D(const float& x, const float& y);
 
-		float GetMagnitude();
-		float GetMagnitude2();
+		float GetMagnitude() const;
+		float GetMagnitude2() const;
 
 		Vector2D FlipH();
 		Vector2D FlipV();
