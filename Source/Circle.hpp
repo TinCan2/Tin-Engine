@@ -1,7 +1,11 @@
 #pragma once
+#include "ModuleDefinitions.hpp"
 
 namespace Tin {
 	struct Vector2D;
+
+	class Rectangle;
+	class JointShape;
 
 	class Circle {
 		public:
@@ -17,6 +21,12 @@ namespace Tin {
 
 		void SetCenter(const Vector2D& center);
 		void SetRadius(const float& radius);
+
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			bool CollidesWith(const Circle& otherShape, Vector2D* contact, Vector2D* normal) const;
+			bool CollidesWith(const Rectangle& otherShape, Vector2D* contact, Vector2D* normal) const;
+			bool CollidesWith(const JointShape& otherShape, Vector2D* contact, Vector2D* normal) const;
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
 
 		private:
 		Vector2D* center;

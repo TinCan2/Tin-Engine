@@ -241,3 +241,143 @@ Rectangle JointShape::GetRectangle(cuint16_t& index) const {
 Circle JointShape::GetEnclosure() const {
 	return *this->enclosure;
 }
+
+
+//Collision Detection
+#ifdef TIN_MODULES_INCLUDE_PHYSICS
+	bool JointShape::CollidesWith(const Circle& otherShape, Vector2D* contact, Vector2D* normal) const {
+		if (!this->enclosure->CollidesWith(otherShape, nullptr, nullptr)) return false;
+
+		if (contact == nullptr && normal == nullptr) {
+			for (size_t i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			return false;
+		}
+		else {
+			Vector2D deepestContact, deepestNormal;
+			bool overlapping = false;
+			for (size_t i = 0; i < this->circleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->circleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			if (overlapping) {
+				*contact = deepestContact;
+				*normal = deepestNormal;
+			}
+			return overlapping;
+		}
+	}
+
+	bool JointShape::CollidesWith(const Rectangle& otherShape, Vector2D* contact, Vector2D* normal) const {
+		Circle rectEnclosure(otherShape.GetCenter(), otherShape.GetExtents().GetMagnitude());
+		if (!this->enclosure->CollidesWith(rectEnclosure, nullptr, nullptr)) return false;
+
+		if (contact == nullptr && normal == nullptr) {
+			for (size_t i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			return false;
+		}
+		else {
+			Vector2D deepestContact, deepestNormal;
+			bool overlapping = false;
+			for (size_t i = 0; i < this->circleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->circleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			if (overlapping) {
+				*contact = deepestContact;
+				*normal = deepestNormal;
+			}
+			return overlapping;
+		}
+	}
+
+	bool JointShape::CollidesWith(const JointShape& otherShape, Vector2D* contact, Vector2D* normal) const {
+		if (!this->enclosure->CollidesWith(otherShape.GetEnclosure(), nullptr, nullptr)) return false;
+
+		if (contact == nullptr && normal == nullptr) {
+			for (size_t i = 0; i < this->circleCount; i++) {
+				if (this->circleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, nullptr, nullptr)) return true;
+			}
+			return false;
+		}
+		else {
+			Vector2D deepestContact, deepestNormal;
+			bool overlapping = false;
+			for (size_t i = 0; i < this->circleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->circleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			for (size_t i = 0; i < this->rectangleCount; i++) {
+				Vector2D currentContact, currentNormal;
+				if (this->rectangleSubs[i]->CollidesWith(otherShape, &currentContact, &currentNormal)) {
+					if (currentNormal.GetMagnitude2() > deepestNormal.GetMagnitude2()) {
+						deepestContact = currentContact;
+						deepestNormal = currentNormal;
+					}
+					overlapping = true;
+				}
+			}
+
+			if (overlapping) {
+				*contact = deepestContact;
+				*normal = deepestNormal;
+			}
+			return overlapping;
+		}
+	}
+#endif

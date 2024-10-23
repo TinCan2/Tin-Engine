@@ -1,4 +1,5 @@
 #pragma once
+#include "ModuleDefinitions.hpp"
 #include <cstdint>
 
 namespace Tin {
@@ -30,6 +31,12 @@ namespace Tin {
 		Rectangle GetRectangle(cuint16_t& index) const;
 
 		Circle GetEnclosure() const;
+
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			bool CollidesWith(const Circle& otherShape, Vector2D* contact, Vector2D* normal) const;
+			bool CollidesWith(const Rectangle& otherShape, Vector2D* contact, Vector2D* normal) const;
+			bool CollidesWith(const JointShape& otherShape, Vector2D* contact, Vector2D* normal) const;
+		#endif
 
 		private:
 		static Circle CircleFrom2(const Circle& circleA, const Circle& circleB);

@@ -25,16 +25,18 @@ set(TIN_MODULES_DEPS_SHAPES Circle Rectangle JointShape)
 set(TIN_MODULES_DEPS_PAINTER Painter)
 
 #==Demo Definitions==#
-set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo)
+set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo AABBOptimizationDemo)
 set(TIN_DEMOS_ON OFF)
 
 option(TIN_DEMO_BUILD_CoreDemo "Build the Core Demo." OFF)
 option(TIN_DEMO_BUILD_SpriteDemo "Build the Sprite Demo." OFF)
 option(TIN_DEMO_BUILD_Sprite-AnimationDemo "Build the Sprite-Animation Demo." OFF)
+option(TIN_DEMO_BUILD_AABBOptimizationDemo "Build the AABBOptimizationDemo Demo." OFF)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
 set(TIN_DEMO_DEPS_SpriteDemo SPRITE)
 set(TIN_DEMO_DEPS_Sprite-AnimationDemo SPRITE ANIMATION)
+set(TIN_DEMO_DEPS_AABBOptimizationDemo PHYSICS)
 
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
