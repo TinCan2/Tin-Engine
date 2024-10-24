@@ -23,6 +23,5 @@ namespace Tin {
 		private:
 		std::shared_ptr<Sprite>* tiles;
 		uint16_t rows, columns;
-
 	};
 }
