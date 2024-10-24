@@ -11,46 +11,39 @@ namespace Tin {
 
 	class TIN_API ControllerManager {
 		public:
-		static ControllerManager* GetCurrentManager();
-
-		ControllerManager(const ControllerManager& coppiedObject) = delete;
+		ControllerManager() = delete;
+		~ControllerManager() = delete;
 
 		enum class Buttons {A, B, X, Y, Back, Guide, Start, LeftStick, RightStick, LeftShoulder, RightShoulder, DPadUp, DPadDown,
 							DPadLeft, DPadRight, Misc, Paddle1, Paddle3, Paddle2, Paddle4, Touchpad, None};
 
 		enum class Sides {Left, Right};
 
-		size_t GetControllerCount();
+		static size_t GetControllerCount();
 
-		bool ButtonPressed(const size_t& index, const Buttons& button);
-		bool ButtonDown(const size_t& index, const Buttons& button);
-		bool ButtonReleased(const size_t& index, const Buttons& button);
+		static bool ButtonPressed(const size_t& index, const Buttons& button);
+		static bool ButtonDown(const size_t& index, const Buttons& button);
+		static bool ButtonReleased(const size_t& index, const Buttons& button);
 
-		Buttons GetButton(const size_t& index);
+		static Buttons GetButton(const size_t& index);
 
-		Vector2D GetStick(const size_t& index, const Sides& side);
-		float GetTrigger(const size_t& index, const Sides& side);
+		static Vector2D GetStick(const size_t& index, const Sides& side);
+		static float GetTrigger(const size_t& index, const Sides& side);
 
 		private:
-		ControllerManager();
-		~ControllerManager();
+		static void RemoveAllControllers();
+
+		static void AddController(const int32_t& deviceIndex);
+		static void RemoveController(const int32_t& instanceID);
+
+		static void PushBuffers();
 
 		friend class GameManager;
 
-		void AddController(const int32_t& deviceIndex);
-		void RemoveController(const int32_t& instanceID);
+		static uint32_t FormatButtons(const size_t& index);
 
-		uint32_t FormatButtons(const size_t& index);
+		struct ControllerInfo {SDL_GameController* controller; uint32_t buttonBuffer;};
 
-		void PushBuffers();
-
-		struct ControllerInfo {
-			SDL_GameController* controller;
-			uint32_t buttonBuffer;
-		};
-
-		std::vector<ControllerInfo*> controllerList;
-
-		static ControllerManager* currentManager;
+		static std::vector<ControllerInfo> controllerList;
 	};
 }

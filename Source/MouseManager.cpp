@@ -5,14 +5,8 @@
 
 using namespace Tin;
 
-//Singleton Implementation
-MouseManager* MouseManager::GetCurrentManager() {
-	return currentManager;
-}
-
-
 //Mouse Access
-Vector2D MouseManager::GetMousePosition() const {
+Vector2D MouseManager::GetMousePosition() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
@@ -26,9 +20,9 @@ Vector2D MouseManager::GetMousePosition() const {
 bool MouseManager::ButtonPressed(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
-	if (button == Buttons::None) return !mouseState && this->buttonBuffer;
+	if (button == Buttons::None) return !mouseState && buttonBuffer;
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
-	return (mouseState & buttonMask) && !(this->buttonBuffer & buttonMask);
+	return (mouseState & buttonMask) && !(buttonBuffer & buttonMask);
 }
 
 bool MouseManager::ButtonDown(const Buttons& button) {
@@ -42,9 +36,9 @@ bool MouseManager::ButtonDown(const Buttons& button) {
 bool MouseManager::ButtonReleased(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
-	if (button == Buttons::None) return mouseState && !this->buttonBuffer;
+	if (button == Buttons::None) return mouseState && !buttonBuffer;
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
-	return (mouseState & buttonMask) && !(this->buttonBuffer & buttonMask);
+	return (mouseState & buttonMask) && !(buttonBuffer & buttonMask);
 }
 
 MouseManager::Buttons MouseManager::GetButton() {
@@ -55,17 +49,11 @@ MouseManager::Buttons MouseManager::GetButton() {
 	return Buttons::None;
 }
 
-//Construction and Destruction
-MouseManager::MouseManager() {}
-
-MouseManager::~MouseManager() {}
-
-
 //Buffer Access
 void MouseManager::PushBuffer() {
-	this->buttonBuffer = SDL_GetMouseState(nullptr, nullptr);
+	buttonBuffer = SDL_GetMouseState(nullptr, nullptr);
 }
 
 
 //Statics
-MouseManager* MouseManager::currentManager;
+uint32_t MouseManager::buttonBuffer;

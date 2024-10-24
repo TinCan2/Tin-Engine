@@ -8,29 +8,23 @@ namespace Tin {
 
 	class TIN_API MouseManager {
 		public:
-		static MouseManager* GetCurrentManager();
-
-		MouseManager(const MouseManager&) = delete;
+		MouseManager() = delete;
+		~MouseManager() = delete;
 
 		enum class Buttons {Left, Middle, Right, SideBack, SideFront, None};
 
-		Vector2D GetMousePosition() const;
+		static Vector2D GetMousePosition();
 
-		bool ButtonPressed(const Buttons& button);
-		bool ButtonDown(const Buttons& button);
-		bool ButtonReleased(const Buttons& button);
+		static bool ButtonPressed(const Buttons& button);
+		static bool ButtonDown(const Buttons& button);
+		static bool ButtonReleased(const Buttons& button);
 
-		Buttons GetButton();
+		static Buttons GetButton();
 
 		private:
-		MouseManager();
-		~MouseManager();
-
+		static void PushBuffer();
 		friend class GameManager;
 
-		uint32_t buttonBuffer;
-		void PushBuffer();
-
-		static MouseManager* currentManager;
+		static uint32_t buttonBuffer;
 	};
 }

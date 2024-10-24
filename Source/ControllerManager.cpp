@@ -1,27 +1,19 @@
 #include "ControllerManager.hpp"
 #include "Vector2D.hpp"
 #include <algorithm>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdexcept>
-
-#include <iostream>
 
 using namespace Tin;
 
-//Singleton Implementation
-ControllerManager* ControllerManager::GetCurrentManager() {
-	return currentManager;
-}
-
-
 //Controller Access
 size_t ControllerManager::GetControllerCount() {
-	return this->controllerList.size();
+	return controllerList.size();
 }
 
 bool ControllerManager::ButtonPressed(const size_t& index, const Buttons& button) {
-	uint32_t buttonStates = this->FormatButtons(index);
-	uint32_t buttonBuffer = this->controllerList[index]->buttonBuffer;
+	uint32_t buttonStates = FormatButtons(index);
+	uint32_t buttonBuffer = controllerList[index].buttonBuffer;
 
 	if (button == Buttons::None) return !buttonStates && buttonBuffer;
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
@@ -29,15 +21,15 @@ bool ControllerManager::ButtonPressed(const size_t& index, const Buttons& button
 }
 
 bool ControllerManager::ButtonDown(const size_t& index, const Buttons& button) {
-	uint32_t buttonStates = this->FormatButtons(index);
+	uint32_t buttonStates = FormatButtons(index);
 
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
 	return buttonStates & buttonMask;
 }
 
 bool ControllerManager::ButtonReleased(const size_t& index, const Buttons& button) {
-	uint32_t buttonStates = this->FormatButtons(index);
-	uint32_t buttonBuffer = this->controllerList[index]->buttonBuffer;
+	uint32_t buttonStates = FormatButtons(index);
+	uint32_t buttonBuffer = controllerList[index].buttonBuffer;
 
 	if (button == Buttons::None) return !buttonStates && buttonBuffer;
 	uint32_t buttonMask = 1 << static_cast<uint32_t>(button);
@@ -47,14 +39,14 @@ bool ControllerManager::ButtonReleased(const size_t& index, const Buttons& butto
 ControllerManager::Buttons ControllerManager::GetButton(const size_t& index) {
 	for (size_t i = 0; i <= 20; i++) {
 		Buttons currentButton = static_cast<Buttons>(i);
-		if(this->ButtonDown(index, currentButton)) return currentButton;
+		if(ButtonDown(index, currentButton)) return currentButton;
 	}
 	return Buttons::None;
 }
 
 Vector2D ControllerManager::GetStick(const size_t& index, const Sides& side) {
-	if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
-	SDL_GameController* controller = this->controllerList[index]->controller;
+	if (index >= controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
+	SDL_GameController* controller = controllerList[index].controller;
 
 	bool right = (side == Sides::Right);
 	int16_t x = SDL_GameControllerGetAxis(controller, right ? SDL_CONTROLLER_AXIS_RIGHTX : SDL_CONTROLLER_AXIS_LEFTX);
@@ -64,8 +56,8 @@ Vector2D ControllerManager::GetStick(const size_t& index, const Sides& side) {
 }
 
 float ControllerManager::GetTrigger(const size_t& index, const Sides& side) {
-    if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
-	SDL_GameController* controller = this->controllerList[index]->controller;
+    if (index >= controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
+	SDL_GameController* controller = controllerList[index].controller;
 
 	bool right = (side == Sides::Right);
 	int v = SDL_GameControllerGetAxis(controller, right ? SDL_CONTROLLER_AXIS_TRIGGERRIGHT : SDL_CONTROLLER_AXIS_TRIGGERLEFT);
@@ -74,36 +66,37 @@ float ControllerManager::GetTrigger(const size_t& index, const Sides& side) {
 }
 
 
-//Construction and Destruction
-ControllerManager::ControllerManager() {}
-
-ControllerManager::~ControllerManager() {}
-
-
 //Controller List Access
+void ControllerManager::RemoveAllControllers() {
+	for(ControllerInfo& it : controllerList) SDL_GameControllerClose(it.controller);
+	controllerList.clear();
+}
+
 void ControllerManager::AddController(const int32_t& deviceIndex) {
-	this->controllerList.push_back(new ControllerInfo());
-	this->controllerList.back()->controller = SDL_GameControllerOpen(deviceIndex);
-	this->controllerList.back()->buttonBuffer = 0;
+	controllerList.push_back({SDL_GameControllerOpen(deviceIndex), 0});
 }
 
 void ControllerManager::RemoveController(const int32_t& instanceID) {
-	auto lam = [&instanceID](ControllerInfo* x) {
-		return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(x->controller)) == instanceID;
+	auto lam = [&instanceID](const ControllerInfo& x) {
+		return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(x.controller)) == instanceID;
 	};
-	std::vector<ControllerInfo*>::iterator it = std::find_if(this->controllerList.begin(), this->controllerList.end(), lam);
-	ControllerInfo* info = *it;
+	std::vector<ControllerInfo>::iterator it = std::find_if(controllerList.begin(), controllerList.end(), lam);
 
-	SDL_GameControllerClose(info->controller);
-	delete info;
-	this->controllerList.erase(it);
+	SDL_GameControllerClose(it->controller);
+	controllerList.erase(it);
+}
+
+
+//Buffer Access
+void ControllerManager::PushBuffers() {
+	for (size_t i = 0; i < controllerList.size(); i++) controllerList[i].buttonBuffer = FormatButtons(i);
 }
 
 
 //Format Helpers
 uint32_t ControllerManager::FormatButtons(const size_t& index) {
-	if (index >= this->controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
-	SDL_GameController* controller = this->controllerList[index]->controller;
+	if (index >= controllerList.size()) throw std::runtime_error("The requested controller does not exist.");
+	SDL_GameController* controller = controllerList[index].controller;
 
 	uint32_t output = 0;
 	size_t i = 21;
@@ -116,11 +109,5 @@ uint32_t ControllerManager::FormatButtons(const size_t& index) {
 }
 
 
-//Buffer Access
-void ControllerManager::PushBuffers() {
-	for (size_t i = 0; i < this->controllerList.size(); i++) controllerList[i]->buttonBuffer = this->FormatButtons(i);
-}
-
-
 //Statics
-ControllerManager* ControllerManager::currentManager;
+std::vector<ControllerManager::ControllerInfo> ControllerManager::controllerList;

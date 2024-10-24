@@ -6,27 +6,23 @@ namespace Tin {
 
 	class TIN_API KeyboardManager {
 		public:
-		static KeyboardManager* GetCurrentManager();
+		KeyboardManager() = delete;
+		~KeyboardManager() = delete;
 
-		KeyboardManager(const KeyboardManager& coppiedObject) = delete;
+		static bool KeyPressed(const char* const& keyName);
+		static bool KeyDown(const char* const& keyName);
+		static bool KeyReleased(const char* const& keyName);
 
-		bool KeyPressed(const char* const& keyName) const;
-		bool KeyDown(const char* const& keyName) const;
-		bool KeyReleased(const char* const& keyName) const;
-
-		const char* GetKey() const;
+		static const char* GetKey();
 
 		private:
-		KeyboardManager();
-		~KeyboardManager();
+		static void Initialize();
+		static void CleanUp();
 
+		static void PushBuffer();
 		friend class GameManager;
 
-		void PushBuffer();
-
-		const uint8_t* keyStates;
-		uint8_t* keyBuffer;
-
-		static KeyboardManager* currentManager;
+		static const uint8_t* keyStates;
+		static uint8_t* keyBuffer;
 	};
 }

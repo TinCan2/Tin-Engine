@@ -52,9 +52,7 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 
 	Camera::activeCamera = new Camera(w, h);
 	#ifdef TIN_MODULES_INCLUDE_INPUT
-		ControllerManager::currentManager = new ControllerManager();
-		KeyboardManager::currentManager = new KeyboardManager();
-		MouseManager::currentManager = new MouseManager();
+		KeyboardManager::Initialize();
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;
@@ -73,9 +71,9 @@ void GameManager::Handle() {
 	SDL_RenderClear(this->mainRenderer);
 
 	#ifdef TIN_MODULES_INCLUDE_INPUT
-		ControllerManager::GetCurrentManager()->PushBuffers();
-		KeyboardManager::GetCurrentManager()->PushBuffer();
-		MouseManager::GetCurrentManager()->PushBuffer();
+		ControllerManager::PushBuffers();
+		KeyboardManager::PushBuffer();
+		MouseManager::PushBuffer();
 	#endif
 
 	SDL_Event currentEvent;
@@ -86,10 +84,10 @@ void GameManager::Handle() {
 				break;
 			#ifdef TIN_MODULES_INCLUDE_INPUT
 				case SDL_CONTROLLERDEVICEADDED:
-					ControllerManager::GetCurrentManager()->AddController(currentEvent.cdevice.which);
+					ControllerManager::AddController(currentEvent.cdevice.which);
 					break;
 				case SDL_CONTROLLERDEVICEREMOVED:
-					ControllerManager::GetCurrentManager()->RemoveController(currentEvent.cdevice.which);
+					ControllerManager::RemoveController(currentEvent.cdevice.which);
 					break;
 			#endif
 		}
@@ -113,9 +111,8 @@ void GameManager::Render() {
 
 void GameManager::Terminate() {
 	#ifdef TIN_MODULES_INCLUDE_INPUT
-		delete ControllerManager::currentManager;
-		delete KeyboardManager::currentManager;
-		delete MouseManager::currentManager;
+		ControllerManager::RemoveAllControllers();
+		KeyboardManager::CleanUp();
 	#endif
 	delete Camera::activeCamera;
 
