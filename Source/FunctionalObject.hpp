@@ -3,10 +3,10 @@
 #include <vector>
 
 namespace Tin {
-	class FunctionalObject {
+	class TIN_API FunctionalObject {
 		public:
 		FunctionalObject();
-		~FunctionalObject();
+		virtual ~FunctionalObject();
 
 		virtual void OnUpdate() = 0;
 

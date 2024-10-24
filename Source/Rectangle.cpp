@@ -15,7 +15,7 @@ using namespace Tin;
 //Construction and Destruction
 Rectangle::Rectangle(const Vector2D& center, const Vector2D& extents, const float& orientation) {
 	this->center = new Vector2D(center);
-	this->extents = new Vector2D(fabs(extents.x), fabs(extents.y));
+	this->extents = new Vector2D(std::abs(extents.x), std::abs(extents.y));
 	this->orientation = orientation;
 }
 
@@ -57,8 +57,8 @@ void Rectangle::SetCenter(const Vector2D& center) {
 }
 
 void Rectangle::SetExtents(const Vector2D& extents) {
-	this->extents->x = fabs(extents.x);
-	this->extents->y = fabs(extents.y);
+	this->extents->x = std::abs(extents.x);
+	this->extents->y = std::abs(extents.y);
 }
 
 void Rectangle::SetOrientation(const float& orientation) {
@@ -165,7 +165,6 @@ void Rectangle::SetOrientation(const float& orientation) {
 					*normal *= depth/normal->GetMagnitude();
 				}
 			}
-
 			if (contact != nullptr) {
 				*contact = clampPoint.x*axH + clampPoint.y*axV;
 				*contact += this->GetCenter();

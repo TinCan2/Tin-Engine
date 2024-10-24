@@ -19,7 +19,7 @@ namespace Tin {
 		PhysicalObject(const PhysicalObject& coppiedObject);
 		PhysicalObject& operator=(const PhysicalObject& coppiedObject);
 
-		~PhysicalObject();
+		virtual ~PhysicalObject();
 
 		enum class ColliderTypes : uint8_t {Circle, Rectangle, JointShape};
 
@@ -40,8 +40,11 @@ namespace Tin {
 		void SetVelocity(const Vector2D& velocity);
 		void SetAngularSpeed(const float& angularSpeed);
 
-		float GetRestitutionCoefficient();
+		float GetRestitutionCoefficient() const;
 		void SetRestitutionCoefficient(const float& rCoeff);
+
+		bool GetLockRotation() const;
+		void SetLockRotation(const bool& lockRotation);
 
 		static float GetDeltaTime();
 
@@ -61,7 +64,10 @@ namespace Tin {
 
 		float rCoeff;
 
+		bool lockRotation;
+
 		static void ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const Vector2D& contact, const Vector2D& normal);
+
 		static void UpdateBodies();
 		friend class GameManager;
 

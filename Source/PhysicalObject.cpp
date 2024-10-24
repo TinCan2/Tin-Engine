@@ -1,5 +1,6 @@
 #include "Circle.hpp"
 #include "JointShape.hpp"
+#include "ModuleDefinitions.hpp"
 #include "PhysicalObject.hpp"
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
@@ -8,6 +9,10 @@
 #include <numbers>
 #include <SDL.h>
 #include <stdexcept>
+
+#ifdef TIN_MODULES_INCLUDE_VISUALS
+	#include "VisualObject.hpp"
+#endif
 
 using namespace Tin;
 
@@ -226,13 +231,21 @@ void PhysicalObject::SetAngularSpeed(const float& angularSpeed) {
 	this->angularSpeed = angularSpeed;
 }
 
-float PhysicalObject::GetRestitutionCoefficient() {
+float PhysicalObject::GetRestitutionCoefficient() const {
 	return this->rCoeff;
 }
 
 void PhysicalObject::SetRestitutionCoefficient(const float& rCoeff) {
 	if (rCoeff > 1 || rCoeff < 0) throw "Invalid coefficient of restitution.";
 	this->rCoeff = rCoeff;
+}
+
+bool PhysicalObject::GetLockRotation() const {
+	return this->lockRotation;
+}
+
+void PhysicalObject::SetLockRotation(const bool& lockRotation) {
+	this->lockRotation = true;
 }
 
 
@@ -271,14 +284,15 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		float crossJ = dirJ^unitNorm;
 
 		float denom = invMassI + invMassJ;
-		denom += crossI*crossI/bodyI->momentOfInertia + crossJ*crossJ/bodyJ->momentOfInertia;
+		if (!bodyI->lockRotation) denom += crossI*crossI/bodyI->momentOfInertia;
+		if (!bodyJ->lockRotation) denom += crossJ*crossJ/bodyJ->momentOfInertia;
 		impulse /= denom;
 
 		*bodyI->velocity -= unitNorm*impulse*invMassI;
 		*bodyJ->velocity += unitNorm*impulse*invMassJ;
 
-		bodyI->angularSpeed -= impulse*crossI/bodyI->momentOfInertia;
-		bodyJ->angularSpeed += impulse*crossJ/bodyJ->momentOfInertia;
+		if (!bodyI->lockRotation) bodyI->angularSpeed -= impulse*crossI/bodyI->momentOfInertia;
+		if (!bodyJ->lockRotation) bodyJ->angularSpeed += impulse*crossJ/bodyJ->momentOfInertia;
 
 		if (fabs(bodyI->angularSpeed) < 0.01) bodyI->angularSpeed *= 0.5;
 		if (fabs(bodyJ->angularSpeed) < 0.01) bodyJ->angularSpeed *= 0.5;
@@ -290,33 +304,42 @@ void PhysicalObject::UpdateBodies() {
 	currentFrame = SDL_GetTicks64();
 
 	for (size_t i = 0; i < bodyList.size(); i++) {
-		float theta = bodyList[i]->angularSpeed*GetDeltaTime();
-		Vector2D displacement = (*bodyList[i]->velocity)*GetDeltaTime();
-		switch (bodyList[i]->colliderType) {
+		PhysicalObject* currentBody = bodyList[i];
+		float theta = currentBody->angularSpeed*GetDeltaTime();
+		Vector2D displacement = (*currentBody->velocity)*GetDeltaTime();
+		switch (currentBody->colliderType) {
 			case ColliderTypes::Circle: {
-				Circle* circleBody = static_cast<Circle*>(bodyList[i]->collider);
+				Circle* circleBody = static_cast<Circle*>(currentBody->collider);
 				circleBody->SetCenter(circleBody->GetCenter() + displacement);
 				break;
 			}
 			case ColliderTypes::Rectangle: {
-				Rectangle* rectangleBody = static_cast<Rectangle*>(bodyList[i]->collider);
+				Rectangle* rectangleBody = static_cast<Rectangle*>(currentBody->collider);
 				rectangleBody->SetOrientation(rectangleBody->GetOrientation() + theta);
 				rectangleBody->SetCenter(rectangleBody->GetCenter() + displacement);
 				break;
 			}
 			case ColliderTypes::JointShape: {
-				JointShape* jointBody = static_cast<JointShape*>(bodyList[i]->collider);
-				Vector2D dir = jointBody->GetCenter() - *bodyList[i]->centerOfMass;
-				Vector2D tDir = dir.x*Vector2D(cos(theta), sin(theta)) + dir.y*Vector2D(-sin(theta), cos(theta));
+				JointShape* jointBody = static_cast<JointShape*>(currentBody->collider);
+				Vector2D dir = jointBody->GetCenter() - *currentBody->centerOfMass;
+				Vector2D tDir = dir.x*Vector2D(std::cos(theta), std::sin(theta)) + dir.y*Vector2D(-std::sin(theta), std::cos(theta));
 
-				jointBody->SetCenter(*bodyList[i]->centerOfMass + tDir);
+				jointBody->SetCenter(*currentBody->centerOfMass + tDir);
 				jointBody->SetOrientation(jointBody->GetOrientation() + theta);
 
 				jointBody->SetCenter(jointBody->GetCenter() + displacement);
 				break;
 			}
 		}
-		*bodyList[i]->centerOfMass += displacement;
+		*currentBody->centerOfMass += displacement;
+
+		#ifdef TIN_MODULES_INCLUDE_VISUALS
+			VisualObject* visual = dynamic_cast<VisualObject*>(currentBody);
+			if (visual != nullptr) {
+				visual->SetPosition(visual->GetPosition() + displacement);
+				visual->SetRotation(visual->GetRotation() + theta);
+			}
+		#endif
 	}
 
 	Vector2D contact, normal;

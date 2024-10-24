@@ -26,6 +26,10 @@
 	#include "Sprite.hpp"
 #endif
 
+#ifdef TIN_MODULES_INCLUDE_VISUALS
+	#include "VisualObject.hpp"
+#endif
+
 using namespace Tin;
 
 //Singleton Implementation
@@ -105,6 +109,10 @@ void GameManager::Update() {
 }
 
 void GameManager::Render() {
+	#ifdef TIN_MODULES_INCLUDE_VISUALS
+		VisualObject::RenderObjects();
+	#endif
+
 	SDL_RenderPresent(this->mainRenderer);
 	this->frameCount++;
 }

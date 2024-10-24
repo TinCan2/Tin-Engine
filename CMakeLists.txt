@@ -4,7 +4,7 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 
 
 #==Module Definitions==#
-set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER PHYSICS INPUT FUNCTIONALS)
+set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER PHYSICS INPUT FUNCTIONALS VISUALS)
 
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_SPRITE "Include the sprite module." ON)
@@ -14,6 +14,7 @@ option(TIN_MODULES_INCLUDE_PAINTER "Include the painter module." ON)
 option(TIN_MODULES_INCLUDE_PHYSICS "Include the physics module." ON)
 option(TIN_MODULES_INCLUDE_INPUT "Include the input module." ON)
 option(TIN_MODULES_INCLUDE_FUNCTIONALS "Include the functionals module." ON)
+option(TIN_MODULES_INCLUDE_VISUALS "Include the visuals module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
 set(TIN_MODULES_FILES_SPRITE Sprite)
@@ -23,6 +24,7 @@ set(TIN_MODULES_FILES_PAINTER Painter)
 set(TIN_MODULES_FILES_PHYSICS PhysicalObject)
 set(TIN_MODULES_FILES_INPUT Gamepads Keyboard Mouse)
 set(TIN_MODULES_FILES_FUNCTIONALS FunctionalObject)
+set(TIN_MODULES_FILES_VISUALS VisualObject)
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_SPRITE CORE)
@@ -32,10 +34,12 @@ set(TIN_MODULES_DEPS_PAINTER SHAPES)
 set(TIN_MODULES_DEPS_PHYSICS SHAPES)
 set(TIN_MODULES_DEPS_INPUT CORE)
 set(TIN_MODULES_DEPS_FUNCTIONALS CORE)
+set(TIN_MODULES_DEPS_VISUALS ANIMATION)
+
 
 #==Demo Definitions==#
 set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo AABBOptimizationDemo GamepadDemo InputDemo GetKeyDemo MouseDemo)
-list(APPEND TIN_DEMOS FunctionalsDemo PhysicsDemo)
+list(APPEND TIN_DEMOS FunctionalsDemo PhysicsDemo VisualsDemo FPVDemo)
 set(TIN_DEMOS_ON OFF)
 
 option(TIN_DEMO_BUILD_CoreDemo "Build the Core Demo." OFF)
@@ -48,6 +52,8 @@ option(TIN_DEMO_BUILD_GetKeyDemo "Build the GetKey Demo." OFF)
 option(TIN_DEMO_BUILD_MouseDemo "Build the Mouse Demo." OFF)
 option(TIN_DEMO_BUILD_FunctionalsDemo "Build the Functionals Demo." OFF)
 option(TIN_DEMO_BUILD_PhysicsDemo "Build the Physics Demo." OFF)
+option(TIN_DEMO_BUILD_VisualsDemo "Build the Visuals Demo." OFF)
+option(TIN_DEMO_BUILD_FPVDemo "Build the FPV Demo." OFF)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
 set(TIN_DEMO_DEPS_SpriteDemo SPRITE)
@@ -59,6 +65,8 @@ set(TIN_DEMO_DEPS_GetKeyDemo INPUT)
 set(TIN_DEMO_DEPS_MouseDemo INPUT)
 set(TIN_DEMO_DEPS_FunctionalsDemo FUNCTIONALS)
 set(TIN_DEMO_DEPS_PhysicsDemo PHYSICS)
+set(TIN_DEMO_DEPS_VisualsDemo VISUALS INPUT)
+set(TIN_DEMO_DEPS_FPVDemo FUNCTIONALS PHYSICS VISUALS INPUT)
 
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
@@ -69,11 +77,12 @@ foreach(demo ${TIN_DEMOS})
 	endif()
 endforeach()
 
+
 #==Module Activation==#
 set(TIN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 
 set(TIN_SOURCE)
-set(TIN_HEADER ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp ${TIN_SOURCE_DIR}/DllMacro.hpp)
+set(TIN_HEADER ${TIN_SOURCE_DIR}/DllMacro.hpp ${TIN_SOURCE_DIR}/TinEngine.hpp ${TIN_SOURCE_DIR}/ModuleDefinitions.hpp)
 
 set(TIN_ACTIVATION_QUEUE)
 foreach(module ${TIN_MODULES})
@@ -175,6 +184,19 @@ endforeach()
 
 file(MAKE_DIRECTORY "${TIN_OUTPUT_DIR}/include")
 add_custom_command(TARGET tinEngine PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TIN_HEADER} ${TIN_OUTPUT_DIR}/include)
+
+if (WIN32 AND TIN_BUILD_DEMOS)
+	if (TIN_BUILD_SHARED)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+							$<TARGET_FILE:tinEngine> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+	endif()
+	if (TIN_LINK_SDL_DYNAMIC)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								$<TARGET_FILE:SDL2> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+		add_custom_command(TARGET tinEngine POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								$<TARGET_FILE:SDL2_image> ${TIN_OUTPUT_DIR}/demos/$<CONFIG>)
+	endif()
+endif()
 
 
 #==Demo Generation==#

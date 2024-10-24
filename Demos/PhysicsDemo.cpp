@@ -44,7 +44,6 @@ int main(int argc, char* argv[]) {
 		gameManager->Update();
 		rect.SetVelocity(rect.GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
 
-		p.PaintRectangle(ground.GetColliderAsRectangle());
 		p.PaintRectangle(rect.GetColliderAsRectangle());
 
 		gameManager->Render();

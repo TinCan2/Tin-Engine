@@ -15,8 +15,6 @@ int main(int argc, char* argv[]) {
 	Sprite s(TIN_DEMO_LOCATION "Sprites/Colors.png");
 	Animation a(TIN_DEMO_LOCATION "Sprites/Numbers.png", 32, 32, 10, Vector2D(2,0));
 
-	std::cout << s.GetWidth() << std::endl;
-
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();
 		gameManager->Update();
