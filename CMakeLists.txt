@@ -6,7 +6,6 @@ project("Tin Engine" VERSION 0.0.1 LANGUAGES CXX)
 #==Module Definitions==#
 set(TIN_MODULES CORE SPRITE ANIMATION SHAPES PAINTER PHYSICS INPUT FUNCTIONALS VISUALS TILES)
 
-
 set(TIN_MODULES_INCLUDE_CORE ON)
 option(TIN_MODULES_INCLUDE_SPRITE "Include the sprite module." ON)
 option(TIN_MODULES_INCLUDE_ANIMATION "Include the animation module." ON)
@@ -16,7 +15,7 @@ option(TIN_MODULES_INCLUDE_PHYSICS "Include the physics module." ON)
 option(TIN_MODULES_INCLUDE_INPUT "Include the input module." ON)
 option(TIN_MODULES_INCLUDE_FUNCTIONALS "Include the functionals module." ON)
 option(TIN_MODULES_INCLUDE_VISUALS "Include the visuals module." ON)
-option(TIN_MODULES_INCLUDE_TILES "Include the visuals module." ON)
+option(TIN_MODULES_INCLUDE_TILES "Include the tiles module." ON)
 
 set(TIN_MODULES_FILES_CORE GameManager Vector2D Camera Color)
 set(TIN_MODULES_FILES_SPRITE Sprite)
@@ -27,7 +26,7 @@ set(TIN_MODULES_FILES_PHYSICS PhysicalObject)
 set(TIN_MODULES_FILES_INPUT Gamepads Keyboard Mouse)
 set(TIN_MODULES_FILES_FUNCTIONALS FunctionalObject)
 set(TIN_MODULES_FILES_VISUALS VisualObject)
-set(TIN_MODULES_FILES_TILES Tileset)
+set(TIN_MODULES_FILES_TILES Tileset Tilemap)
 
 set(TIN_MODULES_DEPS_CORE)
 set(TIN_MODULES_DEPS_SPRITE CORE)
@@ -37,12 +36,12 @@ set(TIN_MODULES_DEPS_PAINTER SHAPES)
 set(TIN_MODULES_DEPS_PHYSICS SHAPES)
 set(TIN_MODULES_DEPS_INPUT CORE)
 set(TIN_MODULES_DEPS_FUNCTIONALS CORE)
-set(TIN_MODULES_DEPS_TILES )
+set(TIN_MODULES_DEPS_TILES VISUALS)
 
 
 #==Demo Definitions==#
 set(TIN_DEMOS CoreDemo SpriteDemo Sprite-AnimationDemo AABBOptimizationDemo GamepadDemo InputDemo GetKeyDemo MouseDemo)
-list(APPEND TIN_DEMOS FunctionalsDemo PhysicsDemo VisualsDemo FPVDemo TilesetDemo)
+list(APPEND TIN_DEMOS FunctionalsDemo PhysicsDemo VisualsDemo FPVDemo TilesetDemo TilemapDemo)
 set(TIN_DEMOS_ON OFF)
 
 option(TIN_DEMO_BUILD_CoreDemo "Build the Core Demo." OFF)
@@ -58,6 +57,7 @@ option(TIN_DEMO_BUILD_PhysicsDemo "Build the Physics Demo." OFF)
 option(TIN_DEMO_BUILD_VisualsDemo "Build the Visuals Demo." OFF)
 option(TIN_DEMO_BUILD_FPVDemo "Build the FPV Demo." OFF)
 option(TIN_DEMO_BUILD_TilesetDemo "Build the Tileset Demo." OFF)
+option(TIN_DEMO_BUILD_TilemapDemo "Build the Tilemap Demo." OFF)
 
 set(TIN_DEMO_DEPS_CoreDemo CORE)
 set(TIN_DEMO_DEPS_SpriteDemo SPRITE)
@@ -71,7 +71,8 @@ set(TIN_DEMO_DEPS_FunctionalsDemo FUNCTIONALS)
 set(TIN_DEMO_DEPS_PhysicsDemo PHYSICS)
 set(TIN_DEMO_DEPS_VisualsDemo VISUALS INPUT)
 set(TIN_DEMO_DEPS_FPVDemo FUNCTIONALS PHYSICS VISUALS INPUT)
-set(TIN_DEMO_DEPS_TilesetDemo)
+set(TIN_DEMO_DEPS_TilesetDemo TILES)
+set(TIN_DEMO_DEPS_TilemapDemo TILES)
 
 foreach(demo ${TIN_DEMOS})
 	if (${TIN_DEMO_BUILD_${demo}})
