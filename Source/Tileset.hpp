@@ -6,7 +6,7 @@ namespace Tin {
 	struct Vector2D;
 	class Sprite;
 
-	class Tileset {
+	class TIN_API Tileset {
 		public:
 		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h);
 

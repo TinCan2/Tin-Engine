@@ -1,4 +1,5 @@
 #pragma once
+#include "DllMacro.hpp"
 #include "VisualObject.hpp"
 #include <cstdint>
 #include <memory>
@@ -11,7 +12,7 @@ namespace Tin {
 	typedef const Vector2D cVec2;
 	typedef const float cfloat;
 
-	class Tilemap : public VisualObject {
+	class TIN_API Tilemap : public VisualObject {
 		public:
 		Tilemap(Tileset* const& sets, csize_t& sC, csize_t& w, csize_t& h, size_t** const& idM, cVec2& tS, cVec2& anc, cfloat& d);
 
