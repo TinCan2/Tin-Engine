@@ -5,8 +5,6 @@
 #include <cstdint>
 
 namespace Tin {
-
-namespace Tin {
 	class Sprite;
 	struct Vector2D;
 

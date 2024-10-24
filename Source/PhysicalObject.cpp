@@ -380,7 +380,7 @@ void PhysicalObject::UpdateBodies() {
 				}
 			}
 
-			if (colliding) ResolveCollision(bodyList[i], bodyList[j], collision);
+			if (colliding) ResolveCollision(bodyList[i], bodyList[j], contact, normal);
 		}
 	}
 }
