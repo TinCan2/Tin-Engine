@@ -22,7 +22,7 @@ If you are aiming to use the engine in you own CMake project, refer to the secti
 4. Choose which modules should be included in the compilation using the `TIN_MODULES_INCLUDE_` options.
 5. Exit cmake configuration and run the build system of you choice. On unix this is probably the command `make`.
 
-The output of the build process should now be accumulated under the "Tin-Build" directory.
+The output of the build process should now be accumulated under the "Tin-Engine Build" directory.
 
 ## Usage
 How you can use the engine for your given platform can be found in the below given subsections.
@@ -57,7 +57,7 @@ Once the engine repository is in yout project directory, you can use the followi
 ```cmake
   add_subdirectory(Tin-Engine)
   target_link_libraries(yourTarget PUBLIC|PRIVATE|INTERFACE tinEngine)
-  target_include_directories(yourTarget PUBLIC|PRIVATE|INTERFACE ${CMAKE_BINARY_DIR}/Tin-Build/include)
+  target_include_directories(yourTarget PUBLIC|PRIVATE|INTERFACE ${CMAKE_BINARY_DIR}/Tin-Engine Build/include)
 ```
 
 

@@ -7,6 +7,7 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <numbers>
 #include <SDL.h>
 
 using namespace Tin;
@@ -37,7 +38,7 @@ Painter::~Painter() {
 
 //Renderer Access
 void Painter::PaintLine(const Vector2D& A, const Vector2D& B) const {
-	GameManager::GetCurrentInstance()->ScheduleColorReset();
+	GameManager::GetCurrentManager()->ScheduleColorReset();
 	SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
@@ -51,13 +52,13 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 	float rA = fabs(circle.GetRadius());
 	if (rA < 0.5/Vector2D::UnitPixelEquivalent) return;
 
-	int n = ceil(M_PI/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
+	int n = ceil(std::numbers::pi/acos(1 - 0.5/(rA*Vector2D::UnitPixelEquivalent)));
 
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 
 	Vector2D* corners = new Vector2D[n];
-	for (int i=0; i<n; i++) {
-		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*M_PI/n), rA*sin(2*i*M_PI/n));
+	for (size_t i=0; i<n; i++) {
+		corners[i] = circle.GetCenter() + Vector2D(rA*cos(2*i*std::numbers::pi/n), rA*sin(2*i*std::numbers::pi/n));
 		corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 	}
 
@@ -65,7 +66,7 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 		SDL_Vertex* vertices = new SDL_Vertex[n]();
 		int* indices = new int[3*n]();
 
-		for (int i=0; i<n; i++) {
+		for (size_t i=0; i<n; i++) {
 			vertices[i].position = {corners[i].x, corners[i].y};
 			vertices[i].color = {this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a};
 
@@ -81,10 +82,10 @@ void Painter::PaintCircle(const Circle& circle, const bool& filled) const {
 		delete[] vertices;
 	}
 	else {
-		GameManager::GetCurrentInstance()->ScheduleColorReset();
+		GameManager::GetCurrentManager()->ScheduleColorReset();
 		SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
-		for (int i=0; i<n; i++) {
+		for (size_t i=0; i<n; i++) {
 			SDL_RenderDrawLine(boundedRenderer, corners[i].x, corners[i].y, corners[(i+1)%n].x, corners[(i+1)%n].y);
 		}
 	}
@@ -105,13 +106,13 @@ void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) con
 	Vector2D cornerPos = Camera::GetCurrentInstance()->GetPosition() + Camera::GetCurrentInstance()->GetExtents().FlipH();
 	Vector2D corners[] = {center+tExt, center+tExtF, center-tExt, center-tExtF};
 
-	for (int i=0; i<4; i++) corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
+	for (size_t i=0; i<4; i++) corners[i] = (corners[i]-cornerPos).FlipV()*Vector2D::UnitPixelEquivalent;
 
 	if (filled) {
 		SDL_Vertex vertices[4];
 		int indices[6];
 
-		for (int i=0; i<4; i++) {
+		for (size_t i=0; i<4; i++) {
 			vertices[i].position = {corners[i].x, corners[i].y};
 			vertices[i].color = {this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a};
 
@@ -125,18 +126,18 @@ void Painter::PaintRectangle(const Rectangle& rectangle, const bool& filled) con
 		SDL_RenderGeometry(boundedRenderer, nullptr, vertices, 4, indices, 6);
 	}
 	else {
-		GameManager::GetCurrentInstance()->ScheduleColorReset();
+		GameManager::GetCurrentManager()->ScheduleColorReset();
 		SDL_SetRenderDrawColor(boundedRenderer, this->paintColor->r, this->paintColor->g, this->paintColor->b, this->paintColor->a);
 
-		for (int i=0; i<4; i++) {
+		for (size_t i=0; i<4; i++) {
 			SDL_RenderDrawLine(boundedRenderer, corners[i].x, corners[i].y, corners[(i+1)%4].x, corners[(i+1)%4].y);
 		}
 	}
 }
 
 void Painter::PaintJointShape(const JointShape& jointShape, const bool& filled) const {
-	for (int i = 0; i < jointShape.GetCircleCount(); i++) this->PaintCircle(jointShape.GetCircle(i));
-	for (int i = 0; i < jointShape.GetRectangleCount(); i++) this->PaintRectangle(jointShape.GetRectangle(i));
+	for (size_t i = 0; i < jointShape.GetCircleCount(); i++) this->PaintCircle(jointShape.GetCircle(i));
+	for (size_t i = 0; i < jointShape.GetRectangleCount(); i++) this->PaintRectangle(jointShape.GetRectangle(i));
 }
 
 

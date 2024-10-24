@@ -8,7 +8,8 @@ namespace Tin {
 		uint8_t r, g, b, a;
 
 		Color();
-		Color(uint8_t r, uint8_t g, uint8_t b);
-		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+
+		Color(const uint8_t& r, const uint8_t& g, const uint8_t& b);
+		Color(const uint8_t& r, const uint8_t& g, const uint8_t& b, const uint8_t& a);
 	};
 }

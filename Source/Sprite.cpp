@@ -2,6 +2,7 @@
 #include "Sprite.hpp"
 #include "Vector2D.hpp"
 #include <cmath>
+#include <numbers>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdexcept>

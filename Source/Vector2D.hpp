@@ -1,8 +1,8 @@
 #pragma once
 #include "DllMacro.hpp"
+#include <cstdint>
 
 namespace Tin {
-	typedef unsigned int UInt16;
 
 	struct TIN_API Vector2D {
 		float x, y;
@@ -16,7 +16,7 @@ namespace Tin {
 		Vector2D FlipH();
 		Vector2D FlipV();
 
-		constexpr static UInt16 UnitPixelEquivalent = 16;
+		constexpr static uint16_t UnitPixelEquivalent = 16;
 	};
 
 	TIN_API Vector2D operator+(const Vector2D& a, const Vector2D& b);

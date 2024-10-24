@@ -1,9 +1,9 @@
 #include "Rectangle.hpp"
 #include "Vector2D.hpp"
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <numbers>
-#include <algorithm>
 
 #ifdef TIN_MODULES_INCLUDE_PHYSICS
 	#include "Circle.hpp"
@@ -205,15 +205,14 @@ void Rectangle::SetOrientation(const float& orientation) {
 							cO-extO.x*axOh-extO.y*axOv, cO-extO.x*axOh+extO.y*axOv};
 
 		//Sperating axis test
-		std::pair<float, float> hProjection(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
-		std::pair<float, float> vProjection(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
-
 		Vector2D minNormal;
 		float minDepth = std::numeric_limits<float>::max();
 		bool referSelf = true;
 
 		float eps = 0.1/Vector2D::UnitPixelEquivalent;
 
+		std::pair<float, float> hProjection(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
+		std::pair<float, float> vProjection(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
 		for (size_t i = 0; i < 4; i ++) {
 			float prH = (vertO[i]-cS)*axSh;
 			if (prH < hProjection.first) hProjection.first = prH;
@@ -244,8 +243,6 @@ void Rectangle::SetOrientation(const float& orientation) {
 
 		hProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
 		vProjection = std::pair<float, float>(std::numeric_limits<float>::max(), std::numeric_limits<float>::lowest());
-
-
 		for (size_t i = 0; i < 4; i ++) {
 			float prH = (vertS[i]-cO)*axOh;
 			if (prH < hProjection.first) hProjection.first = prH;

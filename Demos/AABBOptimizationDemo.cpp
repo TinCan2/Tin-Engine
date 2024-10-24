@@ -8,7 +8,6 @@
 #include <numbers>
 #include <iostream>
 
-
 using namespace Tin;
 
 int main(int argc, char* argv[]) {

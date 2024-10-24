@@ -2,7 +2,9 @@
 #include "DllMacro.hpp"
 #include <cstdint>
 #include <memory>
+#include <cstdint>
 
+namespace Tin {
 
 namespace Tin {
 	class Sprite;
@@ -27,7 +29,6 @@ namespace Tin {
 
 		private:
 		uint16_t frameCount, frameLength;
-
 		std::shared_ptr<Sprite>* frames;
 	};
 }

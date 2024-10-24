@@ -36,7 +36,7 @@ namespace Tin {
 		uint16_t x, y, w ,h;
 		Vector2D* origin;
 
-		static void GenerateTexture(const char* targetFile);
+		static void GenerateTexture(const char* file);
 
 		static SDL_Renderer* boundedRenderer;
 		friend class GameManager;
