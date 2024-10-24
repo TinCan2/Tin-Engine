@@ -246,6 +246,9 @@ float PhysicalObject::GetDeltaTime() {
 void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const Vector2D& contact, const Vector2D& normal) {
 	Vector2D unitNorm = normal/normal.GetMagnitude();
 
+	bodyI->OnCollision(contact, normal);
+	bodyJ->OnCollision(contact, normal);
+
 	Vector2D dirI = contact - *bodyI->centerOfMass;
 	Vector2D dirJ = contact - *bodyJ->centerOfMass;
 	Vector2D tanI = Vector2D(-dirI.y, dirI.x);

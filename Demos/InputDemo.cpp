@@ -1,5 +1,5 @@
 #include "GameManager.hpp"
-#include "KeyboardManager.hpp"
+#include "Keyboard.hpp"
 #include <iostream>
 
 using namespace Tin;
@@ -9,13 +9,11 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Input Demo", 640, 480);
 
-	KeyboardManager* keyboardManager = KeyboardManager::GetCurrentManager();
-
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();
-		if(keyboardManager->KeyPressed("a")) std::cout << "The key a was pressed." << std::endl;
-		if(keyboardManager->KeyDown("a")) std::cout << "The key a is down." << std::endl;
-		if(keyboardManager->KeyReleased("a")) std::cout << "The key a was released." << std::endl;
+		if(Keyboard::KeyPressed("a")) std::cout << "The key a was pressed." << std::endl;
+		if(Keyboard::KeyDown("a")) std::cout << "The key a is down." << std::endl;
+		if(Keyboard::KeyReleased("a")) std::cout << "The key a was released." << std::endl;
 		gameManager->Update();
 		gameManager->Render();
 	}

@@ -10,8 +10,6 @@ namespace Tin {
 	class Rectangle;
 	class JointShape;
 
-	class CollisionInfo;
-
 	class TIN_API PhysicalObject {
 		public:
 		PhysicalObject(const Circle& collider, const float& mass);
@@ -46,6 +44,8 @@ namespace Tin {
 		void SetRestitutionCoefficient(const float& rCoeff);
 
 		static float GetDeltaTime();
+
+		virtual void OnCollision(Vector2D contact, Vector2D normal) = 0;
 
 		private:
 		void* collider;

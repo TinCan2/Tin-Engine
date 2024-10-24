@@ -1,7 +1,7 @@
 #include "Circle.hpp"
 #include "Color.hpp"
 #include "GameManager.hpp"
-#include "MouseManager.hpp"
+#include "Mouse.hpp"
 #include "Painter.hpp"
 #include "Vector2D.hpp"
 #include <iostream>
@@ -12,8 +12,6 @@ int main(int argc, char* argv[]) {
 	GameManager* gameManager = GameManager::Instantiate();
 
 	gameManager->Initialize("Mouse Demo", 640, 480);
-
-	MouseManager* mouseManager = MouseManager::GetCurrentManager();
 
 	Painter p;
 
@@ -29,27 +27,27 @@ int main(int argc, char* argv[]) {
 		p.SetPaintColor(Color(255,0,0));
 		p.PaintCircle(Circle(Vector2D(0,0),0.5f));
 
-		Vector2D mousePos = mouseManager->GetMousePosition();
+		Vector2D mousePos = Mouse::GetMousePosition();
 		std::cout << "Mouse position: " << mousePos.x << ";" << mousePos.y << std::endl;
 
 		std::cout << "Current button: ";
-		switch (mouseManager->GetButton()) {
-			case MouseManager::Buttons::Left:
+		switch (Mouse::GetButton()) {
+			case Mouse::Buttons::Left:
 				std::cout << "Left" << std::endl;
 				break;
-			case MouseManager::Buttons::Middle:
+			case Mouse::Buttons::Middle:
 				std::cout << "Middle" << std::endl;
 				break;
-			case MouseManager::Buttons::Right:
+			case Mouse::Buttons::Right:
 				std::cout << "Right" << std::endl;
 				break;
-			case MouseManager::Buttons::SideBack:
+			case Mouse::Buttons::SideBack:
 				std::cout << "SideBack" << std::endl;
 				break;
-			case MouseManager::Buttons::SideFront:
+			case Mouse::Buttons::SideFront:
 				std::cout << "SideFront" << std::endl;
 				break;
-			case MouseManager::Buttons::None:
+			case Mouse::Buttons::None:
 				std::cout << "None" << std::endl;
 				break;
 		}
