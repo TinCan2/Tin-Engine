@@ -9,17 +9,17 @@ namespace Tin {
 
 	struct Vector2D;
 
-	class TIN_API ControllerManager {
+	class TIN_API Gamepads {
 		public:
-		ControllerManager() = delete;
-		~ControllerManager() = delete;
+		Gamepads() = delete;
+		~Gamepads() = delete;
 
 		enum class Buttons {A, B, X, Y, Back, Guide, Start, LeftStick, RightStick, LeftShoulder, RightShoulder, DPadUp, DPadDown,
 							DPadLeft, DPadRight, Misc, Paddle1, Paddle3, Paddle2, Paddle4, Touchpad, None};
 
 		enum class Sides {Left, Right};
 
-		static size_t GetControllerCount();
+		static size_t GetGamepadCount();
 
 		static bool ButtonPressed(const size_t& index, const Buttons& button);
 		static bool ButtonDown(const size_t& index, const Buttons& button);
@@ -31,10 +31,10 @@ namespace Tin {
 		static float GetTrigger(const size_t& index, const Sides& side);
 
 		private:
-		static void RemoveAllControllers();
+		static void RemoveAllGamepads();
 
-		static void AddController(const int32_t& deviceIndex);
-		static void RemoveController(const int32_t& instanceID);
+		static void AddGamepad(const int32_t& deviceIndex);
+		static void RemoveGamepad(const int32_t& instanceID);
 
 		static void PushBuffers();
 
@@ -42,8 +42,8 @@ namespace Tin {
 
 		static uint32_t FormatButtons(const size_t& index);
 
-		struct ControllerInfo {SDL_GameController* controller; uint32_t buttonBuffer;};
+		struct GamepadInfo {SDL_GameController* controller; uint32_t buttonBuffer;};
 
-		static std::vector<ControllerInfo> controllerList;
+		static std::vector<GamepadInfo> gamepadList;
 	};
 }

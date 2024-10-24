@@ -1,12 +1,12 @@
 #include "Camera.hpp"
-#include "MouseManager.hpp"
+#include "Mouse.hpp"
 #include "Vector2D.hpp"
 #include <SDL.h>
 
 using namespace Tin;
 
 //Mouse Access
-Vector2D MouseManager::GetMousePosition() {
+Vector2D Mouse::GetMousePosition() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
@@ -17,7 +17,7 @@ Vector2D MouseManager::GetMousePosition() {
 	return camera->GetPosition() + camera->GetExtents().FlipH() + relativePos.FlipV();
 }
 
-bool MouseManager::ButtonPressed(const Buttons& button) {
+bool Mouse::ButtonPressed(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return !mouseState && buttonBuffer;
@@ -25,7 +25,7 @@ bool MouseManager::ButtonPressed(const Buttons& button) {
 	return (mouseState & buttonMask) && !(buttonBuffer & buttonMask);
 }
 
-bool MouseManager::ButtonDown(const Buttons& button) {
+bool Mouse::ButtonDown(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return !mouseState;
@@ -33,7 +33,7 @@ bool MouseManager::ButtonDown(const Buttons& button) {
 	return mouseState & buttonMask;
 }
 
-bool MouseManager::ButtonReleased(const Buttons& button) {
+bool Mouse::ButtonReleased(const Buttons& button) {
 	uint32_t mouseState = SDL_GetMouseState(nullptr, nullptr);
 
 	if (button == Buttons::None) return mouseState && !buttonBuffer;
@@ -41,7 +41,7 @@ bool MouseManager::ButtonReleased(const Buttons& button) {
 	return (mouseState & buttonMask) && !(buttonBuffer & buttonMask);
 }
 
-MouseManager::Buttons MouseManager::GetButton() {
+Mouse::Buttons Mouse::GetButton() {
 	for (size_t i = 0; i < 5; i++) {
 		Buttons currentButton = static_cast<Buttons>(i);
 		if(ButtonDown(currentButton)) return currentButton;
@@ -50,10 +50,10 @@ MouseManager::Buttons MouseManager::GetButton() {
 }
 
 //Buffer Access
-void MouseManager::PushBuffer() {
+void Mouse::PushBuffer() {
 	buttonBuffer = SDL_GetMouseState(nullptr, nullptr);
 }
 
 
 //Statics
-uint32_t MouseManager::buttonBuffer;
+uint32_t Mouse::buttonBuffer;

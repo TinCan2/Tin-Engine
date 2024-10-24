@@ -21,7 +21,7 @@ set(TIN_MODULES_FILES_ANIMATION Animation)
 set(TIN_MODULES_FILES_SHAPES Circle Rectangle JointShape)
 set(TIN_MODULES_FILES_PAINTER Painter)
 set(TIN_MODULES_FILES_PHYSICS PhysicalObject)
-set(TIN_MODULES_FILES_INPUT KeyboardManager MouseManager ControllerManager)
+set(TIN_MODULES_FILES_INPUT Gamepads Keyboard Mouse)
 set(TIN_MODULES_FILES_FUNCTIONALS FunctionalObject)
 
 set(TIN_MODULES_DEPS_CORE)

@@ -6,10 +6,10 @@ namespace Tin {
 
 	struct Vector2D;
 
-	class TIN_API MouseManager {
+	class TIN_API Mouse {
 		public:
-		MouseManager() = delete;
-		~MouseManager() = delete;
+		Mouse() = delete;
+		~Mouse() = delete;
 
 		enum class Buttons {Left, Middle, Right, SideBack, SideFront, None};
 

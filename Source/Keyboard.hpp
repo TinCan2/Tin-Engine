@@ -4,10 +4,10 @@
 
 namespace Tin {
 
-	class TIN_API KeyboardManager {
+	class TIN_API Keyboard {
 		public:
-		KeyboardManager() = delete;
-		~KeyboardManager() = delete;
+		Keyboard() = delete;
+		~Keyboard() = delete;
 
 		static bool KeyPressed(const char* const& keyName);
 		static bool KeyDown(const char* const& keyName);
