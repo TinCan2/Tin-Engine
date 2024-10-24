@@ -3,11 +3,12 @@
 #include <memory>
 
 namespace Tin {
-	struct Sprite;
+	struct Vector2D;
+	class Sprite;
 
 	class Tileset {
 		public:
-		Tileset(const char* targetSheet, uint16_t w, uint16_t h);
+		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h);
 
 		Tileset(const Tileset& coppiedTileset);
 		Tileset& operator=(const Tileset& coppiedTileset);
@@ -17,7 +18,7 @@ namespace Tin {
 		uint16_t GetRowCount() const;
 		uint16_t GetColumnCount() const;
 
-		Sprite GetTile(uint16_t tileId);
+		void DrawTile(const size_t& Id, const Vector2D& pos);
 
 		private:
 		std::shared_ptr<Sprite>* tiles;

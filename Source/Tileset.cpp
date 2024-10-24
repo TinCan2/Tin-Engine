@@ -6,7 +6,7 @@
 using namespace Tin;
 
 //Construction and Destruction
-Tileset::Tileset(const char* targetSheet, uint16_t w, uint16_t h) {
+Tileset::Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h) {
 	Sprite sheet(targetSheet);
 
     this->columns = sheet.GetWidth()/w;
@@ -47,9 +47,9 @@ Tileset::~Tileset() {
 
 
 //Member Access
-Sprite Tileset::GetTile(uint16_t tileId) {
-	if (tileId >= this->columns*this->rows) throw std::runtime_error("Tile out of bounds.");
-	return *this->tiles[tileId];
+void Tileset::DrawTile(const size_t& Id, const Vector2D& pos) {
+	if (Id >= this->columns*this->rows) throw std::runtime_error("Tile out of bounds.");
+	this->tiles[Id]->Draw(pos);
 }
 
 uint16_t Tileset::GetRowCount() const {
