@@ -31,7 +31,7 @@ Animation::Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t&
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength) {
+Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, cuint16_t& m) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);
@@ -42,13 +42,17 @@ Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint1
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
 	for (size_t i = 0; i < rows; i++){
-		for (size_t j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h);
+		for (size_t j = 0; j < columns; j++) {
+			uint16_t x = m + j*(w+2*m);
+			uint16_t y = (rows-i-1)*(h+2*m)+m;
+			this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, x, y, w, h);
+		}
 	}
 
 	this->frameLength = frameLength;
 }
 
-Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, const Vector2D& origin) {
+Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, const Vector2D& origin, cuint16_t& m) {
 	if (frameLength == 0) throw std::runtime_error("Frame length cannot be zero.");
 
 	Sprite sheet(targetSheet);
@@ -59,7 +63,11 @@ Animation::Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint1
 	this->frameCount = columns*rows;
 	this->frames = new std::shared_ptr<Sprite>[this->frameCount];
 	for (size_t i = 0; i < rows; i++){
-		for (size_t j = 0; j < columns; j++) this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (rows-i-1)*h, w, h, origin);
+		for (size_t j = 0; j < columns; j++) {
+			uint16_t x = m + j*(w+2*m);
+			uint16_t y = (rows-i-1)*(h+2*m)+m;
+			this->frames[i*columns+j] = std::make_shared<Sprite>(targetSheet, x, y, w, h, origin);
+		}
 	}
 
 	this->frameLength = frameLength;

@@ -15,8 +15,8 @@ namespace Tin {
 		Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength);
 		Animation(const char** targetFiles, cuint16_t& frameCount, cuint16_t& frameLength, const Vector2D& origin);
 
-		Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength);
-		Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, const Vector2D& origin);
+		Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, cuint16_t& m = 0);
+		Animation(const char* targetSheet, cuint16_t& w, cuint16_t& h, cuint16_t& frameLength, const Vector2D& origin, cuint16_t& m = 0);
 
 		Animation(const Animation& coppiedAnimation);
 		Animation& operator=(const Animation& coppiedAnimation);
