@@ -25,8 +25,8 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Tilemap Demo", 640, 480);
 
-	Tileset sets[] = {Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_grass.png", 16, 16),
-					  Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_rock.png", 16, 16)};
+	Tileset sets[] = {Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_grass.png", 16, 16, 1),
+					  Tileset(TIN_DEMO_LOCATION "Sprites/spr_tileset_rock.png", 16, 16, 1)};
 
 	size_t tiledIDs[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

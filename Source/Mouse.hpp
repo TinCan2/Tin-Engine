@@ -2,6 +2,8 @@
 #include "DllMacro.hpp"
 #include <cstdint>
 
+struct SDL_Renderer;
+
 namespace Tin {
 
 	struct Vector2D;
@@ -26,5 +28,7 @@ namespace Tin {
 		friend class GameManager;
 
 		static uint32_t buttonBuffer;
+
+		static SDL_Renderer* boundRenderer;
 	};
 }

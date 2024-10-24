@@ -14,6 +14,8 @@
 	#include "VisualObject.hpp"
 #endif
 
+#include <iostream>
+
 using namespace Tin;
 
 //Construction and Destruction
@@ -33,6 +35,8 @@ PhysicalObject::PhysicalObject(const Circle& collider, const float& mass) {
 
 	this->rCoeff = 1;
 
+	this->lockRotation = false;
+
 	bodyList.push_back(this);
 }
 
@@ -50,6 +54,8 @@ PhysicalObject::PhysicalObject(const Rectangle& collider, const float& mass) {
 	this->angularSpeed = 0;
 
 	this->rCoeff = 1;
+
+	this->lockRotation = false;
 
 	bodyList.push_back(this);
 }
@@ -104,6 +110,8 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 
 	this->rCoeff = 1;
 
+	this->lockRotation = false;
+
 	bodyList.push_back(this);
 }
 
@@ -130,6 +138,8 @@ PhysicalObject::PhysicalObject(const PhysicalObject& coppiedObject) {
 	this->angularSpeed = coppiedObject.angularSpeed;
 
 	this->rCoeff = coppiedObject.rCoeff;
+
+	this->lockRotation = coppiedObject.lockRotation;
 
 	bodyList.push_back(this);
 }
@@ -158,6 +168,8 @@ PhysicalObject& PhysicalObject::operator=(const PhysicalObject& coppiedObject) {
 
 	this->rCoeff = coppiedObject.rCoeff;
 
+	this->lockRotation = coppiedObject.lockRotation;
+
 	bodyList.push_back(this);
 
 	return *this;
@@ -180,6 +192,7 @@ PhysicalObject::~PhysicalObject() {
 	delete this->velocity;
 
 	std::vector<PhysicalObject*>::iterator it = std::find(bodyList.begin(), bodyList.end(), this);
+	bodyList.erase(it);
 }
 
 

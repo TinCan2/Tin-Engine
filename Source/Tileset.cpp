@@ -1,21 +1,24 @@
 #include "Sprite.hpp"
 #include "Tileset.hpp"
-
 #include <stdexcept>
+
+#include <iostream>
 
 using namespace Tin;
 
 //Construction and Destruction
-Tileset::Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h) {
+Tileset::Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h, const uint16_t& margin) {
 	Sprite sheet(targetSheet);
 
-    this->columns = sheet.GetWidth()/w;
-	this->rows = sheet.GetHeight()/h;
+    this->columns = sheet.GetWidth()/(w+2*margin);
+	this->rows = sheet.GetHeight()/(h+2*margin);
 
 	this->tiles = new std::shared_ptr<Sprite>[this->columns*this->rows];
 	for (size_t i = 0; i < this->rows; i++){
 		for (size_t j = 0; j < this->columns; j++) {
-			this->tiles[i*this->columns+j] = std::make_shared<Sprite>(targetSheet, j*w, (this->rows-i-1)*h, w, h);
+			uint16_t x = margin + j*(w+2*margin);
+			uint16_t y = (this->rows-i-1)*(h+2*margin)+margin;
+			this->tiles[i*this->columns+j] = std::make_shared<Sprite>(targetSheet, x, y, w, h);
 		}
 	}
 

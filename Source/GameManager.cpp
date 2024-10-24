@@ -4,6 +4,10 @@
 #include "ModuleDefinitions.hpp"
 #include <SDL2/SDL.h>
 
+#ifdef TIN_MODULES_INCLUDE_AUDIO
+	#include "Audio.hpp"
+#endif
+
 #ifdef TIN_MODULES_INCLUDE_FUNCTIONALS
 	#include "FunctionalObject.hpp"
 #endif
@@ -54,9 +58,16 @@ void GameManager::Initialize(const char* title, const uint16_t& w, const uint16_
 	this->gameWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN);
 	this->mainRenderer = SDL_CreateRenderer(this->gameWindow, -1, SDL_RENDERER_PRESENTVSYNC |  SDL_RENDERER_ACCELERATED);
 
+	SDL_RenderSetLogicalSize(this->mainRenderer, w, h);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
 	Camera::activeCamera = new Camera(w, h);
+	#ifdef TIN_MODULES_INCLUDE_AUDIO
+		Audio::InitializeMixer();
+	#endif
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		Keyboard::Initialize();
+		Mouse::boundRenderer = this->mainRenderer;
 	#endif
 	#ifdef TIN_MODULES_INCLUDE_PAINTER
 		Painter::boundedRenderer = this->mainRenderer;
@@ -84,7 +95,7 @@ void GameManager::Handle() {
 	while (SDL_PollEvent(&currentEvent)) {
 		switch (currentEvent.type){
 			case SDL_QUIT:
-				this->QuitGame(); //This is temporary, to be later switched with a function pointer method.
+				this->QuitGame(); //This is temporary, to be later switched with a function pointer methodology.
 				break;
 			#ifdef TIN_MODULES_INCLUDE_INPUT
 				case SDL_CONTROLLERDEVICEADDED:
@@ -118,6 +129,9 @@ void GameManager::Render() {
 }
 
 void GameManager::Terminate() {
+	#ifdef TIN_MODULES_INCLUDE_AUDIO
+		Audio::CloseMixer();
+	#endif
 	#ifdef TIN_MODULES_INCLUDE_INPUT
 		Gamepads::RemoveAllGamepads();
 		Keyboard::CleanUp();

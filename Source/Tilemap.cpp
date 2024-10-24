@@ -191,6 +191,7 @@ Tilemap::~Tilemap() {
 }
 
 
+//Renderer Access
 void Tilemap::OnRender() {
 	for (size_t i = 0; i < this->h; i++) {
 		for (size_t j = 0; j < this->w; j++) {

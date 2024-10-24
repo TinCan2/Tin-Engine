@@ -8,7 +8,7 @@ namespace Tin {
 
 	class TIN_API Tileset {
 		public:
-		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h);
+		Tileset(const char* targetSheet, const uint16_t& w, const uint16_t& h, const uint16_t& margin=0);
 
 		Tileset(const Tileset& coppiedTileset);
 		Tileset& operator=(const Tileset& coppiedTileset);

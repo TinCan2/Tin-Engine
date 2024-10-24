@@ -40,6 +40,10 @@ namespace Tin {
 		size_t** idMatrix;
 		size_t w,h;
 
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			PhysicalObject* physics;
+		#endif
+
 		Vector2D* anchor;
 		Vector2D* tileSize;
 

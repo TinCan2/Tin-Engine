@@ -10,8 +10,11 @@ Vector2D Mouse::GetMousePosition() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
+	float lX, lY;
+	SDL_RenderWindowToLogical(boundRenderer, x, y, &lX, &lY);
+
 	float UPE = Vector2D::UnitPixelEquivalent;
-	Vector2D relativePos = Vector2D(x/UPE, y/UPE);
+	Vector2D relativePos = Vector2D(lX/UPE, lY/UPE);
 
 	Camera* camera = Camera::GetCurrentInstance();
 	return camera->GetPosition() + camera->GetExtents().FlipH() + relativePos.FlipV();
@@ -57,3 +60,4 @@ void Mouse::PushBuffer() {
 
 //Statics
 uint32_t Mouse::buttonBuffer;
+SDL_Renderer* Mouse::boundRenderer;
