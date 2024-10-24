@@ -37,18 +37,21 @@ namespace Tin {
 		Vector2D GetVelocity() const;
 		float GetAngularSpeed() const;
 
-		void SetVelocity(const Vector2D& velocity);
-		void SetAngularSpeed(const float& angularSpeed);
-
 		float GetRestitutionCoefficient() const;
-		void SetRestitutionCoefficient(const float& rCoeff);
 
 		bool GetLockRotation() const;
-		void SetLockRotation(const bool& lockRotation);
 
 		static float GetDeltaTime();
 
-		virtual void OnCollision(Vector2D contact, Vector2D normal) = 0;
+		protected:
+		void SetVelocity(const Vector2D& velocity);
+		void SetAngularSpeed(const float& angularSpeed);
+
+		void SetRestitutionCoefficient(const float& rCoeff);
+
+		void SetLockRotation(const bool& lockRotation);
+
+		virtual void OnCollision(Vector2D contact, Vector2D normal);
 
 		private:
 		void* collider;

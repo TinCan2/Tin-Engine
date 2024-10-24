@@ -1,3 +1,4 @@
+#include "FunctionalObject.hpp"
 #include "GameManager.hpp"
 #include "Painter.hpp"
 #include "PhysicalObject.hpp"
@@ -7,22 +8,15 @@
 
 using namespace Tin;
 
-class Barrier : public PhysicalObject {
+class Ball : public PhysicalObject , public FunctionalObject {
 	public:
-	Barrier(const Rectangle& bounds) : PhysicalObject(bounds, std::numeric_limits<float>::infinity()) {
+	Ball(const Rectangle& bounds) : PhysicalObject(bounds, 1) {
 		this->SetRestitutionCoefficient(1);
 	}
 
-	virtual void OnCollision(Vector2D contact, Vector2D normal) override {}
-};
-
-class Ball : public PhysicalObject {
-	public:
-	Ball(const Rectangle& bounds) : PhysicalObject(bounds, 1) {
-		this->SetRestitutionCoefficient(0.25);
+	virtual void OnUpdate() override {
+		this->SetVelocity(this->GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
 	}
-
-	virtual void OnCollision(Vector2D contact, Vector2D normal) override {}
 };
 
 int main(int argc, char* argv[]) {
@@ -30,10 +24,10 @@ int main(int argc, char* argv[]) {
 
 	gameManager->Initialize("Physics Demo", 640, 480);
 
-	Barrier ground(Rectangle(Vector2D(0, -16), Vector2D(20, 1)));
-	Barrier ceiling(Rectangle(Vector2D(0, 16), Vector2D(20, 1)));
-	Barrier wallRight(Rectangle(Vector2D(21, 0), Vector2D(1, 15)));
-	Barrier wallLeft(Rectangle(Vector2D(-21, 0), Vector2D(1, 15)));
+	PhysicalObject ground(Rectangle(Vector2D(0, -16), Vector2D(20, 1)), std::numeric_limits<float>::infinity());
+	PhysicalObject ceiling(Rectangle(Vector2D(0, 16), Vector2D(20, 1)), std::numeric_limits<float>::infinity());
+	PhysicalObject wallRight(Rectangle(Vector2D(21, 0), Vector2D(1, 15)), std::numeric_limits<float>::infinity());
+	PhysicalObject wallLeft(Rectangle(Vector2D(-21, 0), Vector2D(1, 15)), std::numeric_limits<float>::infinity());
 
 	Ball rect(Rectangle(Vector2D(0, 0), Vector2D(2,3), 1));
 
@@ -42,7 +36,6 @@ int main(int argc, char* argv[]) {
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();
 		gameManager->Update();
-		rect.SetVelocity(rect.GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
 
 		p.PaintRectangle(rect.GetColliderAsRectangle());
 

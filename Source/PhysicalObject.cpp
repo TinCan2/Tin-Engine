@@ -31,7 +31,7 @@ PhysicalObject::PhysicalObject(const Circle& collider, const float& mass) {
 	this->velocity = new Vector2D();
 	this->angularSpeed = 0;
 
-	this->rCoeff = 0;
+	this->rCoeff = 1;
 
 	bodyList.push_back(this);
 }
@@ -49,7 +49,7 @@ PhysicalObject::PhysicalObject(const Rectangle& collider, const float& mass) {
 	this->velocity = new Vector2D();
 	this->angularSpeed = 0;
 
-	this->rCoeff = 0;
+	this->rCoeff = 1;
 
 	bodyList.push_back(this);
 }
@@ -102,7 +102,7 @@ PhysicalObject::PhysicalObject(const JointShape& collider, const float& mass) {
 	this->velocity = new Vector2D();
 	this->angularSpeed = 0;
 
-	this->rCoeff = 0;
+	this->rCoeff = 1;
 
 	bodyList.push_back(this);
 }
@@ -183,7 +183,7 @@ PhysicalObject::~PhysicalObject() {
 }
 
 
-//Member Access
+//Member Getters
 Circle PhysicalObject::GetColliderAsCircle() const {
 	if (this->colliderType != ColliderTypes::Circle) throw std::runtime_error("Invalid colider type requested.");
 	return *static_cast<Circle*>(this->collider);
@@ -223,6 +223,22 @@ float PhysicalObject::GetAngularSpeed() const {
 	return this->angularSpeed;
 }
 
+float PhysicalObject::GetRestitutionCoefficient() const {
+	return this->rCoeff;
+}
+
+bool PhysicalObject::GetLockRotation() const {
+	return this->lockRotation;
+}
+
+
+//Physics Globals
+float PhysicalObject::GetDeltaTime() {
+	return (currentFrame - lastFrame)/1000.0f;
+}
+
+
+//Member Setters
 void PhysicalObject::SetVelocity(const Vector2D& velocity) {
 	*this->velocity = velocity;
 }
@@ -231,17 +247,9 @@ void PhysicalObject::SetAngularSpeed(const float& angularSpeed) {
 	this->angularSpeed = angularSpeed;
 }
 
-float PhysicalObject::GetRestitutionCoefficient() const {
-	return this->rCoeff;
-}
-
 void PhysicalObject::SetRestitutionCoefficient(const float& rCoeff) {
 	if (rCoeff > 1 || rCoeff < 0) throw "Invalid coefficient of restitution.";
 	this->rCoeff = rCoeff;
-}
-
-bool PhysicalObject::GetLockRotation() const {
-	return this->lockRotation;
 }
 
 void PhysicalObject::SetLockRotation(const bool& lockRotation) {
@@ -249,13 +257,9 @@ void PhysicalObject::SetLockRotation(const bool& lockRotation) {
 }
 
 
-//Physics globals
-float PhysicalObject::GetDeltaTime() {
-	return (currentFrame - lastFrame)/1000.0f;
-}
-
-
 //Body Access
+void PhysicalObject::OnCollision(Vector2D contact, Vector2D normal) {}
+
 void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObject* const& bodyJ, const Vector2D& contact, const Vector2D& normal) {
 	Vector2D unitNorm = normal/normal.GetMagnitude();
 
@@ -278,7 +282,7 @@ void PhysicalObject::ResolveCollision(PhysicalObject* const& bodyI, PhysicalObje
 		float compositeRCoeff = bodyI->rCoeff*bodyJ->rCoeff;
 
 		float impulse = -(1+compositeRCoeff)*normalRelativeVelocity;
-		impulse += 0.2*std::max(0.0, normal.GetMagnitude()-0.01)/GetDeltaTime();
+		impulse += 0.2*std::max(0.0, normal.GetMagnitude()-0.01)/GetDeltaTime(); //Might be limited to low velocity cases
 
 		float crossI = dirI^unitNorm;
 		float crossJ = dirJ^unitNorm;
