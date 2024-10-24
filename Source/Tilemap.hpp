@@ -1,5 +1,6 @@
 #pragma once
 #include "DllMacro.hpp"
+#include "ModuleDefinitions.hpp"
 #include "VisualObject.hpp"
 #include <cstdint>
 #include <memory>
@@ -12,9 +13,17 @@ namespace Tin {
 	typedef const Vector2D cVec2;
 	typedef const float cfloat;
 
+	#ifdef TIN_MODULES_INCLUDE_PHYSICS
+		class PhysicalObject;
+	#endif
+
 	class TIN_API Tilemap : public VisualObject {
 		public:
-		Tilemap(Tileset* const& sets, csize_t& sC, csize_t& w, csize_t& h, size_t** const& idM, cVec2& tS, cVec2& anc, cfloat& d);
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			Tilemap(Tileset* const& sets, csize_t& sC, csize_t& w, csize_t& h, size_t** const& idM, cVec2& tS, cVec2& anc, cfloat& d, const bool& solid = false);
+		#else
+			Tilemap(Tileset* const& sets, csize_t& sC, csize_t& w, csize_t& h, size_t** const& idM, cVec2& tS, cVec2& anc, cfloat& d);
+		#endif
 
 		Tilemap(const Tilemap& coppiedTilemap);
 		Tilemap& operator=(const Tilemap& coppiedTilemap);
@@ -33,5 +42,9 @@ namespace Tin {
 
 		Vector2D* anchor;
 		Vector2D* tileSize;
+
+		#ifdef TIN_MODULES_INCLUDE_PHYSICS
+			PhysicalObject* collider;
+		#endif
 	};
 }

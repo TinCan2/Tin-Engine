@@ -1,10 +1,24 @@
+#include "Circle.hpp"
+#include "FunctionalObject.hpp"
 #include "GameManager.hpp"
+#include "Painter.hpp"
+#include "PhysicalObject.hpp"
 #include "Tilemap.hpp"
 #include "Tileset.hpp"
 #include "Vector2D.hpp"
-#include "Sprite.hpp"
 
 using namespace Tin;
+
+class Ball : public PhysicalObject , public FunctionalObject {
+	public:
+	Ball(const Circle& bounds) : PhysicalObject(bounds, 1) {
+		this->SetRestitutionCoefficient(0);
+	}
+
+	virtual void OnUpdate() override {
+		this->SetVelocity(this->GetVelocity() + Vector2D(0,-3)*PhysicalObject::GetDeltaTime());
+	}
+};
 
 int main(int argc, char* argv[]) {
 	GameManager* gameManager = GameManager::Instantiate();
@@ -51,11 +65,18 @@ int main(int argc, char* argv[]) {
 		for (size_t j = 0; j < 40; j++) IDs[i][j] = tiledIDs[(29-i)*40+j] - 1;
 	}
 
-	Tilemap map(sets, 2, 40, 30, IDs, Vector2D(1,1), Vector2D(-20,-15), 0);
+	Ball ball(Circle(Vector2D(13.5, 1), 1));
+
+	Tilemap map(sets, 2, 40, 30, IDs, Vector2D(1,1), Vector2D(-20,-15), 0, true);
+
+	Painter p;
 
 	while(!gameManager->IsQuitting()) {
 		gameManager->Handle();
 		gameManager->Update();
+
+		p.PaintCircle(ball.GetColliderAsCircle());
+
 		gameManager->Render();
 	}
 
